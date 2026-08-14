@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>向北 Northbound · 预览版</title>
+  <style>
+    html, body {
+      margin: 0; padding: 0; height: 100%;
+      background: #0a0a0f; overflow: hidden;
+      font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    }
+    #game { display: flex; align-items: center; justify-content: center; height: 100vh; }
+    canvas { display: block; box-shadow: 0 0 40px rgba(0,0,0,0.6); }
+  </style>
+</head>
+<body>
+  <div id="game"></div>
+  <!-- Phaser 3 CDN，无需安装 Node -->
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+  <script>
+  // ============ 全局常量 ============
+  const TILE_SIZE = 48;
+  const GAME_WIDTH = 960;
+  const GAME_HEIGHT = 540;
+  const PLAYER_SPEED = 150;
+  const FRAME = 48;
+  const FRAMES_PER_DIR = 4;
+  const DIRS = ['down', 'up', 'left', 'right'];
+
+  const CHARACTERS = [
+    { key: 'player', color: 0xe8e4d8, accent: 0xf5c97a },
+    { key: 'elias',  color: 0x6b8cae, accent: 0xb8d4f0 },
+    { key: 'maya',   color: 0xe07a5f, accent: 0xf2cc8f },
+    { key: 'noah',   color: 0x81b29a, accent: 0xe07a5f },
+    { key: 'leo',    color: 0xe6b85c, accent: 0xc77dff }
+  ];
+
+  // ============ 颜色工具 ============
+  function toCss(hex) { return '#' + hex.toString(16).padStart(6, '0'); }
+  function shade(hex, amt) {
+    const c = hex.toString(16).padStart(6, '0');
+    const r = Math.max(0, Math.min(255, parseInt(c.substr(0,2),16) + Math.round(255*amt)));
+    const g = Math.max(0, Math.min(255, parseInt(c.substr(2,2),16) + Math.round(255*amt)));
+    const b = Math.max(0, Math.min(255, parseInt(c.substr(4,2),16) + Math.round(255*amt)));
+    return `rgb(${r},${g},${b})`;
+  }
+  function roundedRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x+r, y);
+    ctx.arcTo(x+w, y, x+w, y+h, r);
+    ctx.arcTo(x+w, y+h, x, y+h, r);
+    ctx.arcTo(x, y+h, x, y, r);
+    ctx.arcTo(x, y, x+w, y, r);
+    ctx.closePath();
+  }
+  function hashStr(s) {
+    let h = 2166136261;
+    for (let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return h >>> 0;
+  }
+  function mulberry(seed) {
+    let a = seed;
+    return () => {
+      a |= 0; a = (a + 0x6D2B79F5) | 0;
+      let t = Math.imul(a ^ (a >>> 15), 1 | a);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  // ============ 角色单帧绘制 ============
+  function drawCharFrame(ctx, ox, oy, spec, dir, frame) {
+    ctx.save();
+    ctx.translate(ox, oy);
+    // 脚下投影
+    ctx.fillStyle = 'rgba(0,0,0,0.35)';
+    ctx.beginPath();
+    ctx.ellipse(24, 44, 9, 3, 0, 0, Math.PI*2);
+    ctx.fill();
+    // 行走 bob
+    const bob = (frame === 0 || frame === 2) ? -1 : 0;
+    ctx.translate(0, bob);
+    // 腿部摆动
+    const swing = frame === 0 ? -2 : frame === 2 ? 2 : 0;
+    ctx.fillStyle = shade(spec.color, -0.32);
+    roundedRect(ctx, 19+swing, 33, 5, 9, 2); ctx.fill();
+    roundedRect(ctx, 24-swing, 33, 5, 9, 2); ctx.fill();
+    // 躯干
+    ctx.fillStyle = toCss(spec.color);
+    roundedRect(ctx, 16, 21, 16, 15, 6); ctx.fill();
+    ctx.fillStyle = shade(spec.color, 0.12);
+    roundedRect(ctx, 18, 22, 4, 11, 2); ctx.fill();
+    // 头部
+    ctx.fillStyle = toCss(spec.color);
+    ctx.beginPath(); ctx.arc(24, 16, 7, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = shade(spec.color, 0.18);
+    ctx.beginPath(); ctx.arc(22, 14, 2.5, 0, Math.PI*2); ctx.fill();
+    // 朝向指示
+    ctx.fillStyle = toCss(spec.accent);
+    if (dir === 'down') { ctx.fillRect(21,16,2,2); ctx.fillRect(25,16,2,2); }
+    else if (dir === 'up') {
+      ctx.fillStyle = 'rgba(255,255,255,0.12)';
+      ctx.beginPath(); ctx.arc(24,14,4.5,0,Math.PI*2); ctx.fill();
+    }
+    else if (dir === 'left') { ctx.fillRect(18,16,2,2); }
+    else { ctx.fillRect(28,16,2,2); }
+    ctx.restore();
+  }
+
+  // ============ 占位美术生成器 ============
+  class PlaceholderArt {
+    constructor(scene) { this.scene = scene; }
+    generateAll() {
+      this.makeCharacters(); this.makeTiles(); this.makeMarker(); this.makeCharacterAnimations();
+    }
+    makeCharacters() {
+      for (const spec of CHARACTERS) {
+        const w = FRAME * FRAMES_PER_DIR, h = FRAME * DIRS.length;
+        const tex = this.scene.textures.createCanvas(spec.key, w, h);
+        if (!tex) continue;
+        const ctx = tex.getContext();
+        DIRS.forEach((dir, row) => {
+          for (let f=0; f<FRAMES_PER_DIR; f++) {
+            drawCharFrame(ctx, f*FRAME, row*FRAME, spec, dir, f);
+          }
+        });
+        tex.refresh();
+        const texture = this.scene.textures.get(spec.key);
+        DIRS.forEach((dir, row) => {
+          for (let f=0; f<FRAMES_PER_DIR; f++) {
+            texture.add(`${dir}_${f}`, 0, f*FRAME, row*FRAME, FRAME, FRAME);
+          }
+        });
+      }
+    }
+    makeTiles() {
+      const tiles = [
+        { key: 'tile_ground', base: 0x3a3328, variation: 0x4a4133 },
+        { key: 'tile_road',   base: 0x23202a, variation: 0x2c2834 },
+        { key: 'tile_wall',   base: 0x1a1620, variation: 0x241f2c },
+        { key: 'tile_roof',   base: 0x2a3550, variation: 0x33405e },
+        { key: 'tile_garage', base: 0x211e1a, variation: 0x2a2620 }
+      ];
+      for (const t of tiles) {
+        const tex = this.scene.textures.createCanvas(t.key, FRAME, FRAME);
+        if (!tex) continue;
+        const ctx = tex.getContext();
+        ctx.fillStyle = toCss(t.base); ctx.fillRect(0,0,FRAME,FRAME);
+        const rng = mulberry(hashStr(t.key));
+        ctx.fillStyle = toCss(t.variation);
+        for (let i=0;i<60;i++){ ctx.fillRect(rng()*FRAME, rng()*FRAME, 1, 1); }
+        ctx.strokeStyle = 'rgba(0,0,0,0.25)'; ctx.lineWidth = 1;
+        ctx.strokeRect(0.5, 0.5, FRAME-1, FRAME-1);
+        tex.refresh();
+      }
+    }
+    makeMarker() {
+      const size = 32;
+      const tex = this.scene.textures.createCanvas('marker', size, size);
+      if (!tex) return;
+      const ctx = tex.getContext();
+      const cx = size/2, cy = size/2;
+      const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 14);
+      grad.addColorStop(0, 'rgba(245,201,122,0.9)');
+      grad.addColorStop(0.5, 'rgba(245,201,122,0.35)');
+      grad.addColorStop(1, 'rgba(245,201,122,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath(); ctx.arc(cx, cy, 14, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#fff3d6';
+      ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI*2); ctx.fill();
+      tex.refresh();
+    }
+    makeCharacterAnimations() {
+      for (const spec of CHARACTERS) {
+        for (const dir of DIRS) {
+          this.scene.anims.create({
+            key: `${spec.key}_walk_${dir}`,
+            frames: this.scene.anims.generateFrameNames(spec.key, { prefix: `${dir}_`, start: 0, end: FRAMES_PER_DIR-1 }),
+            frameRate: 8, repeat: -1
+          });
+        }
+      }
+    }
+  }
+
+  // ============ 老街区地图 ============
+  const MAP = [
+    '1111111111111111111111111',
+    '1000000002222000000000001',
+    '1001110002222000011110001',
+    '1001010000000000001010001',
+    '1001010000000000001010001',
+    '1001010000000000000000001',
+    '1001110000000000011110001',
+    '1000000000000000000000001',
+    '1000000000000000000000001',
+    '1000000000000000000000001',
+    '1001110000000000011110001',
+    '1001010000000000001010001',
+    '1001010000000000001010001',
+    '1001110000000000001010001',
+    '1000000002222000000000001',
+    '1111111111111111111111111'
+  ];
+  const MAP_W = MAP[0].length, MAP_H = MAP.length;
+
+  // ============ 场景：Boot ============
+  class BootScene extends Phaser.Scene {
+    constructor() { super('BootScene'); }
+    create() { this.scene.start('PreloadScene'); }
+  }
+
+  // ============ 场景：Preload（生成美术 + 标题过渡）============
+  class PreloadScene extends Phaser.Scene {
+    constructor() { super('PreloadScene'); }
+    create() {
+      const { width, height } = this.scale;
+      const title = this.add.text(width/2, height/2-20, '向北', {
+        fontFamily: '"PingFang SC","Microsoft YaHei",serif', fontSize: '52px', color: '#e8e4d8', fontStyle: 'bold'
+      }).setOrigin(0.5).setAlpha(0);
+      const sub = this.add.text(width/2, height/2+30, 'Northbound', {
+        fontFamily: 'serif', fontSize: '16px', color: '#8a8275', letterSpacing: 4
+      }).setOrigin(0.5).setAlpha(0);
+
+      new PlaceholderArt(this).generateAll();
+
+      this.tweens.add({
+        targets: [title, sub], alpha: 1, duration: 700, ease: 'Quad.easeOut',
+        onComplete: () => {
+          this.time.delayedCall(700, () => {
+            this.cameras.main.fadeOut(500, 0, 0, 0, () => this.scene.start('OldDistrictScene'));
+          });
+        }
+      });
+    }
+  }
+
+  // ============ 场景：老街区 ============
+  class OldDistrictScene extends Phaser.Scene {
+    constructor() { super('OldDistrictScene'); }
+    create() {
+      this.currentDir = 'down';
+      this.interactables = [];
+      this.nearby = null;
+
+      this.buildMap();
+      this.createPlayer();
+      this.createInteractables();
+      this.setupInput();
+      this.setupCamera();
+      this.createUI();
+      this.showChapterTitle('第一章 · 既定计划');
+      this.cameras.main.fadeIn(600, 0, 0, 0);
+    }
+
+    buildMap() {
+      this.walls = this.physics.add.staticGroup();
+      for (let row=0; row<MAP_H; row++) {
+        for (let col=0; col<MAP_W; col++) {
+          const code = MAP[row][col];
+          const x = col*TILE_SIZE + TILE_SIZE/2, y = row*TILE_SIZE + TILE_SIZE/2;
+          if (code === '1') this.walls.create(x, y, 'tile_wall');
+          else if (code === '2') this.add.image(x, y, 'tile_road');
+          else this.add.image(x, y, 'tile_ground');
+        }
+      }
+    }
+
+    createPlayer() {
+      const x = 12*TILE_SIZE + TILE_SIZE/2, y = 8*TILE_SIZE + TILE_SIZE/2;
+      this.player = this.physics.add.sprite(x, y, 'player', 'down_1');
+      this.player.setDepth(10);
+      this.player.body.setSize(16, 14, false);
+      this.player.body.setOffset(16, 33);
+      this.player.setCollideWorldBounds(true);
+      this.physics.add.collider(this.player, this.walls);
+    }
+
+    createInteractables() {
+      const points = [
+        { tx: 3,  ty: 5,  label: '便利店打工', line: '「今天先把这些货理完吧。」' },
+        { tx: 21, ty: 5,  label: '通往屋顶',   line: '楼梯口的风，带着北方的凉意。' },
+        { tx: 12, ty: 14, label: '修车棚',     line: '旧车静静停着，等着新零件。' }
+      ];
+      for (const p of points) {
+        const x = p.tx*TILE_SIZE + TILE_SIZE/2, y = p.ty*TILE_SIZE + TILE_SIZE/2;
+        const marker = this.add.image(x, y, 'marker').setDepth(5);
+        this.tweens.add({
+          targets: marker,
+          scale: { from: 0.85, to: 1.15 }, alpha: { from: 0.7, to: 1 },
+          duration: 1200, yoyo: true, repeat: -1, ease: 'Sine.easeInOut'
+        });
+        this.interactables.push({ tileX: p.tx, tileY: p.ty, label: p.label, onInteract: () => this.showSpeech(p.line) });
+      }
+    }
+
+    setupInput() {
+      this.cursors = this.input.keyboard.createCursorKeys();
+      this.wasd = this.input.keyboard.addKeys('W,A,S,D');
+      this.keyE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+    }
+
+    setupCamera() {
+      const wW = MAP_W*TILE_SIZE, wH = MAP_H*TILE_SIZE;
+      // 物理世界边界 = 地图尺寸，否则默认画布尺寸会造成右下区域"空气墙"
+      this.physics.world.setBounds(0, 0, wW, wH);
+      this.cameras.main.setBounds(0, 0, wW, wH);
+      this.cameras.main.startFollow(this.player, true, 0.12, 0.12);
+    }
+
+    createUI() {
+      this.promptText = this.add.text(this.scale.width/2, this.scale.height-40, '', {
+        fontFamily: '"PingFang SC","Microsoft YaHei",sans-serif', fontSize: '16px', color: '#f5c97a',
+        backgroundColor: 'rgba(20,18,24,0.75)', padding: { x: 12, y: 6 }
+      }).setOrigin(0.5).setDepth(100).setScrollFactor(0).setVisible(false);
+    }
+
+    showChapterTitle(text) {
+      const title = this.add.text(this.scale.width/2, 60, text, {
+        fontFamily: '"PingFang SC","Microsoft YaHei",serif', fontSize: '28px', color: '#e8e4d8', fontStyle: 'bold'
+      }).setOrigin(0.5).setDepth(100).setScrollFactor(0).setAlpha(0);
+      this.tweens.add({
+        targets: title, alpha: 1, duration: 600, yoyo: true, hold: 1600, ease: 'Quad.easeOut',
+        onComplete: () => title.destroy()
+      });
+    }
+
+    showSpeech(text) {
+      const bubble = this.add.text(this.player.x, this.player.y-40, text, {
+        fontFamily: '"PingFang SC","Microsoft YaHei",sans-serif', fontSize: '15px', color: '#f0ece0',
+        backgroundColor: 'rgba(15,13,18,0.85)', padding: { x: 10, y: 6 }, wordWrap: { width: 240 }
+      }).setOrigin(0.5).setDepth(50).setAlpha(0);
+      this.tweens.add({
+        targets: bubble, alpha: 1, duration: 200, yoyo: true, hold: 1800,
+        onComplete: () => bubble.destroy()
+      });
+    }
+
+    update() {
+      this.handleMovement();
+      this.handleInteraction();
+    }
+
+    handleMovement() {
+      const left = this.cursors.left.isDown || this.wasd.A.isDown;
+      const right = this.cursors.right.isDown || this.wasd.D.isDown;
+      const up = this.cursors.up.isDown || this.wasd.W.isDown;
+      const down = this.cursors.down.isDown || this.wasd.S.isDown;
+      let vx = 0, vy = 0;
+      if (left) vx -= 1;
+      if (right) vx += 1;
+      if (up) vy -= 1;
+      if (down) vy += 1;
+      const moving = vx !== 0 || vy !== 0;
+      if (moving) {
+        if (vx !== 0 && vy !== 0) { vx *= 0.7071; vy *= 0.7071; }
+        this.player.setVelocity(vx*PLAYER_SPEED, vy*PLAYER_SPEED);
+        let dir;
+        if (Math.abs(vy) >= Math.abs(vx)) dir = vy < 0 ? 'up' : 'down';
+        else dir = vx < 0 ? 'left' : 'right';
+        const animKey = `player_walk_${dir}`;
+        if (this.player.anims.currentAnim?.key !== animKey) this.player.play(animKey, true);
+        this.currentDir = dir;
+      } else {
+        this.player.setVelocity(0, 0);
+        this.player.anims.stop();
+        this.player.setFrame(`${this.currentDir}_1`);
+      }
+    }
+
+    handleInteraction() {
+      let closest = null, minDist = 56;
+      for (const it of this.interactables) {
+        const x = it.tileX*TILE_SIZE + TILE_SIZE/2, y = it.tileY*TILE_SIZE + TILE_SIZE/2;
+        const d = Phaser.Math.Distance.Between(this.player.x, this.player.y, x, y);
+        if (d < minDist) { minDist = d; closest = it; }
+      }
+      if (closest !== this.nearby) {
+        this.nearby = closest;
+        if (closest) this.promptText.setText(`按 E — ${closest.label}`).setVisible(true);
+        else this.promptText.setVisible(false);
+      }
+      if (closest && Phaser.Input.Keyboard.JustDown(this.keyE)) closest.onInteract();
+    }
+  }
+
+  // ============ 启动游戏 ============
+  const config = {
+    type: Phaser.AUTO,
+    parent: 'game',
+    width: GAME_WIDTH, height: GAME_HEIGHT,
+    pixelArt: true,
+    backgroundColor: '#0a0a0f',
+    physics: { default: 'arcade', arcade: { debug: false, gravity: { x: 0, y: 0 } } },
+    scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH },
+    scene: [BootScene, PreloadScene, OldDistrictScene]
+  };
+  new Phaser.Game(config);
+  </script>
+</body>
+</html>
