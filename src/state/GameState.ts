@@ -9,17 +9,19 @@ import { ChapterId, nextChapter } from './Chapter';
 
 // ---- 结局类型（文档第九节，由玩家终章走向决定）----
 export type EndingType =
-  | 'go_north'      // 9.1 走向汽车
-  | 'return_home'   // 9.2 回到小镇街区
-  | 'unknown_path'  // 9.3 踏上无名小路
+  | 'go_north'      // 结局1：同赴远方
+  | 'return_home'   // 结局2：故土相守
+  | 'unknown_path'  // 结局3：独行新路
+  | 'pause_journey' // 结局4：暂缓前行
   | 'with_maya'     // 9.4 走向玛雅
   | 'with_noah'     // 9.4 走向诺亚
   | 'with_leo';     // 9.4 走向利奥
 
 export const ENDING_LABEL: Record<EndingType, string> = {
-  go_north: '向北远行',
-  return_home: '归于故土',
-  unknown_path: '无图之途',
+  go_north: '同赴远方',
+  return_home: '故土相守',
+  unknown_path: '独行新路',
+  pause_journey: '暂缓前行',
   with_maya: '相伴同行 · 玛雅',
   with_noah: '相伴同行 · 诺亚',
   with_leo: '相伴同行 · 利奥'
@@ -76,8 +78,11 @@ export interface ChoiceEffects {
 }
 
 // ---- 跨章剧情印记（每章结尾固化，下一章NPC主动提起）----
-// A1=偏Elias/计划, B1=中立, C1=偏自我/故土
-export type StoryMark = 'A1' | 'B1' | 'C1';
+// 第一章：A1=偏Elias/计划, B1=中立, C1=偏自我/故土
+// 第二章：A2=偏集体计划, B2=中立, C2=偏个人追求
+// 第三章：A3=极致坚守计划, B3=折中, C3=优先个人与朋友
+// 第四章：A4=坚持北上约定, B4=没有对错, C4=适合自己最重要
+export type StoryMark = 'A1' | 'B1' | 'C1' | 'A2' | 'B2' | 'C2' | 'A3' | 'B3' | 'C3' | 'A4' | 'B4' | 'C4';
 
 const STORAGE_KEY = 'northbound_save_v2'; // 升级版本，旧 v1 存档不兼容
 
@@ -86,7 +91,7 @@ function clamp(v: number, min: number, max: number): number {
 }
 
 export class GameState {
-  chapter: ChapterId = 'ch1';
+  chapter: ChapterId = 'ch0';
   daysLeft = 5;                          // 出发倒计时（5→4→3→2→1）
   tendency: Tendency = { commitment: 0, rootedness: 0, agency: 0 };
   bond: Bond = { maya: 0, noah: 0, leo: 0 };
@@ -198,6 +203,58 @@ export class GameState {
     return this.tendency.rootedness >= 0;
   }
 
+  // —— 倾向强判定（用于终章选项动态隐藏 / 台词差异化）——
+  // 统计各章 A/C/B 印记数量
+  private markCounts(): { a: number; c: number; b: number } {
+    const ms = ['ch1', 'ch2', 'ch3', 'ch4'].map(ch => this.getStoryMark(ch as ChapterId) ?? '');
+    return {
+      a: ms.filter(m => m.startsWith('A')).length,
+      c: ms.filter(m => m.startsWith('C')).length,
+      b: ms.filter(m => m.startsWith('B')).length
+    };
+  }
+
+  // 是否强烈偏向北上/Elias（A印记≥3 或 数值倾向明确北上）
+  isStronglyNorthbound(): boolean {
+    const { a, c } = this.markCounts();
+    if (a >= 3 && c <= 1) return true;
+    if (this.tendency.commitment > 3 && this.tendency.agency < -1) return true;
+    return false;
+  }
+
+  // 是否强烈偏向留下/故土（C印记≥3 或 数值倾向明确留下）
+  isStronglyRooted(): boolean {
+    const { a, c } = this.markCounts();
+    if (c >= 3 && a <= 1) return true;
+    if (this.tendency.agency > 3 && this.tendency.commitment < -1) return true;
+    return false;
+  }
+
+  // 是否全程偏向北上（第一章→第三章印记均偏A）：用于第三章屋顶Elias满意台词
+  isFavoredElias(): boolean {
+    const m1 = this.getStoryMark('ch1') ?? '';
+    const m2 = this.getStoryMark('ch2') ?? '';
+    const m3 = this.getStoryMark('ch3') ?? '';
+    const aCount = [m1, m2, m3].filter(m => m.startsWith('A')).length;
+    const cCount = [m1, m2, m3].filter(m => m.startsWith('C')).length;
+    // A≥2 且 C≤0 → 明显站Elias
+    if (aCount >= 2 && cCount === 0) return true;
+    if (this.tendency.commitment > 2 && this.tendency.agency < -0.5) return true;
+    return false;
+  }
+
+  // 是否偏向留下/玛雅（第一章→第三章印记偏C）：用于第三章屋顶Elias抱怨台词
+  isFavoredMaya(): boolean {
+    const m1 = this.getStoryMark('ch1') ?? '';
+    const m2 = this.getStoryMark('ch2') ?? '';
+    const m3 = this.getStoryMark('ch3') ?? '';
+    const cCount = [m1, m2, m3].filter(m => m.startsWith('C')).length;
+    const aCount = [m1, m2, m3].filter(m => m.startsWith('A')).length;
+    if (cCount >= 2 && aCount === 0) return true;
+    if (this.tendency.agency > 2 && this.tendency.commitment < -0.5) return true;
+    return false;
+  }
+
   // 羁绊最高者（用于人物高光动画选择；打平时按 maya>noah>leo 优先）
   topBond(): 'maya' | 'noah' | 'leo' | null {
     const { maya, noah, leo } = this.bond;
@@ -208,8 +265,47 @@ export class GameState {
     return 'leo';
   }
 
+  // 结局倾向判定：根据全套印记+数值，判断玩家自然倾向哪种结局
+  // 用于终章显示"你倾向的结局"提示，增强选择影响感
+  suggestEnding(): EndingType {
+    const m1 = this.getStoryMark('ch1') ?? '';
+    const m2 = this.getStoryMark('ch2') ?? '';
+    const m3 = this.getStoryMark('ch3') ?? '';
+    const m4 = this.getStoryMark('ch4') ?? '';
+
+    const aCount = [m1, m2, m3, m4].filter(m => m.startsWith('A')).length;
+    const cCount = [m1, m2, m3, m4].filter(m => m.startsWith('C')).length;
+    const bCount = [m1, m2, m3, m4].filter(m => m.startsWith('B')).length;
+
+    // 全套 A 印记 → 倾向北上
+    if (aCount >= 3 && cCount <= 1) return 'go_north';
+    // 全套 C 印记 → 倾向故土
+    if (cCount >= 3 && aCount <= 1) return 'return_home';
+    // 大量 B 中立印记 → 倾向独行
+    if (bCount >= 3) return 'unknown_path';
+    // A/C 摇摆 → 倾向暂缓
+    if (aCount >= 2 && cCount >= 2) return 'pause_journey';
+
+    // 兜底：根据数值判断
+    if (this.tendency.commitment > 2 && this.tendency.agency < 0) return 'go_north';
+    if (this.tendency.agency > 2 && this.tendency.commitment < 0) return 'return_home';
+    if (Math.abs(this.tendency.commitment - this.tendency.agency) < 2) return 'unknown_path';
+    return 'pause_journey';
+  }
+
+  // 结局前置条件描述（供终章显示）
+  getEndingPrecondition(ending: EndingType): string {
+    switch (ending) {
+      case 'go_north':      return '前置条件：A 系列印记占主导，Elias 全局好感最高';
+      case 'return_home':   return '前置条件：C 系列印记占主导，自我倾向全局最高';
+      case 'unknown_path':  return '前置条件：全程大量中立 B 印记，两边好感差距小';
+      case 'pause_journey': return '前置条件：印记两极反复摇摆，一会偏向计划、一会偏向自我';
+      default:              return '';
+    }
+  }
+
   reset(): void {
-    this.chapter = 'ch1';
+    this.chapter = 'ch0';
     this.daysLeft = 5;
     this.tendency = { commitment: 0, rootedness: 0, agency: 0 };
     this.bond = { maya: 0, noah: 0, leo: 0 };
@@ -247,7 +343,7 @@ export class GameState {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) return;
       const d = JSON.parse(raw);
-      this.chapter = d.chapter ?? 'ch1';
+      this.chapter = d.chapter ?? 'ch0';
       this.daysLeft = d.daysLeft ?? 5;
       this.tendency = d.tendency ?? { commitment: 0, rootedness: 0, agency: 0 };
       this.bond = d.bond ?? { maya: 0, noah: 0, leo: 0 };

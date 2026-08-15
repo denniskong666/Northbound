@@ -6,6 +6,7 @@ import { TitleScene } from './scenes/TitleScene';
 import { OldDistrictScene } from './scenes/OldDistrictScene';
 import { GarageScene } from './scenes/GarageScene';
 import { RooftopScene } from './scenes/RooftopScene';
+import { EpilogueScene } from './scenes/EpilogueScene';
 import { GameState } from './state/GameState';
 
 // 游戏入口：注册所有场景并启动
@@ -27,7 +28,7 @@ const config: Phaser.Types.Core.GameConfig = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH
   },
-  scene: [BootScene, PreloadScene, TitleScene, OldDistrictScene, GarageScene, RooftopScene]
+  scene: [BootScene, PreloadScene, TitleScene, OldDistrictScene, GarageScene, RooftopScene, EpilogueScene]
 };
 
 const game = new Phaser.Game(config);

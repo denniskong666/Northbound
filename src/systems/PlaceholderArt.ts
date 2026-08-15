@@ -117,7 +117,100 @@ export class PlaceholderArt {
     this.makeCharacters();
     this.makeTiles();
     this.makeMarker();
+    this.makeSpark();
+    this.makePortraits();
     this.makeCharacterAnimations();
+  }
+
+  // 收集反馈用的小光点纹理
+  private makeSpark(): void {
+    const size = 16;
+    const tex = this.scene.textures.createCanvas('spark', size, size);
+    if (!tex) return;
+    const ctx = tex.getContext();
+    const cx = size / 2, cy = size / 2;
+    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, size / 2);
+    grad.addColorStop(0, 'rgba(255,243,214,1)');
+    grad.addColorStop(0.4, 'rgba(245,201,122,0.85)');
+    grad.addColorStop(1, 'rgba(245,201,122,0)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, size / 2, 0, Math.PI * 2);
+    ctx.fill();
+    tex.refresh();
+  }
+
+  // 生成角色对话立绘（头肩大图，用于对话框左侧）
+  private makePortraits(): void {
+    for (const spec of CHARACTERS) {
+      const W = 72, H = 88;
+      const tex = this.scene.textures.createCanvas(`${spec.key}_portrait`, W, H);
+      if (!tex) continue;
+      const ctx = tex.getContext();
+
+      // 背景：深色圆角
+      ctx.fillStyle = 'rgba(15,13,18,0.96)';
+      roundedRect(ctx, 0, 0, W, H, 10);
+      ctx.fill();
+
+      // 顶部色光（角色主色微泛）
+      const grad = ctx.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0, shade(spec.color, 0.18));
+      grad.addColorStop(0.55, 'rgba(0,0,0,0)');
+      ctx.globalAlpha = 0.28;
+      ctx.fillStyle = grad;
+      roundedRect(ctx, 2, 2, W - 4, H - 4, 8);
+      ctx.fill();
+      ctx.globalAlpha = 1;
+
+      // 内描边
+      ctx.strokeStyle = shade(spec.color, 0.25);
+      ctx.lineWidth = 1.5;
+      roundedRect(ctx, 1.5, 1.5, W - 3, H - 3, 9);
+      ctx.stroke();
+
+      // 角色头肩（放大正面像）
+      ctx.save();
+      ctx.translate(W / 2, H / 2 + 8);
+      const s = 1.7;
+      ctx.scale(s, s);
+
+      // 肩部投影
+      ctx.fillStyle = 'rgba(0,0,0,0.45)';
+      ctx.beginPath();
+      ctx.ellipse(0, 22, 13, 3, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 躯干外层（暗）
+      ctx.fillStyle = shade(spec.color, -0.1);
+      roundedRect(ctx, -12, 8, 24, 18, 6); ctx.fill();
+      // 躯干主色
+      ctx.fillStyle = toCss(spec.color);
+      roundedRect(ctx, -10, 9, 20, 16, 5); ctx.fill();
+      // 躯干高光
+      ctx.fillStyle = shade(spec.color, 0.18);
+      roundedRect(ctx, -8, 10, 3.5, 12, 2); ctx.fill();
+
+      // 头部
+      ctx.fillStyle = toCss(spec.color);
+      ctx.beginPath();
+      ctx.arc(0, -4, 11, 0, Math.PI * 2);
+      ctx.fill();
+      // 头部高光
+      ctx.fillStyle = shade(spec.color, 0.22);
+      ctx.beginPath();
+      ctx.arc(-3, -7, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 眼睛（正面）
+      ctx.fillStyle = toCss(spec.accent);
+      ctx.fillRect(-5, -4, 2.5, 2.5);
+      ctx.fillRect(2.5, -4, 2.5, 2.5);
+
+      ctx.restore();
+
+      tex.refresh();
+    }
   }
 
   // 生成 5 个角色 spritesheet（带命名帧）
@@ -146,36 +239,94 @@ export class PlaceholderArt {
     }
   }
 
-  // 生成 tile 贴图
+  // 生成 tile 贴图 — Inmost 风格：深沉暗色、裂纹、污渍、青苔
   private makeTiles(): void {
-    const tiles: Array<{ key: string; base: number; variation: number }> = [
-      { key: 'tile_ground', base: 0x3a3328, variation: 0x4a4133 }, // 老街区地面 暖褐
-      { key: 'tile_road',   base: 0x23202a, variation: 0x2c2834 }, // 道路 冷灰
-      { key: 'tile_wall',   base: 0x1a1620, variation: 0x241f2c }, // 建筑墙体
-      { key: 'tile_roof',   base: 0x2a3550, variation: 0x33405e }, // 屋顶 冷蓝
-      { key: 'tile_garage', base: 0x211e1a, variation: 0x2a2620 }  // 修车棚 昏暗
+    const tiles: Array<{ key: string; base: number; dark: number; light: number; accent: number }> = [
+      // 老街区地面：龟裂沥青+青苔
+      { key: 'tile_ground', base: 0x2a2520, dark: 0x1a1612, light: 0x3a3228, accent: 0x3d4a2a },
+      // 道路：湿冷石板
+      { key: 'tile_road',   base: 0x1a1820, dark: 0x100e14, light: 0x242028, accent: 0x2a3040 },
+      // 建筑墙体：斑驳砖墙
+      { key: 'tile_wall',   base: 0x141218, dark: 0x0a080c, light: 0x1e1a24, accent: 0x2a2020 },
+      // 屋顶：水泥+裂缝
+      { key: 'tile_roof',   base: 0x1e2434, dark: 0x121620, light: 0x283044, accent: 0x3a3a2a },
+      // 修车棚：油渍地面
+      { key: 'tile_garage', base: 0x1c1a16, dark: 0x100e0a, light: 0x26221c, accent: 0x2a2014 },
+      // —— 序章专用：阳光明媚的暖色变体（体现出游兴奋）——
+      // 地面：温暖沙土色，阳光照射的街道
+      { key: 'tile_ground_ch0', base: 0x7a6a4e, dark: 0x5a4e3a, light: 0x968268, accent: 0x6a8238 },
+      // 墙体：阳光下的暖砖墙
+      { key: 'tile_wall_ch0',   base: 0x524232, dark: 0x3a2e22, light: 0x6a5644, accent: 0x6a5028 },
+      // 道路：浅色暖石板
+      { key: 'tile_road_ch0',   base: 0x5a5260, dark: 0x443e4a, light: 0x6e6678, accent: 0x4a5a5a }
     ];
 
     for (const t of tiles) {
       const tex = this.scene.textures.createCanvas(t.key, FRAME, FRAME);
       if (!tex) continue;
       const ctx = tex.getContext();
+      const rng = mulberry(hashStr(t.key));
 
-      // 底色
-      ctx.fillStyle = toCss(t.base);
+      // 底色渐变（上暗下亮，模拟环境光）
+      const grad = ctx.createLinearGradient(0, 0, 0, FRAME);
+      grad.addColorStop(0, toCss(t.dark));
+      grad.addColorStop(0.5, toCss(t.base));
+      grad.addColorStop(1, toCss(t.dark));
+      ctx.fillStyle = grad;
       ctx.fillRect(0, 0, FRAME, FRAME);
 
-      // 颗粒纹理：随机点
-      const rng = mulberry(hashStr(t.key));
-      ctx.fillStyle = toCss(t.variation);
-      for (let i = 0; i < 60; i++) {
+      // 颗粒噪点
+      for (let i = 0; i < 80; i++) {
         const x = rng() * FRAME;
         const y = rng() * FRAME;
-        ctx.fillRect(x, y, 1, 1);
+        const sz = rng() < 0.3 ? 2 : 1;
+        ctx.fillStyle = rng() < 0.5 ? toCss(t.light) : toCss(t.dark);
+        ctx.globalAlpha = 0.3 + rng() * 0.4;
+        ctx.fillRect(x, y, sz, sz);
       }
+      ctx.globalAlpha = 1;
 
-      // 极细内边框，便于辨识但不抢眼
-      ctx.strokeStyle = 'rgba(0,0,0,0.25)';
+      // 裂纹（2-3条随机走向）
+      for (let c = 0; c < 3; c++) {
+        ctx.strokeStyle = toCss(t.dark);
+        ctx.globalAlpha = 0.5 + rng() * 0.3;
+        ctx.lineWidth = rng() < 0.5 ? 1 : 0.5;
+        ctx.beginPath();
+        let cx = rng() * FRAME, cy = rng() * FRAME;
+        ctx.moveTo(cx, cy);
+        const segments = 3 + Math.floor(rng() * 3);
+        for (let s = 0; s < segments; s++) {
+          cx += (rng() - 0.5) * 16;
+          cy += (rng() - 0.5) * 16;
+          ctx.lineTo(cx, cy);
+        }
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+
+      // 污渍/油迹（2-3个不规则斑块）
+      for (let s = 0; s < 3; s++) {
+        const sx = rng() * FRAME, sy = rng() * FRAME;
+        const sr = 3 + rng() * 8;
+        ctx.fillStyle = toCss(t.dark);
+        ctx.globalAlpha = 0.15 + rng() * 0.2;
+        ctx.beginPath();
+        ctx.ellipse(sx, sy, sr, sr * 0.7, rng() * Math.PI, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+
+      // 青苔/锈迹点缀（accent 色，少量）
+      for (let m = 0; m < 8; m++) {
+        const mx = rng() * FRAME, my = rng() * FRAME;
+        ctx.fillStyle = toCss(t.accent);
+        ctx.globalAlpha = 0.12 + rng() * 0.2;
+        ctx.fillRect(mx, my, 1 + rng() * 2, 1);
+      }
+      ctx.globalAlpha = 1;
+
+      // 极细内边框
+      ctx.strokeStyle = 'rgba(0,0,0,0.4)';
       ctx.lineWidth = 1;
       ctx.strokeRect(0.5, 0.5, FRAME - 1, FRAME - 1);
 

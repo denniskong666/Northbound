@@ -3,6 +3,7 @@
 // 任务2：失踪的套筒扳手——翻找3个点位，随机1处藏有扳手
 // 地图编码：0=走廊地面 1=墙体 3=修理厂地面
 import { BaseScene, Poi } from './BaseScene';
+import { TILE_SIZE } from '../config/GameConfig';
 import { NpcPlacement } from '../data/NpcDefs';
 import { TaskSystem } from '../systems/TaskSystem';
 import { GameState } from '../state/GameState';
@@ -47,8 +48,71 @@ export class GarageScene extends BaseScene {
   protected getMap(): string[] { return MAP; }
   protected getSpawnTile(): { x: number; y: number } { return { x: 7, y: 7 }; }
 
+  // —— 动态描述：根据玩家选择/印记变化 ——
+  private getCarDescription(): string {
+    const gs = GameState.inst;
+    const m1 = gs.getStoryMark('ch1');
+    const m2 = gs.getStoryMark('ch2');
+    const m3 = gs.getStoryMark('ch3');
+    const m4 = gs.getStoryMark('ch4');
+
+    if (m4 === 'A4') return '褪色的蓝色旅行轿车。你坚持北上的念头没有动摇——五个人的名字依然清晰刻在车门内侧。';
+    if (m4 === 'C4') return '褪色的蓝色旅行轿车。你没有选择北上，但车门上的刻痕提醒你，这曾经是所有人的共同方向。';
+    if (m3 === 'A3') return '褪色的蓝色旅行轿车。你选择了集体计划优先，车里的行李已经提前为北上打包。';
+    if (m3 === 'C3') return '褪色的蓝色旅行轿车。你选择支持 Maya 而放慢了手续，车上还留着画展的宣传册。';
+    if (m1 === 'A1') return '褪色的蓝色旅行轿车。车门内侧，刻着五个名字的首字母。你从一开始就坚定要走。';
+    if (m1 === 'C1') return '褪色的蓝色旅行轿车。你曾动摇过，但名字刻痕提醒你——无论去留，这些人都与你同行过。';
+    return '褪色的蓝色旅行轿车。车门内侧，刻着五个名字的首字母。';
+  }
+
+  private getPaintingDescription(): string {
+    const gs = GameState.inst;
+    const m1 = gs.getStoryMark('ch1');
+    const m2 = gs.getStoryMark('ch2');
+    const m3 = gs.getStoryMark('ch3');
+
+    // 第三四章：画作随玩家选择而变
+    if (gs.chapter === 'ch3' || gs.chapter === 'ch4') {
+      if (m3 === 'C3' || m2 === 'C2') {
+        // 玩家倾向于 Maya/留下
+        return '墙上 Maya 新画的街区风光——她没有再描绘北方的美丽，而是街区昔日玩伴的合照。画中人的笑容比天空更明亮。';
+      }
+      if (m3 === 'A3' || m2 === 'A2') {
+        // 玩家倾向于北上
+        return '墙上 Maya 的画作变得悲伤而孤独——她画了空荡的老街巷口，画上没有任何人。画角写着：「如果你们都走了，我就画这座城的空。」';
+      }
+      // 中立
+      return '墙上 Maya 的画作。画面一半是老街的喧嚣，一半是北方的旷野——她在两种生活之间寻找平衡。';
+    }
+
+    // 第一章/第二章：儿时的画
+    if (m1 === 'A1') return '画里五个好友一同驱车向北。伊莱亚斯把它当作约定的凭证——你选择了坚守这个约定。';
+    if (m1 === 'C1') return '画里五个好友一同驱车向北。你也曾犹豫，但 Maya 画里的笑脸让你无法否认这段友情的重量。';
+    return '画里五个好友一同驱车向北。伊莱亚斯把它当作约定的凭证。';
+  }
+
+  private getMapDescription(): string {
+    const gs = GameState.inst;
+    const m1 = gs.getStoryMark('ch1');
+    const m3 = gs.getStoryMark('ch3');
+
+    if (gs.chapter === 'ch4') {
+      if (m3 === 'A3') return '一张旧地图，背面签着五个人的名字。你标记的北上路线依然清晰，是集体决定的见证。';
+      if (m3 === 'C3') return '一张旧地图，背面签着五个人的名字。你画了一条不走的路——通往另一种可能的自己。';
+    }
+    if (m1 === 'A1') return '一张旧地图，背面签着五个人的名字。北上的路线被你用红笔圈出，这是你最早的决定。';
+    if (m1 === 'C1') return '一张旧地图，背面签着五个人的名字。你没有在任何路线上做标记，似乎还在思考。';
+    return '一张旧地图，背面签着五个人的名字。';
+  }
+
   protected spawnContent(): void {
     const ch = GameState.inst.chapter;
+
+    // 重置找扳手小游戏状态（防止跨周目残留）
+    this.searchPois = [];
+
+    // —— Inmost 风格修理厂装饰 ——
+    this.spawnGarageDecorations();
 
     // NPC：第一章 Elias，第二章 Noah（Elias 下线）
     if (ch === 'ch2') {
@@ -57,18 +121,18 @@ export class GarageScene extends BaseScene {
       this.spawnNpcs(GARAGE_NPCS);
     }
 
-    // 褪色的蓝色旅行轿车
-    this.addPoi(7, 3, '检查旅行轿车', {
-      line: '褪色的蓝色旅行轿车。车门内侧，刻着五个名字的首字母。'
-    });
-    // 墙上玛雅儿时的画
-    this.addPoi(2, 2, '玛雅儿时的画', {
-      line: '画里五个好友一同驱车向北。伊莱亚斯把它当作约定的凭证。'
-    });
-    // 老旧的屋顶地图
-    this.addPoi(12, 2, '老旧的屋顶地图', {
-      line: '一张旧地图，背面签着五个人的名字。'
-    });
+    // —— 关键物品实体（像素 Inmost 风剪影）——
+    // 旅行轿车 / 玛雅画作 / 墙面旧地图
+    this.sceneArt.placeCar(7 * TILE_SIZE + TILE_SIZE / 2, 3 * TILE_SIZE + TILE_SIZE / 2);
+    this.sceneArt.placePainting(2 * TILE_SIZE + TILE_SIZE / 2, 2 * TILE_SIZE + TILE_SIZE / 2);
+    this.sceneArt.placeWallMap(12 * TILE_SIZE + TILE_SIZE / 2, 2 * TILE_SIZE + TILE_SIZE / 2);
+
+    // 褪色的蓝色旅行轿车（可放大查看，动态描述）
+    this.addZoomablePoi(7, 3, '检查旅行轿车', 'deco_car', 3, '旅行轿车', this.getCarDescription());
+    // 墙上玛雅儿时的画（可放大查看，动态描述）
+    this.addZoomablePoi(2, 2, '玛雅的画', 'deco_painting', 3, '玛雅的画作', this.getPaintingDescription());
+    // 老旧的屋顶地图（可放大查看，动态描述）
+    this.addZoomablePoi(12, 2, '老旧的屋顶地图', 'deco_wallmap', 3, '老旧的屋顶地图', this.getMapDescription());
 
     // 任务2：失踪的套筒扳手（第一章）
     if (TaskSystem.inst.isUnlocked('ch1_wrench') && !TaskSystem.inst.isDone('ch1_wrench')) {
@@ -78,14 +142,15 @@ export class GarageScene extends BaseScene {
     // 任务：第二章修理厂物资收集点（收集工具，计入 ch2_supplies 的第3处）
     if (TaskSystem.inst.isUnlocked('ch2_supplies') && !TaskSystem.inst.isDone('ch2_supplies') && !GameState.inst.hasFlag('ch2_supply_garage')) {
       this.addPoi(11, 4, '工具架', {
+        type: 'item',
         onInteract: () => {
           this.showSpeech('收集到一份远行物资（修理厂工具）。');
+          this.burstSparkle(11 * TILE_SIZE + TILE_SIZE / 2, 4 * TILE_SIZE + TILE_SIZE / 2, 0x81b29a);
           GameState.inst.applyEffects({ flag: 'ch2_supply_garage' });
-          // 检查是否全部收集完成（跨场景，由 OldDistrictScene 的逻辑判断）
           const flags = ['ch2_supply_grocery', 'ch2_supply_market', 'ch2_supply_garage'];
           if (flags.every(f => GameState.inst.hasFlag(f)) && !TaskSystem.inst.isDone('ch2_supplies')) {
             this.showSpeech('远行物资齐了。该上屋顶看看大家了。');
-            TaskSystem.inst.complete('ch2_supplies');
+            this.completeTaskWithToast('ch2_supplies', '收集远行物资');
           }
         }
       });
@@ -100,10 +165,12 @@ export class GarageScene extends BaseScene {
     const wrenchIdx = Math.floor(Math.random() * SEARCH_SPOTS.length);
     SEARCH_SPOTS.forEach((s, i) => {
       const poi = this.addPoi(s.tx, s.ty, s.label, {
+        type: 'item',
         onInteract: () => {
           if (i === wrenchIdx) {
             this.showSpeech('找到了！套筒扳手就在这里。伊莱亚斯：「周五，早上六点。不用长篇大论，不许拖延。」');
-            TaskSystem.inst.complete('ch1_wrench');
+            this.burstSparkle(s.tx * TILE_SIZE + TILE_SIZE / 2, s.ty * TILE_SIZE + TILE_SIZE / 2, 0x6b8cae);
+            this.completeTaskWithToast('ch1_wrench', '失踪的套筒扳手');
             this.clearSearchPois();
           } else {
             this.showSpeech(s.empty);
@@ -120,5 +187,38 @@ export class GarageScene extends BaseScene {
   private clearSearchPois(): void {
     for (const p of this.searchPois) this.removePoi(p);
     this.searchPois = [];
+  }
+
+  // —— Inmost 风格修理厂装饰 ——
+  private spawnGarageDecorations(): void {
+    const T = TILE_SIZE;
+    // 悬挂灯（3 盏，照亮修理区）
+    this.sceneArt.placeHangingLight(5 * T + T / 2, 1 * T);
+    this.sceneArt.placeHangingLight(9 * T + T / 2, 1 * T);
+    this.sceneArt.placeHangingLight(12 * T + T / 2, 1 * T);
+
+    // 工具架（墙面）
+    this.sceneArt.placeToolRack(2 * T + T / 2, 3 * T + T / 2);
+    this.sceneArt.placeToolRack(12 * T + T / 2, 3 * T + T / 2);
+
+    // 工作台
+    this.sceneArt.placeWorkbench(4 * T + T / 2, 6 * T + T / 2);
+    this.sceneArt.placeWorkbench(10 * T + T / 2, 6 * T + T / 2);
+
+    // 轮胎堆
+    this.sceneArt.placeTire(2 * T + T / 2, 5 * T + T / 2);
+    this.sceneArt.placeTire(2 * T + T / 2, 5 * T + T / 2 + 14);
+    this.sceneArt.placeTire(13 * T + T / 2, 5 * T + T / 2);
+
+    // 管道（沿天花板）
+    this.sceneArt.placePipe(3 * T + T / 2, 1 * T + T / 4);
+    this.sceneArt.placePipe(8 * T + T / 2, 1 * T + T / 4);
+
+    // 窗户（高处）
+    this.sceneArt.placeWindow(1 * T + T / 2, 2 * T + T / 2);
+    this.sceneArt.placeWindow(13 * T + T / 2, 2 * T + T / 2);
+
+    // 纸箱
+    this.sceneArt.placeBox(11 * T + T / 2, 6 * T + T / 2);
   }
 }

@@ -2,7 +2,8 @@
 // 设计契合文档：
 // - 任务以叙事事实记录（flag: task_<id>_done），不展示属性面板
 // - 任务链有序推进：完成前一个才解锁下一个
-// - 第一章4任务（文档8.2）：上岗开工 / 失踪的套筒扳手 / 未来的零部件 / 屋顶清点物资
+// - 序章：和伙伴们聊聊北方的计划 → 屋顶聚会（全员欢愉，北方=希望）
+// - 第一章4任务：上岗开工 / 失踪的套筒扳手 / 未来的零部件 / 屋顶清点物资
 // 任务完成状态持久化于 GameState.flags，跨场景/读档保持一致
 
 import { GameState } from '../state/GameState';
@@ -18,13 +19,39 @@ export interface TaskDef {
   advanceDayOnComplete?: boolean; // 完成此任务是否推进倒计时
 }
 
-// 第一章任务链（文档 8.2）
+// 序章任务链：全员向往北方，氛围铺垫
 export const TASKS: TaskDef[] = [
+  {
+    id: 'ch0_posters',
+    chapter: 'ch0',
+    title: '北方的讯息',
+    goal: '收集老街区散落的 4 张北方宣传明信片',
+    onChapterComplete: false
+  },
+  {
+    id: 'ch0_talk',
+    chapter: 'ch0',
+    title: '北方的召唤',
+    goal: '和老街区的伙伴们聊聊大家对北方的期待',
+    startsAfter: 'ch0_posters',
+    onChapterComplete: false
+  },
+  {
+    id: 'ch0_rooftop',
+    chapter: 'ch0',
+    title: '屋顶聚会',
+    goal: '上屋顶，和大家一起眺望北方',
+    startsAfter: 'ch0_talk'
+    // 序章收尾：全员屋顶欢愉对话 → 丝滑转场推进 ch1
+  },
+
+  // 第一章任务链（文档 8.2）
   {
     id: 'ch1_work',
     chapter: 'ch1',
     title: '上岗开工',
     goal: '在露丝餐厅打工：拾取餐品并送到桌位（3 单）',
+    startsAfter: 'ch0_rooftop',
     onChapterComplete: false
   },
   {
@@ -87,6 +114,43 @@ export const TASKS: TaskDef[] = [
     goal: '上屋顶，看看大家',
     startsAfter: 'ch3_pass'
     // 章节收尾 → 丝滑转场推进 ch4 + 倒计时 3→2
+  },
+  // 第三章可选支线：帮 Maya 整理画展（不阻塞主线，ch3_rooftop 仍以 ch3_pass 为前置）
+  // 体现"两难抉择"中与 Maya 的联结，完成后影响结局细节
+  {
+    id: 'ch3_maya_help',
+    chapter: 'ch3',
+    title: '帮 Maya 整理画展',
+    goal: '搬画架、找画册，帮 Maya 准备画展（可选支线）',
+    startsAfter: 'ch3_pass'
+  },
+
+  // 第四章任务链：北边成为枷锁
+  // 出场：Noah + Leo（Elias/Maya 下线）
+  // 开场台词读取前三章全部印记，主线三选一产生 ch4 印记
+  {
+    id: 'ch4_organize',
+    chapter: 'ch4',
+    title: '整理回忆',
+    goal: '在老街区整理物资，和 Noah、Leo 交谈',
+    startsAfter: 'ch3_rooftop'
+  },
+  {
+    id: 'ch4_rooftop',
+    chapter: 'ch4',
+    title: '最终抉择',
+    goal: '上屋顶，做出最终选择',
+    startsAfter: 'ch4_organize'
+    // 章节收尾 → 四选一直接锁定结局 → 丝滑转场推进 epilogue
+  },
+  // 第四章可选支线：重走老街的承诺（不阻塞主线）
+  // 探访三处回忆之地，呼应"北上成为枷锁"中对过往的回望
+  {
+    id: 'ch4_memory_walk',
+    chapter: 'ch4',
+    title: '重走老街的承诺',
+    goal: '探访合照墙、Noah 的录音机、Leo 的老街角（可选支线）',
+    startsAfter: 'ch4_organize'
   }
 ];
 

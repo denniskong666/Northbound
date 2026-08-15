@@ -13,8 +13,8 @@ const TRANSLATIONS: Record<string, { zh: string; en: string }> = {
                   en: 'Designing life is not clinging to early plans,\nbut daring to choose anew midway.' },
   newGame:      { zh: '新的游戏',        en: 'New Game' },
   continueGame: { zh: '继续游戏',        en: 'Continue' },
-  controls:     { zh: 'WASD 移动   ·   E 交互   ·   空格 推进对话',
-                  en: 'WASD Move  ·  E Interact  ·  Space Advance' },
+  controls:     { zh: 'WASD 移动   ·   Shift 奔跑   ·   E 交互   ·   空格/点击 推进对话   ·   ESC 退出',
+                  en: 'WASD Move  ·  Shift Run  ·  E Interact  ·  Space/Click Advance  ·  ESC Quit' },
   langLabel:    { zh: '语言',            en: 'Language' },
   noSave:       { zh: '（暂无存档）',     en: '(No save data)' },
 
