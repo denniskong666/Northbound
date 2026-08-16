@@ -126,7 +126,11 @@ export class TitleScene extends Phaser.Scene {
 
     this.langBtn.on('pointerdown', () => {
       toggleLang();
-      this.refreshTexts();
+      // 语言切换需要刷新整页：Dialogues.ts / TaskSystem.ts 等模块中的 L() 常量
+      // 在 import 时就被固化，scene.restart() 无法清除 ESM 模块缓存。
+      this.cameras.main.fadeOut(300, 0, 0, 0, () => {
+        window.location.reload();
+      });
     });
 
     // —— 新游戏 / 继续游戏 按钮 ——

@@ -4,6 +4,7 @@
 
 import Phaser from 'phaser';
 import { GameState, ChoiceEffects } from '../state/GameState';
+import { t } from './I18n';
 
 // 一次对话中的一个选项
 export interface DialogueChoice {
@@ -134,7 +135,7 @@ export class DialogueSystem {
       lineSpacing: 4,
       wordWrap: { width: boxW - BOX_PAD * 2 }
     });
-    this.hint = scene.add.text(boxX + boxW - BOX_PAD, boxY + BOX_H - 22, '空格 继续', {
+    this.hint = scene.add.text(boxX + boxW - BOX_PAD, boxY + BOX_H - 22, t('hint_continue'), {
       fontFamily: '"PingFang SC","Microsoft YaHei",sans-serif',
       fontSize: '12px',
       color: '#8a8275'
@@ -148,10 +149,15 @@ export class DialogueSystem {
   private speakerToPortrait(speaker: string): string | null {
     const map: Record<string, string> = {
       '伊莱亚斯': 'elias_portrait',
+      'Elias': 'elias_portrait',
       '玛雅': 'maya_portrait',
+      'Maya': 'maya_portrait',
       '诺亚': 'noah_portrait',
+      'Noah': 'noah_portrait',
       '利奥': 'leo_portrait',
-      '杰米': 'player_portrait'
+      'Leo': 'leo_portrait',
+      '杰米': 'player_portrait',
+      'Jamie': 'player_portrait'
     };
     return map[speaker] ?? null;
   }
@@ -285,7 +291,7 @@ export class DialogueSystem {
     this.bodyText.setText('');
     this.clearChoices();
     this.choiceContainer.setVisible(false);
-    this.hint.setText('空格/点击 继续');
+    this.hint.setText(t('hint_continue'));
 
     // 打字机
     this.fullText = node.text;
@@ -323,9 +329,9 @@ export class DialogueSystem {
     const node = this.currentNode!;
     if (node.choices && node.choices.length > 0) {
       this.showChoices(node.choices);
-      this.hint.setText('↑↓/鼠标 选择  回车/点击 确认');
+      this.hint.setText(t('hint_choose'));
     } else {
-      this.hint.setText('空格/点击 继续');
+      this.hint.setText(t('hint_continue'));
     }
   }
 

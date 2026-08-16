@@ -11,6 +11,7 @@ import { DialogueNode, DialogueChoice } from '../systems/DialogueSystem';
 import { ROOFTOP_CH1_NPCS } from '../data/NpcDefs';
 import { NpcPlacement } from '../data/NpcDefs';
 import { StoryMark } from '../state/GameState';
+import { L, t } from '../systems/I18n';
 
 const MAP: string[] = [
   '1111111111111',
@@ -72,7 +73,7 @@ export class RooftopScene extends BaseScene {
       this.spawnNpcs(ROOFTOP_CH1_NPCS);
 
       // 屋顶聚会 POI
-      this.rooftopPoi = this.addPoi(6, 4, '屋顶聚会', {
+      this.rooftopPoi = this.addPoi(6, 4, L('屋顶聚会', 'Rooftop Gathering'), {
         type: 'task',
         onInteract: () => {
           if (this.rooftopPoi) { this.removePoi(this.rooftopPoi); this.rooftopPoi = undefined; }
@@ -99,7 +100,7 @@ export class RooftopScene extends BaseScene {
       this.spawnNpcs(ROOFTOP_CH1_NPCS);
 
       // 清点物资：对话1 → 对话2 → 推进章节
-      this.rooftopPoi = this.addPoi(6, 4, '清点物资', {
+      this.rooftopPoi = this.addPoi(6, 4, L('清点物资', 'Inventory Check'), {
         type: 'task',
         onInteract: () => {
           if (this.rooftopPoi) { this.removePoi(this.rooftopPoi); this.rooftopPoi = undefined; }
@@ -131,12 +132,12 @@ export class RooftopScene extends BaseScene {
       // —— 第二章章节收尾：屋顶雨夜 ——
       // Maya + Noah 在场，触发关于取舍的讨论 → 丝滑转场推进 ch3 + 倒计时 4→3
       const ch2Npcs: NpcPlacement[] = [
-        { id: 'maya', tileX: 4, tileY: 3, facing: 'down', label: '和玛雅说话' },
-        { id: 'noah', tileX: 8, tileY: 3, facing: 'down', label: '和诺亚说话' }
+        { id: 'maya', tileX: 4, tileY: 3, facing: 'down', label: t('talk_to_maya') },
+        { id: 'noah', tileX: 8, tileY: 3, facing: 'down', label: t('talk_to_noah') }
       ];
       this.spawnNpcs(ch2Npcs);
 
-      this.rooftopPoi = this.addPoi(6, 4, '走近他们', {
+      this.rooftopPoi = this.addPoi(6, 4, L('走近他们', 'Approach Them'), {
         type: 'task',
         onInteract: () => {
           if (this.rooftopPoi) { this.removePoi(this.rooftopPoi); this.rooftopPoi = undefined; }
@@ -164,12 +165,12 @@ export class RooftopScene extends BaseScene {
       // 注意：ch3 印记已由核心任务对话（社区办事处）固化为 A3/B3/C3，此处不再重算
       // 【动态台词分支】：偏Elias→Elias开场满意；偏Maya→Elias抱怨；中立→调和原词
       const ch3Npcs: NpcPlacement[] = [
-        { id: 'elias', tileX: 4, tileY: 3, facing: 'down', label: '和伊莱亚斯说话' },
-        { id: 'maya',  tileX: 8, tileY: 3, facing: 'down', label: '和玛雅说话' }
+        { id: 'elias', tileX: 4, tileY: 3, facing: 'down', label: t('talk_to_elias') },
+        { id: 'maya',  tileX: 8, tileY: 3, facing: 'down', label: t('talk_to_maya') }
       ];
       this.spawnNpcs(ch3Npcs);
 
-      this.rooftopPoi = this.addPoi(6, 4, '走近他们', {
+      this.rooftopPoi = this.addPoi(6, 4, L('走近他们', 'Approach Them'), {
         type: 'task',
         onInteract: () => {
           if (this.rooftopPoi) { this.removePoi(this.rooftopPoi); this.rooftopPoi = undefined; }
@@ -185,15 +186,15 @@ export class RooftopScene extends BaseScene {
             let nextMaya: string;
             if (favElias) {
               // 偏向Elias：他感到满意，不提抱怨
-              eliasText = '太好了。从攒路费到办材料，你一直和我站在一起。等所有人就位，我们就可以出发了。';
+              eliasText = L('太好了。从攒路费到办材料，你一直和我站在一起。等所有人就位，我们就可以出发了。', "Great. From saving up to arranging papers, you've stood with me all along. Once everyone's ready, we can set out.");
               nextMaya = 'm_open_satisfied';
             } else if (favMaya) {
               // 偏向Maya：原版抱怨
-              eliasText = '所有人都随心所欲打乱计划，只有我死守约定。';
+              eliasText = L('所有人都随心所欲打乱计划，只有我死守约定。', "Everyone disrupts the plan as they please, while I'm the only one holding onto our promise.");
               nextMaya = 'm_open';
             } else {
               // 中立：温和版
-              eliasText = '我知道大家各有各的难处，但约定还是尽量不要打破——我们已经走到这一步了。';
+              eliasText = L('我知道大家各有各的难处，但约定还是尽量不要打破——我们已经走到这一步了。', "I know everyone has their own struggles, but let's try not to break the promise — we've come this far.");
               nextMaya = 'm_open_neutral';
             }
             return { speaker: base.speaker, text: eliasText, next: nextMaya };
@@ -203,13 +204,13 @@ export class RooftopScene extends BaseScene {
           const extendedNodes: Record<string, DialogueNode> = {
             ...CH3_ROOFTOP_DIALOGUE.nodes,
             m_open_satisfied: {
-              speaker: '玛雅',
-              text: '……好吧。既然你这么坚持，那我会尽量跟上你们的节奏。',
+              speaker: t('npc_maya'),
+              text: L('……好吧。既然你这么坚持，那我会尽量跟上你们的节奏。', "...Alright. If you insist that much, I'll try to keep up with your pace."),
               next: 'ask'
             },
             m_open_neutral: {
-              speaker: '玛雅',
-              text: '但约定也要人乐意遵守才行。每个人都有选择自己人生的权利。',
+              speaker: t('npc_maya'),
+              text: L('但约定也要人乐意遵守才行。每个人都有选择自己人生的权利。', "But a promise should be kept willingly. Everyone has the right to choose their own life."),
               next: 'ask'
             }
           };
@@ -235,30 +236,33 @@ export class RooftopScene extends BaseScene {
       // 注意：ch4 印记已由主线对话（整理物资）固化为 A4/B4/C4，此处不再重算
       // 【选项动态隐藏】：强偏北上→移除留下选项；强偏留下→移除北上选项
       const ch4Npcs: NpcPlacement[] = [
-        { id: 'noah', tileX: 4, tileY: 3, facing: 'down', label: '和诺亚说话' },
-        { id: 'leo',  tileX: 8, tileY: 3, facing: 'down', label: '和利奥说话' }
+        { id: 'noah', tileX: 4, tileY: 3, facing: 'down', label: t('talk_to_noah') },
+        { id: 'leo',  tileX: 8, tileY: 3, facing: 'down', label: t('talk_to_leo') }
       ];
       this.spawnNpcs(ch4Npcs);
 
-      this.rooftopPoi = this.addPoi(6, 4, '最终抉择', {
+      this.rooftopPoi = this.addPoi(6, 4, L('最终抉择', 'Final Choice'), {
         type: 'task',
         onInteract: () => {
           if (this.rooftopPoi) { this.removePoi(this.rooftopPoi); this.rooftopPoi = undefined; }
           GameState.inst.applyEffects({ flag: 'ch4_rooftop_dlg_started' });
 
-          const strongNorth = GameState.inst.isStronglyNorthbound();
-          const strongRoot = GameState.inst.isStronglyRooted();
+          const leansNorth = GameState.inst.leansNorthbound();
+          const leansStay = GameState.inst.leansStaying();
 
           // 第四章屋顶 nodeHook：动态改写 ask 节点的 choices
+          // 偏向Elias/北上 → 只留「北上」(0) + 「独行」(2)
+          // 偏向留下       → 只留「留下」(1) + 「独行」(2)
+          // 飘忽不定       → 四个选项全保留
           const ch4Hook = (nid: string, base: DialogueNode): DialogueNode | null => {
             if (nid !== 'ask') return null;
             let choices = base.choices?.slice() ?? [];
-            if (strongNorth) {
-              // 强偏北上：移除"留下陪伴众人"选项（index 1）
-              choices = choices.filter((_, i) => i !== 1);
-            } else if (strongRoot) {
-              // 强偏留下：移除"坚持和Elias北上"选项（index 0）
-              choices = choices.filter((_, i) => i !== 0);
+            if (leansNorth) {
+              // 偏向北上：只保留 index 0（北上）和 2（独行）
+              choices = choices.filter((_, i) => i === 0 || i === 2);
+            } else if (leansStay) {
+              // 偏向留下：只保留 index 1（留下）和 2（独行）
+              choices = choices.filter((_, i) => i === 1 || i === 2);
             }
             return { ...base, choices };
           };
@@ -282,26 +286,26 @@ export class RooftopScene extends BaseScene {
       });
     } else {
       // 非任务状态：纯眺望
-      this.addPoi(6, 1, '眺望远方', {
-        line: '远方城市的灯火，在夜色里格外明亮。今晚，那就是北方。'
+      this.addPoi(6, 1, L('眺望远方', 'Gaze Afar'), {
+        line: L('远方城市的灯火，在夜色里格外明亮。今晚，那就是北方。', "Distant city lights glow bright in the night. Tonight, that is the North.")
       });
     }
 
     // 生锈的折叠椅
-    this.addPoi(3, 3, '折叠椅', {
-      line: '一把生锈的折叠椅。坐在这里，能看见所有人的来路。'
+    this.addPoi(3, 3, L('折叠椅', 'Folding Chair'), {
+      line: L('一把生锈的折叠椅。坐在这里，能看见所有人的来路。', "A rusted folding chair. Sitting here, you can see where everyone came from.")
     });
     // 粉笔箭头与众人名字缩写
-    this.addPoi(9, 3, '粉笔箭头', {
-      line: '褪色的粉笔箭头指向北方，旁边写着五个人的名字缩写。'
+    this.addPoi(9, 3, L('粉笔箭头', 'Chalk Arrow'), {
+      line: L('褪色的粉笔箭头指向北方，旁边写着五个人的名字缩写。', "A faded chalk arrow points north, with five people's initials scribbled beside it.")
     });
     // 饱经风霜的旧地图
-    this.addPoi(2, 2, '旧地图', {
-      line: '一张饱经风霜的旧地图，标注着北方的方向。'
+    this.addPoi(2, 2, L('旧地图', 'Old Map'), {
+      line: L('一张饱经风霜的旧地图，标注着北方的方向。', 'A weathered old map marking the direction to the North.')
     });
 
     // 门：回老街区
-    this.addDoor(6, 5, '下楼回老街区', 'OldDistrictScene');
+    this.addDoor(6, 5, L('下楼回老街区', 'Down to the Old District'), 'OldDistrictScene');
   }
 
   // —— Inmost 风格屋顶装饰 ——
