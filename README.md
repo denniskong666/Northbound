@@ -33,9 +33,17 @@ pnpm dev
 
 ### APP / Unity 桌面版
 
-Install Git LFS before cloning, then open `APP/` with Unity `6000.3.22f1`.
+Players can download the ready-to-run macOS build from [GitHub Releases](https://github.com/denniskong666/Northbound/releases/latest). Unity is not required to play it.
 
-克隆前请先安装 Git LFS，然后使用 Unity `6000.3.22f1` 打开 `APP/`。
+普通玩家可从 [GitHub Releases](https://github.com/denniskong666/Northbound/releases/latest) 下载可直接运行的 macOS 版本，游玩不需要安装 Unity。
+
+Download `Northbound-macOS-v1.0.0.zip`, unzip it, and open `Northbound.app`. If macOS blocks the first launch, right-click the app and choose **Open**.
+
+下载 `Northbound-macOS-v1.0.0.zip`，解压后打开 `Northbound.app`。如果 macOS 第一次阻止运行，请右键应用并选择“打开”。
+
+Developers who want to inspect or modify the source project should install Git LFS before cloning, then open `APP/` with Unity `6000.3.22f1`.
+
+需要查看或修改源码的开发者应在克隆前安装 Git LFS，然后使用 Unity `6000.3.22f1` 打开 `APP/`。
 
 ```bash
 git lfs install

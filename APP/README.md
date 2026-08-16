@@ -6,6 +6,12 @@
 
 Northbound APP 是使用 Unity 6 制作的完整桌面叙事探索游戏。玩家扮演 Jamie，在 Greybridge 与 Elias、Maya、Noah、Leo 一起生活、完成任务并面对“是否仍要一起向北”的选择。章节中的态度、关系和关键记忆会持续影响人物回应、任务反馈、终章路线与结局呈现。
 
+### 直接下载游玩
+
+普通玩家不需要安装 Unity。请前往 [GitHub Releases](https://github.com/denniskong666/Northbound/releases/latest) 下载 `Northbound-macOS-v1.0.0.zip`，解压后双击 `Northbound.app`。
+
+当前成品支持 Apple Silicon 与 Intel Mac。如果 macOS 第一次阻止打开，请右键 `Northbound.app` 并选择“打开”。Unity 仅用于查看、修改和重新构建下方源码工程。
+
 ### 主要内容
 
 - 序章、四个主章节和终章的完整叙事流程
@@ -86,6 +92,12 @@ docs/qa/            # 测试结果与发布检查记录
 ### Overview
 
 Northbound APP is the complete Unity 6 desktop edition of the narrative exploration game. You play as Jamie in Greybridge, completing tasks and living alongside Elias, Maya, Noah, and Leo while deciding whether the promise to "go north together" still holds. Chapter attitudes, relationships, and key memories continue into later dialogue, task feedback, the finale routes, and the ending presentation.
+
+### Download and Play
+
+Players do not need Unity. Open [GitHub Releases](https://github.com/denniskong666/Northbound/releases/latest), download `Northbound-macOS-v1.0.0.zip`, unzip it, and double-click `Northbound.app`.
+
+The current build supports both Apple Silicon and Intel Macs. If macOS blocks the first launch, right-click `Northbound.app` and choose **Open**. Unity is only required to inspect, modify, or rebuild the source project below.
 
 ### Features
 
