@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed70aee8cc8cd4f8ca7ec0b6c7dc5db3, type: 3}
+  m_Name: HighlightLeo
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Dialogue.DialogueAsset
+  id: highlight_leo
+  lines:
+  - speakerId: Leo
+    text: Last customer. Last fries. Last bell. I don't know what comes after last.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Leo
+    text: Maybe tomorrow gets a turn.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Leo
+    text: Leo keeps one diner light on after the chairs are stacked.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Leo
+    text: He rubs the CLOSED sign clean with his sleeve.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Leo
+    text: The blank reverse side makes him laugh without hiding the sadness.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Leo
+    text: Ruth leaves him the keys long enough to lock the door himself.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Leo
+    text: Leo sets one mug aside for his grandmother and does not make a joke about
+      it.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Leo
+    text: The fryer goes quiet, making the room feel larger.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Leo
+    text: He turns the sign over slowly, as if the word needs time to land.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []

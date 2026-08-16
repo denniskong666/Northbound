@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed70aee8cc8cd4f8ca7ec0b6c7dc5db3, type: 3}
+  m_Name: MissingSocketDialogue
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Dialogue.DialogueAsset
+  id: missing_socket_dialogue
+  lines:
+  - speakerId: Elias
+    text: Friday. Six in the morning. No speeches, no delays.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Maya
+    text: You just gave a speech.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: That was a schedule.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: The battery is in. Hear that? The car is learning our names.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: Elias marks Friday on the garage calendar with a grease pencil.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: Maya wipes a black thumbprint from the map before he sees it.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: The battery coughs once, then the dash lights wake in a thin blue line.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: Elias smiles like the sound has kept a promise to him.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: Jamie pockets the spare socket instead of throwing it back in the drawer.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []

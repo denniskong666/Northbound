@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed70aee8cc8cd4f8ca7ec0b6c7dc5db3, type: 3}
+  m_Name: OptionalNoahRadio
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Dialogue.DialogueAsset
+  id: optional_noah_radio
+  lines:
+  - speakerId: Noah
+    text: My dad has a plan for me. Elias has a plan for me. It's strange how everyone's
+      plan sounds like responsibility when they say it out loud.
+    textChinese: 我爸替我做了计划，伊莱亚斯也替我做了计划。奇怪的是，每个人把计划说出口时，听起来都像责任。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Noah
+    text: I am tired of answering with a nod.
+    textChinese: 我已经厌倦了只用点头回答。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Jamie
+    presentation: 1
+    text: How should Jamie answer Noah beside the radio?
+    textChinese: 在收音机旁，杰米该怎么回答诺亚？
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices:
+    - text: I'll stay for the six o'clock recording.
+      textChinese: 我会留下来，陪你录下六点的声音。
+      grantedFact: optional_noah_radio_committed
+      nextLineIndex: 3
+    - text: Whose voice do you want on the next tape, yours or theirs?
+      textChinese: 下一盘磁带里，你想留下谁的声音：你的，还是他们的？
+      grantedFact: optional_noah_radio_curious
+      nextLineIndex: 4
+    - text: I don't know my answer either. We can record that.
+      textChinese: 我也不知道自己的答案。我们可以把这份不知道录下来。
+      grantedFact: optional_noah_radio_uncertain
+      nextLineIndex: 5
+    - text: Put on the spare headphones and listen.
+      textChinese: 戴上那副备用耳机，安静地听。
+      grantedFact: optional_noah_radio_silent
+      nextLineIndex: 6
+  - speakerId: Noah
+    text: Stay for the next recording; the train comes through at six.
+    textChinese: 留下来录下一段吧，火车六点会经过这里。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Noah
+    text: I do, and that is why the answer scares me.
+    textChinese: 我想。正因为想，所以这个答案才让我害怕。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Noah
+    text: I am trying to let an unfinished answer exist.
+    textChinese: 我正在学着接受一个还没写完的答案。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Noah
+    text: I will leave a space on the tape for what you did not say.
+    textChinese: 我会在磁带上留一段空白，放你没有说出口的话。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []

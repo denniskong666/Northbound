@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed70aee8cc8cd4f8ca7ec0b6c7dc5db3, type: 3}
+  m_Name: AlternatorDialogue
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Dialogue.DialogueAsset
+  id: alternator_dialogue
+  lines:
+  - speakerId: Elias
+    text: He said the first night away was the first time he could breathe.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Jamie
+    text: Does he still call?
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: He's busy.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Jamie
+    text: That wasn't my question.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: Elias passes Jamie a wrench without looking up from the engine.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: A postcard from his brother is taped above the workbench, edges curled.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: He says North taught his brother to breathe; Jamie hears the years inside
+      it.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: The alternator clicks into place with a sound too small for the pressure
+      around it.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: Elias keeps working after the light fades.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []

@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed70aee8cc8cd4f8ca7ec0b6c7dc5db3, type: 3}
+  m_Name: RooftopFracture
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Dialogue.DialogueAsset
+  id: rooftop_fracture
+  lines:
+  - speakerId: Elias
+    text: We made one promise.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Maya
+    text: We were twelve.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: We were honest.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Maya
+    text: We were scared.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: And now you're all pretending fear is growth.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Noah
+    text: Maybe growth is admitting the plan doesn't fit.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: It fit when I was fixing everything.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Leo
+    text: That's the problem, Eli. You started fixing us too.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: The chalk arrow has faded until it points nowhere in particular.
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []

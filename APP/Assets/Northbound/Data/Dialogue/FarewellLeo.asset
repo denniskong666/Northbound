@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed70aee8cc8cd4f8ca7ec0b6c7dc5db3, type: 3}
+  m_Name: FarewellLeo
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Dialogue.DialogueAsset
+  id: farewell_leo
+  lines:
+  - speakerId: Leo
+    text: Whatever you do, don't turn it into proof that the rest of us were wrong.
+    textChinese: 不管你怎么选，都别把它变成证明我们其他人错了的证据。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Leo
+    text: Also, if you leave, take the good diner mug. The chipped one is haunted.
+    textChinese: 还有，你要走就带那只完好的餐馆杯子。缺口那只闹鬼。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Jamie
+    presentation: 1
+    text: How should Jamie answer Leo before morning?
+    textChinese: 天亮以前，杰米该怎么回答利奥？
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices:
+    - text: Whatever I choose, I'll come back for the good mug.
+      textChinese: 无论我怎么选，我都会回来拿那只完好的杯子。
+      grantedFact: farewell_leo_committed
+      nextLineIndex: 3
+    - text: Do you want the diner, or are you afraid to leave Ruth?
+      textChinese: 你想要的是这家餐馆，还是你害怕离开露丝？
+      grantedFact: farewell_leo_curious
+      nextLineIndex: 4
+    - text: I don't know whether this is goodbye.
+      textChinese: 我还不知道这算不算告别。
+      grantedFact: farewell_leo_uncertain
+      nextLineIndex: 5
+    - text: Help him stack the last chair without speaking.
+      textChinese: 不说话，帮他叠好最后一把椅子。
+      grantedFact: farewell_leo_silent
+      nextLineIndex: 6
+  - speakerId: Leo
+    text: Then help me turn the chairs over when the last customer leaves.
+    textChinese: 那最后一位客人走后，帮我把椅子翻到桌上。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Leo
+    text: I do; that is why I keep making jokes around it.
+    textChinese: 我想。正因为想，我才总绕着它开玩笑。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Leo
+    text: Not knowing is still more useful than faking a map.
+    textChinese: 不知道，也比假装手里有地图更有用。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Leo
+    text: Okay. I will not make the quiet carry all the weight.
+    textChinese: 好吧。我不会让沉默替我们扛下所有重量。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []

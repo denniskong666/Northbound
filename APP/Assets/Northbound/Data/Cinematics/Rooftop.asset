@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25c1c2f673c994a38ad2eea31aa4c4d4, type: 3}
+  m_Name: Rooftop
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Cinematics.CinematicAsset
+  id: rooftop
+  clip: {fileID: 32900000, guid: ac844021f365c40549538217d8cf5f31, type: 3}
+  completionFact: cinematic_rooftop_complete
+  subtitle: The sky does not decide for Jamie. It only makes the choice visible.
+  subtitleCues:
+  - startSeconds: 0
+    text: We made one promise.
+  - startSeconds: 5
+    text: We were twelve.
+  - startSeconds: 10
+    text: We were honest.
+  - startSeconds: 15
+    text: We were scared.
+  - startSeconds: 20
+    text: And now you're all pretending fear is growth.
+  - startSeconds: 25
+    text: Maybe growth is admitting the plan doesn't fit.
+  - startSeconds: 30
+    text: It fit when I was fixing everything.
+  - startSeconds: 35
+    text: That's the problem, Eli. You started fixing us too.
+  - startSeconds: 40
+    text: The chalk arrow has faded until it points nowhere in particular.
+  cinematicAudioSnapshot: {fileID: 24500016, guid: 9cdaa59156dd2423bafb7fedf86c5521, type: 2}
+  gameplayAudioSnapshot: {fileID: 24500006, guid: 9cdaa59156dd2423bafb7fedf86c5521, type: 2}

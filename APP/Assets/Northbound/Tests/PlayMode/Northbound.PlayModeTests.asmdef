@@ -1,0 +1,20 @@
+{
+  "name": "Northbound.PlayModeTests",
+  "rootNamespace": "Northbound.Tests",
+  "references": [
+    "Northbound.Runtime",
+    "Unity.InputSystem"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": false,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false,
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}

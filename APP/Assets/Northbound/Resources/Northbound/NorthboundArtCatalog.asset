@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0241ab6bd096249bfb881078ab2d4c37, type: 3}
+  m_Name: NorthboundArtCatalog
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Art.NorthboundArtCatalog
+  characters:
+  - id: jamie
+    texture: {fileID: 2800000, guid: db3ff83209a614f8eb65a3301f567f96, type: 3}
+    keyColor: {r: 1, g: 0, b: 1, a: 1}
+    layout:
+      columns: 4
+      rows: 2
+      idleRow: 1
+      walkRow: 0
+      northColumn: 1
+      southColumn: 0
+      eastColumn: 2
+      westColumn: 3
+  - id: elias
+    texture: {fileID: 2800000, guid: 5e3192483001c4c0a9050396c077bd37, type: 3}
+    keyColor: {r: 0, g: 1, b: 0, a: 1}
+    layout:
+      columns: 4
+      rows: 2
+      idleRow: 1
+      walkRow: 0
+      northColumn: 1
+      southColumn: 0
+      eastColumn: 2
+      westColumn: 3
+  - id: maya
+    texture: {fileID: 2800000, guid: 0a484adea245948d99f0b709c72e390e, type: 3}
+    keyColor: {r: 1, g: 0, b: 1, a: 1}
+    layout:
+      columns: 4
+      rows: 2
+      idleRow: 1
+      walkRow: 0
+      northColumn: 1
+      southColumn: 0
+      eastColumn: 2
+      westColumn: 3
+  - id: noah
+    texture: {fileID: 2800000, guid: 8453ea0cb7f7f48d6909e375f892d676, type: 3}
+    keyColor: {r: 0, g: 1, b: 0, a: 1}
+    layout:
+      columns: 4
+      rows: 2
+      idleRow: 1
+      walkRow: 0
+      northColumn: 1
+      southColumn: 0
+      eastColumn: 2
+      westColumn: 3
+  - id: leo
+    texture: {fileID: 2800000, guid: 51bf865f8745a4689974bebff68c1b0c, type: 3}
+    keyColor: {r: 0, g: 1, b: 0, a: 1}
+    layout:
+      columns: 4
+      rows: 2
+      idleRow: 1
+      walkRow: 0
+      northColumn: 1
+      southColumn: 0
+      eastColumn: 2
+      westColumn: 3
+  props:
+  - id: station_wagon
+    texture: {fileID: 2800000, guid: e61489a0192514151978de867a317339, type: 3}
+    keyColor: {r: 1, g: 0, b: 1, a: 1}
+  - id: quest_props
+    texture: {fileID: 2800000, guid: 2aeb8a418a4634e1283a28c820175942, type: 3}
+    keyColor: {r: 0, g: 0, b: 0, a: 0}
+  environments:
+  - id: exterior
+    texture: {fileID: 2800000, guid: 6301175cb8b004e8e9fb62ff566d1dac, type: 3}
+    keyColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: jamie_home
+    texture: {fileID: 2800000, guid: 067b633c2cdd0486a92b8358e13b7223, type: 3}
+    keyColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: vale_garage
+    texture: {fileID: 2800000, guid: 26cf5eb8d1d43493a9bcca016af91ce6, type: 3}
+    keyColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: ruths_diner
+    texture: {fileID: 2800000, guid: 053e7fe76ce3b4de6bacc238b7d0f854, type: 3}
+    keyColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: maya_studio
+    texture: {fileID: 2800000, guid: 8ca5149afc9f740cea48a522ba41bd76, type: 3}
+    keyColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: noah_electronics
+    texture: {fileID: 2800000, guid: 5eb23da87e81546a9b81b6a59f017da6, type: 3}
+    keyColor: {r: 0, g: 0, b: 0, a: 0}
+  - id: rooftop_overlook
+    texture: {fileID: 2800000, guid: 31a5acd5f9b5643a4bc23c5884180816, type: 3}
+    keyColor: {r: 0, g: 0, b: 0, a: 0}

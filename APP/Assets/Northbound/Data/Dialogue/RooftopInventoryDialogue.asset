@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed70aee8cc8cd4f8ca7ec0b6c7dc5db3, type: 3}
+  m_Name: RooftopInventoryDialogue
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Dialogue.DialogueAsset
+  id: rooftop_inventory_dialogue
+  lines:
+  - speakerId: Elias
+    text: The north has real opportunities. Staying here means letting this city decide for us.
+    textChinese: 北边有真正的机会。留在这里，就等于让这座城市替我们决定人生。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Leo
+    text: The distance might not be better. We have put every hope we have into a place we cannot even see.
+    textChinese: 远方未必更好。我们只是把所有希望，都寄托在一个根本看不见的地方。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: Then tell us, Jamie. What are we supposed to choose?
+    textChinese: 那你来说，杰米。我们到底该怎么选？
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices:
+    - text: The north is our only way forward. We have to keep the plan.
+      textChinese: 北边是唯一的出路，我们必须坚持原来的计划。
+      grantedFact: choice_ch1_rooftop_northbound
+      counterDeltas:
+      - id: tendency_commitment
+        amount: 10
+      - id: tendency_agency
+        amount: -10
+      nextLineIndex: 3
+    - text: We can leave without cutting every tie to this place.
+      textChinese: 我们可以去远方，但不用彻底斩断和这里的联结。
+      grantedFact: choice_ch1_rooftop_balance
+      counterDeltas:
+      - id: tendency_commitment
+        amount: 3
+      - id: tendency_agency
+        amount: 3
+      nextLineIndex: 5
+    - text: What we have here matters more to me than an imagined north.
+      textChinese: 比起想象中的北方，我更珍惜眼前熟悉的一切。
+      grantedFact: choice_ch1_rooftop_home
+      counterDeltas:
+      - id: tendency_commitment
+        amount: -10
+      - id: tendency_agency
+        amount: 10
+      nextLineIndex: 6
+  - speakerId: Elias
+    text: If we stay together, we can be on the road before the week is over.
+    textChinese: 只要我们齐心协力，这周结束以前就能上路。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 4
+    choices: []
+  - speakerId:
+    text: Leo walks to the roof edge and watches the old street instead of the northern lights.
+    textChinese: 利奥独自走到屋顶边缘。他看着脚下的老街，没有看北边的灯。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 8
+    choices: []
+  - speakerId:
+    text: Neither of them wins the argument. For a moment, that feels honest.
+    textChinese: 谁也没有说服谁。可至少这一刻，所有人都很诚实。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 8
+    choices: []
+  - speakerId: Leo
+    text: I thought I was the only one who could admit I might miss this place.
+    textChinese: 我还以为，只有我敢承认自己可能会想念这里。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 7
+    choices: []
+  - speakerId:
+    text: Elias folds the route map once, then again, until the north disappears inside it.
+    textChinese: 伊莱亚斯把路线图折了一次，又折了一次，直到北方消失在纸页里面。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 8
+    choices: []
+  - speakerId: Maya
+    text: Four days left. That is still enough time for the plan to become a choice.
+    textChinese: 还剩四天。足够让一个计划，重新变成一次真正的选择。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId:
+    text: The three of you look north. Below, Greybridge keeps every light it can afford.
+    textChinese: 你们三个人望向北方。脚下的格雷布里奇，守着它还能点亮的每一盏灯。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []

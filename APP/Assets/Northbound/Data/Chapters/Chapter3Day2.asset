@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e3d8c1b6a5f4092873645a1b2c3d4e5, type: 3}
+  m_Name: Chapter3Day2
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.World.ChapterVariant
+  id: chapter_3_day_2
+  requiredFacts: []
+  forbiddenFacts: []
+  objectsToActivate: []
+  objectsToDeactivate: []
+  objectIdsToActivate:
+  - Open Diner
+  - FINAL WEEK
+  - Garage Countdown
+  objectIdsToDeactivate: []
+  spawnPointId: Spawn Chapter 3 Day 2
+  ambientSnapshotId: midnight_blue
+  startingQuestIds:
+  - road_test
+  - static
+  - pack_the_trunk
+  - last_night_open

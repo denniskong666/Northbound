@@ -1,0 +1,162 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed70aee8cc8cd4f8ca7ec0b6c7dc5db3, type: 3}
+  m_Name: BeforeMorningDialogue
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Dialogue.DialogueAsset
+  id: before_morning_dialogue
+  lines:
+  - speakerId:
+    presentation: 1
+    text: On the rooftop, Jamie chose the promise. The second key now feels like its weight made metal.
+    textChinese: 在屋顶上，杰米选择了守约。如今，第二把钥匙像是把那份承诺的重量变成了金属。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: story_mark_ch3_a
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 3
+    choices: []
+  - speakerId:
+    presentation: 1
+    text: On the rooftop, Jamie refused to make either side surrender. Three lit doorways still ask what that balance costs.
+    textChinese: 在屋顶上，杰米拒绝逼任何一边投降。三扇亮着灯的门仍在追问，这份平衡需要付出什么。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: story_mark_ch3_b
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 3
+    choices: []
+  - speakerId:
+    presentation: 1
+    text: On the rooftop, Jamie defended everyone's right to change. Now Jamie has to claim that right too.
+    textChinese: 在屋顶上，杰米捍卫了每个人改变心意的权利。现在，杰米也必须为自己作出选择。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: story_mark_ch3_c
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 3
+    choices: []
+  - speakerId:
+    presentation: 1
+    text: Maya's studio, Noah's radio shop, and Leo's diner are still lit. There is time to visit, but not to make anyone else's decision.
+    textChinese: 玛雅的工作室、诺亚的电器店和利奥的餐馆仍亮着灯。还有时间去见他们，但不能替任何人做决定。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId:
+    presentation: 1
+    text: What will Jamie carry into these final visits?
+    textChinese: 杰米将带着怎样的答案，走进天亮前最后的三次见面？
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices:
+    - text: I am still going north. I will ask them to keep the promise with me.
+      textChinese: 我仍然要去北方。我会请他们和我一起守住约定。
+      grantedFact: story_mark_ch4_a
+      counterDeltas:
+      - id: tendency_commitment
+        amount: 12
+      - id: tendency_rootedness
+        amount: -4
+      - id: tendency_agency
+        amount: -2
+      - id: bond_elias
+        amount: 3
+      nextLineIndex: 5
+    - text: Staying and leaving are not opposite answers to a test. I will not call either one wrong.
+      textChinese: 留下和离开，不是一道题的正反答案。我不会把任何一种选择说成错误。
+      grantedFact: story_mark_ch4_b
+      counterDeltas:
+      - id: tendency_commitment
+        amount: 3
+      - id: tendency_rootedness
+        amount: 5
+      - id: tendency_agency
+        amount: 5
+      - id: bond_elias
+        amount: 1
+      - id: bond_maya
+        amount: 1
+      - id: bond_noah
+        amount: 1
+      - id: bond_leo
+        amount: 1
+      nextLineIndex: 6
+    - text: Each of us should choose the life that fits, even if our roads separate.
+      textChinese: 每个人都该选择真正适合自己的生活，哪怕我们的路会因此分开。
+      grantedFact: story_mark_ch4_c
+      counterDeltas:
+      - id: tendency_commitment
+        amount: -6
+      - id: tendency_rootedness
+        amount: 2
+      - id: tendency_agency
+        amount: 12
+      - id: bond_maya
+        amount: 2
+      - id: bond_noah
+        amount: 2
+      - id: bond_leo
+        amount: 2
+      nextLineIndex: 7
+  - speakerId: Jamie
+    text: Then I will say goodbye without pretending the plan disappeared.
+    textChinese: 那我会认真道别，也不会假装原来的计划已经消失。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 8
+    choices: []
+  - speakerId:
+    presentation: 1
+    text: The northbound road and the three lit doorways remain visible at the same time.
+    textChinese: 向北的路和三扇亮着灯的门，同时留在杰米的视野里。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 8
+    choices: []
+  - speakerId: Jamie
+    text: Then these visits are not votes. They are a chance to hear what each person actually wants.
+    textChinese: 那么，这三次见面就不是投票，而是一次真正听见每个人想要什么的机会。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 8
+    choices: []
+  - speakerId:
+    presentation: 1
+    text: Jamie starts with the nearest light. Morning can wait until every friend has answered for themselves.
+    textChinese: 杰米走向最近的那盏灯。等每个朋友都替自己回答以后，清晨再来。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []

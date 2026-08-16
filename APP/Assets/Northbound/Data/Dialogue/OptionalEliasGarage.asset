@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed70aee8cc8cd4f8ca7ec0b6c7dc5db3, type: 3}
+  m_Name: OptionalEliasGarage
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Dialogue.DialogueAsset
+  id: optional_elias_garage
+  lines:
+  - speakerId: Elias
+    text: I know how this looks. Like I made a list and called it love.
+    textChinese: 我知道这看起来像什么。像是我列了一张清单，然后把它叫作爱。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: I did make a list. I just thought everyone was writing on the same page.
+    textChinese: 我的确列了清单。我只是以为大家都在同一页上写东西。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Jamie
+    presentation: 1
+    text: How should Jamie answer Elias in the garage?
+    textChinese: 在车库里，杰米该怎么回答伊莱亚斯？
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices:
+    - text: I'll stay and help you finish the car.
+      textChinese: 我会留下来，帮你把车修完。
+      grantedFact: optional_elias_garage_committed
+      nextLineIndex: 3
+    - text: When did the plan become something you had to carry alone?
+      textChinese: 这个计划从什么时候起，变成了只能由你一个人扛的东西？
+      grantedFact: optional_elias_garage_curious
+      nextLineIndex: 4
+    - text: I care about you. I still don't know whether Friday is mine.
+      textChinese: 我在乎你，但我仍不知道星期五是不是也属于我。
+      grantedFact: optional_elias_garage_uncertain
+      nextLineIndex: 5
+    - text: Set the wrench beside him without answering.
+      textChinese: 不作回答，只把扳手放到他手边。
+      grantedFact: optional_elias_garage_silent
+      nextLineIndex: 6
+  - speakerId: Elias
+    text: Then help me check the bolts; I need a job I can finish.
+    textChinese: 那就帮我检查螺栓吧。我需要一件能够真正做完的事。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: Ask me why I keep every receipt. I might answer.
+    textChinese: 问问我为什么留着每张收据。也许我会回答。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: You do not have to promise me Friday to stand here now.
+    textChinese: 你不必向我承诺星期五，才能站在这里陪我。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: I will give the silence a minute before I call it agreement.
+    textChinese: 我会先给这份沉默一分钟，再决定它算不算同意。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []

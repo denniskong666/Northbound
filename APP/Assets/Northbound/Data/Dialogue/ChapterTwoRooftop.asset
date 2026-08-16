@@ -1,0 +1,151 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed70aee8cc8cd4f8ca7ec0b6c7dc5db3, type: 3}
+  m_Name: ChapterTwoRooftop
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Dialogue.DialogueAsset
+  id: chapter_two_rooftop
+  lines:
+  - speakerId: Elias
+    text: If we keep moving the date, it stops being a plan.
+    textChinese: 如果我们一直改日期，这就不再是计划了。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Maya
+    text: A plan should survive the people inside it changing.
+    textChinese: 一个计划，应该容得下计划里的人发生改变。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Noah
+    text: Friday is close. That does not make the answer simple.
+    textChinese: 星期五已经很近了，但这不代表答案就变简单了。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Jamie
+    text: What should matter most now?
+    textChinese: 现在，什么才应该被放在第一位？
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices:
+    - text: Keep Friday fixed. A plan only means something if we honor it.
+      textChinese: 守住星期五。计划只有被兑现，才真正算数。
+      grantedFact: story_mark_ch2_a
+      counterDeltas:
+      - id: tendency_commitment
+        amount: 10
+      - id: tendency_agency
+        amount: -4
+      - id: bond_elias
+        amount: 3
+      - id: bond_maya
+        amount: -1
+      nextLineIndex: 4
+    - text: Keep preparing, but leave room for the people the plan is meant to serve.
+      textChinese: 继续准备，但也给计划里的人留出改变的余地。
+      grantedFact: story_mark_ch2_b
+      counterDeltas:
+      - id: tendency_commitment
+        amount: 4
+      - id: tendency_rootedness
+        amount: 4
+      - id: tendency_agency
+        amount: 4
+      - id: bond_elias
+        amount: 1
+      - id: bond_maya
+        amount: 1
+      nextLineIndex: 5
+    - text: Stop treating the north as more real than the lives already happening here.
+      textChinese: 别再把北方看得比眼前正在发生的生活更真实。
+      grantedFact: story_mark_ch2_c
+      counterDeltas:
+      - id: tendency_commitment
+        amount: -8
+      - id: tendency_rootedness
+        amount: 10
+      - id: tendency_agency
+        amount: 7
+      - id: bond_elias
+        amount: -1
+      - id: bond_maya
+        amount: 3
+      nextLineIndex: 6
+  - speakerId: Elias
+    text: Good. Friday stays. I can carry the work if I know the promise is still ours.
+    textChinese: 好。星期五不变。只要这份约定还是大家的，我就能继续扛下去。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 7
+    choices: []
+  - speakerId: Maya
+    text: Then keep the map open. Do not turn one date into a locked door.
+    textChinese: 那就让地图继续摊开。别让一个日期变成锁死的门。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 7
+    choices: []
+  - speakerId: Maya
+    text: Thank you. Wanting what is here does not make any of us cowards.
+    textChinese: 谢谢。珍惜眼前的生活，并不会让任何人变成懦夫。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 7
+    choices: []
+  - speakerId:
+    presentation: 1
+    text: Elias redraws Friday in darker marker, but no one mistakes the ink for agreement.
+    textChinese: 伊莱亚斯用更深的笔迹重新圈住星期五，但没有人再把这道墨迹当成全体同意。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId:
+    presentation: 1
+    text: Noah records the silence after Jamie's answer. Leo does not cover it with a joke.
+    textChinese: 诺亚录下杰米回答后的沉默。利奥没有再用笑话把它盖过去。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []

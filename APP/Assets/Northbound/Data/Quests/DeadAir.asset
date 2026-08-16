@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 491afb65df5da40a2b97f3046a7df953, type: 3}
+  m_Name: DeadAir
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Quests.QuestAsset
+  id: dead_air
+  title: Dead Air
+  hint: Repair Noah's recorder wiring.
+  objectives:
+  - id: wire_recorder
+    description: Repair Noah's recorder wiring.
+    requiredAmount: 1
+  completionFacts:
+  - noah_recordings_heard
+  nextQuestIds:
+  - one_more_table

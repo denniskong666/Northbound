@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 491afb65df5da40a2b97f3046a7df953, type: 3}
+  m_Name: BeforeMorning
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Quests.QuestAsset
+  id: before_morning
+  title: Before Morning
+  hint: Visit the people who are still here.
+  objectives:
+  - id: visit_maya
+    description: Visit the people who are still here.
+    requiredAmount: 1
+  - id: visit_noah
+    description: 'Continue: Visit the people who are still here.'
+    requiredAmount: 1
+  - id: visit_leo
+    description: 'Continue: Visit the people who are still here.'
+    requiredAmount: 1
+  completionFacts:
+  - farewell_complete
+  nextQuestIds: []

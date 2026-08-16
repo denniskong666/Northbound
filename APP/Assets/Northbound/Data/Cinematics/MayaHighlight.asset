@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25c1c2f673c994a38ad2eea31aa4c4d4, type: 3}
+  m_Name: MayaHighlight
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Cinematics.CinematicAsset
+  id: maya
+  clip: {fileID: 32900000, guid: c63014df10e2f43eba1509661ac8e5e8, type: 3}
+  completionFact: cinematic_maya_complete
+  subtitle: Maya's light is not a promise to stay; it is permission to choose.
+  subtitleCues:
+  - startSeconds: 0
+    text: The room is nearly empty, which is somehow worse and better.
+  - startSeconds: 5
+    text: You looked at it anyway. That counts.
+  - startSeconds: 10
+    text: Maya stands beneath the gallery lights and lets the silence belong to the
+      paintings.
+  - startSeconds: 15
+    text: A child points at the shuttered market on one canvas.
+  - startSeconds: 20
+    text: Maya hands Jamie the studio key without claiming she will use it.
+  - startSeconds: 25
+    text: The coordinator leaves the room so the paintings can be looked at without
+      an explanation.
+  - startSeconds: 30
+    text: Maya notices the old map in Jamie's bag and smiles without forgiving it.
+  - startSeconds: 35
+    text: Outside, the market sign becomes a dark blue shape in the window.
+  - startSeconds: 40
+    text: She says the studio can be a place to start, not a place to hide.
+  cinematicAudioSnapshot: {fileID: 24500016, guid: 9cdaa59156dd2423bafb7fedf86c5521, type: 2}
+  gameplayAudioSnapshot: {fileID: 24500006, guid: 9cdaa59156dd2423bafb7fedf86c5521, type: 2}

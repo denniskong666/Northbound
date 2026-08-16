@@ -1,0 +1,143 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed70aee8cc8cd4f8ca7ec0b6c7dc5db3, type: 3}
+  m_Name: ClockInDialogue
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Dialogue.DialogueAsset
+  id: clock_in_dialogue
+  lines:
+  - speakerId: Elias
+    text: A few more shifts and the travel fund is full. Then we can finally leave Greybridge behind.
+    textChinese: 再多打几次工，路费就凑齐了。到时候，我们终于可以彻底离开格雷布里奇。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Leo
+    text: Every diner booth and alley on this street remembers us. Once we leave, we do not get this version of home back.
+    textChinese: 这条街上的每张餐桌、每条巷子，都记得我们从小到大的样子。走了以后，就再也回不到现在了。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Elias
+    text: Jamie, what do you think?
+    textChinese: 杰米，你怎么想？
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices:
+    - text: Saving enough to leave is what matters. Memories cannot build a life.
+      textChinese: 早点攒钱出发才是正事，回忆不能当生活过。
+      grantedFact: choice_ch1_clock_northbound
+      counterDeltas:
+      - id: tendency_commitment
+        amount: 10
+      - id: tendency_agency
+        amount: -5
+      nextLineIndex: 3
+    - text: We should keep saving, but we can still make room for this place.
+      textChinese: 攒钱要紧，但我们也可以偶尔停下来怀念老街。
+      grantedFact: choice_ch1_clock_balance
+      counterDeltas:
+      - id: tendency_commitment
+        amount: 3
+      - id: tendency_agency
+        amount: 3
+      nextLineIndex: 5
+    - text: We do not have to rush away. Life here is not nothing.
+      textChinese: 没必要急着走，这里的生活其实也不差。
+      grantedFact: choice_ch1_clock_home
+      counterDeltas:
+      - id: tendency_commitment
+        amount: -5
+      - id: tendency_agency
+        amount: 10
+      nextLineIndex: 6
+  - speakerId: Elias
+    text: You understand. We cannot let the old days hold us in place.
+    textChinese: 还是你懂我。我们不能被旧日子绊住脚步。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 4
+    choices: []
+  - speakerId:
+    text: Leo lowers his eyes and nudges a loose coin across the counter.
+    textChinese: 利奥低下头，把一枚散落的硬币推过柜台，没有再说话。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 8
+    choices: []
+  - speakerId:
+    text: Elias gives a reluctant nod. Leo smooths the corner of an old receipt.
+    textChinese: 伊莱亚斯勉强点了点头。利奥把一张旧收据的折角慢慢抚平。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 8
+    choices: []
+  - speakerId: Leo
+    text: Finally. Someone else understands why leaving is not automatically living.
+    textChinese: 终于有人明白了。离开这里，不代表就真正开始生活了。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 7
+    choices: []
+  - speakerId:
+    text: Elias looks toward the travel-fund jar and lets the silence answer for him.
+    textChinese: 伊莱亚斯看向装路费的玻璃罐，让沉默替他回答。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 8
+    choices: []
+  - speakerId: Ruth
+    text: Decide where home is after table four gets its fries.
+    textChinese: 等四号桌先吃上薯条，你们再决定哪里才算家。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Leo
+    text: One more shift, one more mile north. Or one more day here.
+    textChinese: 多上一班，就离北方近一英里。也可能，只是又在这里多留一天。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []

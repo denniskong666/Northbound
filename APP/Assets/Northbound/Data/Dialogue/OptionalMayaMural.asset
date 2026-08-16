@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed70aee8cc8cd4f8ca7ec0b6c7dc5db3, type: 3}
+  m_Name: OptionalMayaMural
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Dialogue.DialogueAsset
+  id: optional_maya_mural
+  lines:
+  - speakerId: Maya
+    text: That drawing is not evidence. It's a twelve-year-old trying to keep four
+      loud people in one frame.
+    textChinese: 那幅画不是什么证据。只是一个十二岁的孩子，想把四个吵闹的人留在同一个画框里。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Maya
+    text: I used to think changing my mind made the first idea a lie.
+    textChinese: 我以前以为，改变主意就等于承认最初的想法是一场谎言。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Jamie
+    presentation: 1
+    text: How should Jamie answer Maya at the mural?
+    textChinese: 在壁画前，杰米该怎么回答玛雅？
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices:
+    - text: I'll help repaint the arrow, even if it points somewhere new.
+      textChinese: 我会帮你重画那支箭，哪怕它最后指向别处。
+      grantedFact: optional_maya_mural_committed
+      nextLineIndex: 3
+    - text: Do you want the studio, or permission to want it?
+      textChinese: 你想要的是那间工作室，还是允许自己想要它？
+      grantedFact: optional_maya_mural_curious
+      nextLineIndex: 4
+    - text: I don't know where I belong yet. I want to see what you paint.
+      textChinese: 我还不知道自己属于哪里，但我想看看你接下来会画什么。
+      grantedFact: optional_maya_mural_uncertain
+      nextLineIndex: 5
+    - text: Hold the ladder and let Maya keep working.
+      textChinese: 扶住梯子，让玛雅继续画下去。
+      grantedFact: optional_maya_mural_silent
+      nextLineIndex: 6
+  - speakerId: Maya
+    text: Then bring paint, not a speech.
+    textChinese: 那就带颜料来，别带一篇演讲。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Maya
+    text: I do, but I am tired of being brave for an audience.
+    textChinese: 我想。但我已经厌倦了为了观众装得勇敢。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Maya
+    text: Uncertainty has better colors than certainty.
+    textChinese: 不确定，往往比确定拥有更多颜色。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Maya
+    text: I can work beside quiet. I cannot work beside pretending.
+    textChinese: 我可以和沉默并肩工作，但不能和伪装一起。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []

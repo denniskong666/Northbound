@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed70aee8cc8cd4f8ca7ec0b6c7dc5db3, type: 3}
+  m_Name: LastSignDialogue
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Dialogue.DialogueAsset
+  id: last_sign_dialogue
+  lines:
+  - speakerId: Maya
+    text: Elias told me you were focused on earning the fare north and had no room for the old street.
+    textChinese: 伊莱亚斯跟我说，你一门心思只想凑够路费去北边，根本顾不上这条老街。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: story_mark_ch1_a
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 3
+    choices: []
+  - speakerId: Maya
+    text: Elias and Leo remember that night differently. They said you refused to pretend either side was simple.
+    textChinese: 伊莱亚斯和利奥对那晚的说法完全不同。他们都说，你不肯假装任何一边很简单。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: story_mark_ch1_b
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 3
+    choices: []
+  - speakerId: Maya
+    text: Leo said you saw a life here worth choosing. I didn't know anyone else could imagine staying.
+    textChinese: 利奥说，你看见了这里也有一种值得选择的生活。我不知道原来也有人能想象留下来。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: story_mark_ch1_c
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 3
+    choices: []
+  - speakerId: Jamie
+    text: I found the Greybridge Arts Center's local exhibition invitation behind the sign. You didn't tell them.
+    textChinese: 我在招牌后面发现了格雷布里奇艺术中心本地展览的邀请函。你没有回复他们。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Maya
+    text: There's nothing to tell.
+    textChinese: 没什么可说的。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Jamie
+    text: They invited your paintings, Maya.
+    textChinese: 他们邀请的是你的画，玛雅。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Maya
+    text: One local exhibition isn't a whole future.
+    textChinese: 一场本地展览，也不等于整个未来。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Maya
+    text: It is a room with a light on. That might be enough for one night.
+    textChinese: 它只是一间亮着灯的屋子。也许对今晚来说，这就够了。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Jamie
+    text: The sign is heavier than it looks, its paint worn smooth by winter hands.
+    textChinese: 招牌比看起来更沉，漆面被一个个冬天里的手磨得光滑。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Jamie
+    text: Maya photographs the empty hooks after the wood comes down.
+    textChinese: 木牌拆下以后，玛雅拍下了墙上空着的挂钩。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Jamie
+    text: Maya smooths the creased Greybridge Arts Center flyer against the wall.
+    textChinese: 玛雅把格雷布里奇艺术中心那张皱起的传单贴在墙上慢慢抚平。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Jamie
+    text: Her thumb pauses over the word INVITED. Jamie lets the silence hold the question.
+    textChinese: 她的拇指停在“受邀”两个字上。杰米没有催她回答。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []

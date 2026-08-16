@@ -1,0 +1,179 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed70aee8cc8cd4f8ca7ec0b6c7dc5db3, type: 3}
+  m_Name: RooftopDecision
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Dialogue.DialogueAsset
+  id: rooftop_decision
+  lines:
+  - speakerId:
+    presentation: 1
+    text: Jamie defended Friday before. Elias arrives expecting that answer to hold.
+    textChinese: 杰米曾经替星期五的计划说过话。伊莱亚斯来到屋顶时，仍以为那个答案不会改变。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: story_mark_ch2_a
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 3
+    choices: []
+  - speakerId:
+    presentation: 1
+    text: Jamie asked the plan to leave room for people. Tonight, both sides expect that balance again.
+    textChinese: 杰米曾要求计划给人留下改变的余地。今晚，双方都在等待杰米再次维持平衡。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: story_mark_ch2_b
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 3
+    choices: []
+  - speakerId:
+    presentation: 1
+    text: Jamie put the lives in Greybridge before the timetable. Maya has not forgotten it.
+    textChinese: 杰米曾把格雷布里奇正在发生的生活放在时间表之前。玛雅一直记得。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: story_mark_ch2_c
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 3
+    choices: []
+  - speakerId: Elias
+    text: We made one promise. It cannot mean nothing the moment keeping it gets hard.
+    textChinese: 我们许过同一个承诺。不能一到兑现它变难的时候，这个承诺就什么都不算了。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Maya
+    text: We were twelve. A promise made by children cannot own every adult we become.
+    textChinese: 那时我们才十二岁。孩子许下的承诺，不能占有我们长大后的每一种人生。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Noah
+    text: The promise brought us this far. It still does not get to answer for us.
+    textChinese: 那份承诺把我们带到了这里，但它仍然不能替我们回答。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Jamie
+    text: What should the old promise mean now?
+    textChinese: 到了现在，那份旧约定究竟还应该意味着什么？
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices:
+    - text: A promise matters because we keep it, especially when it gets hard.
+      textChinese: 正因为兑现很难，守住承诺才有意义。
+      grantedFact: story_mark_ch3_a
+      counterDeltas:
+      - id: tendency_commitment
+        amount: 12
+      - id: tendency_agency
+        amount: -4
+      - id: bond_elias
+        amount: 3
+      - id: bond_maya
+        amount: -1
+      nextLineIndex: 7
+    - text: Keep the promise to each other, not to one date or one road.
+      textChinese: 守住对彼此的承诺，而不是死守某个日期或某一条路。
+      grantedFact: story_mark_ch3_b
+      counterDeltas:
+      - id: tendency_commitment
+        amount: 3
+      - id: tendency_rootedness
+        amount: 3
+      - id: tendency_agency
+        amount: 6
+      - id: bond_elias
+        amount: 1
+      - id: bond_maya
+        amount: 1
+      - id: bond_noah
+        amount: 1
+      - id: bond_leo
+        amount: 1
+      nextLineIndex: 8
+    - text: No one owes the group a life they no longer choose.
+      textChinese: 谁都不欠这个小团体一种自己已经不再选择的人生。
+      grantedFact: story_mark_ch3_c
+      counterDeltas:
+      - id: tendency_commitment
+        amount: -8
+      - id: tendency_rootedness
+        amount: 2
+      - id: tendency_agency
+        amount: 12
+      - id: bond_elias
+        amount: -2
+      - id: bond_maya
+        amount: 3
+      - id: bond_noah
+        amount: 2
+      nextLineIndex: 9
+  - speakerId: Elias
+    text: Then say it plainly. We leave Friday, and the promise still belongs to all of us.
+    textChinese: 那就说清楚。星期五出发，这份约定依然属于我们所有人。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 10
+    choices: []
+  - speakerId: Maya
+    text: That is the first version of the promise that leaves room for us to be people.
+    textChinese: 这是那份约定第一次给我们留出了做自己的空间。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 10
+    choices: []
+  - speakerId: Noah
+    text: I can live with a promise that does not require anyone to disappear inside it.
+    textChinese: 如果一份承诺不要求任何人把自己藏起来，我愿意继续带着它生活。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: 10
+    choices: []
+  - speakerId:
+    presentation: 1
+    text: The chalk arrow has faded until it points nowhere in particular. Elias leaves the map beneath a loose brick.
+    textChinese: 粉笔箭头已经淡得几乎不再指向任何地方。伊莱亚斯把地图压在一块松动的砖下，独自离开。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact:
+    grantedFact:
+    counterDeltas: []
+    nextLineIndex: -1
+    choices: []

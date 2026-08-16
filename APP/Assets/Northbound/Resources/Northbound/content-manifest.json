@@ -1,0 +1,1182 @@
+{
+    "chapters": [
+        {
+            "id": "prologue",
+            "nextId": "chapter_1",
+            "requiredQuestIds": []
+        },
+        {
+            "id": "chapter_1",
+            "nextId": "chapter_2",
+            "requiredQuestIds": [
+                "clock_in",
+                "missing_socket",
+                "parts_future",
+                "rooftop_inventory"
+            ]
+        },
+        {
+            "id": "chapter_2",
+            "nextId": "chapter_3_day_3",
+            "requiredQuestIds": [
+                "last_sign",
+                "dead_air",
+                "one_more_table"
+            ]
+        },
+        {
+            "id": "chapter_3_day_3",
+            "nextId": "chapter_3_day_2",
+            "requiredQuestIds": []
+        },
+        {
+            "id": "chapter_3_day_2",
+            "nextId": "chapter_4",
+            "requiredQuestIds": []
+        },
+        {
+            "id": "chapter_4",
+            "nextId": "finale",
+            "requiredQuestIds": [
+                "things_we_leave",
+                "spare_key",
+                "before_morning"
+            ]
+        },
+        {
+            "id": "finale",
+            "nextId": "",
+            "requiredQuestIds": []
+        }
+    ],
+    "quests": [
+        {
+            "id": "clock_in",
+            "chapterId": "chapter_1",
+            "pairId": "",
+            "dialogueId": "clock_in_dialogue",
+            "triggerId": "clock_in_trigger",
+            "prerequisiteQuestIds": [],
+            "prerequisiteFacts": [],
+            "completionMode": "physical",
+            "minigameId": "diner_shift",
+            "completionFacts": [
+                "earned_travel_fund"
+            ],
+            "nextQuestIds": [
+                "missing_socket"
+            ]
+        },
+        {
+            "id": "missing_socket",
+            "chapterId": "chapter_1",
+            "pairId": "",
+            "dialogueId": "missing_socket_dialogue",
+            "triggerId": "missing_socket_trigger",
+            "prerequisiteQuestIds": [
+                "clock_in"
+            ],
+            "prerequisiteFacts": [],
+            "completionMode": "physical",
+            "minigameId": "",
+            "completionFacts": [
+                "battery_fitted"
+            ],
+            "nextQuestIds": [
+                "parts_future"
+            ]
+        },
+        {
+            "id": "parts_future",
+            "chapterId": "chapter_1",
+            "pairId": "",
+            "dialogueId": "parts_future_dialogue",
+            "triggerId": "parts_future_trigger",
+            "prerequisiteQuestIds": [
+                "missing_socket"
+            ],
+            "prerequisiteFacts": [],
+            "completionMode": "physical",
+            "minigameId": "",
+            "completionFacts": [
+                "parts_collected"
+            ],
+            "nextQuestIds": [
+                "rooftop_inventory"
+            ]
+        },
+        {
+            "id": "rooftop_inventory",
+            "chapterId": "chapter_1",
+            "pairId": "",
+            "dialogueId": "rooftop_inventory_dialogue",
+            "triggerId": "rooftop_inventory_trigger",
+            "prerequisiteQuestIds": [
+                "parts_future"
+            ],
+            "prerequisiteFacts": [],
+            "completionMode": "physical",
+            "minigameId": "",
+            "completionFacts": [
+                "four_days"
+            ],
+            "nextQuestIds": [
+                "last_sign"
+            ]
+        },
+        {
+            "id": "last_sign",
+            "chapterId": "chapter_2",
+            "pairId": "",
+            "dialogueId": "last_sign_dialogue",
+            "triggerId": "last_sign_trigger",
+            "prerequisiteQuestIds": [
+                "rooftop_inventory"
+            ],
+            "prerequisiteFacts": [],
+            "completionMode": "physical",
+            "minigameId": "",
+            "completionFacts": [
+                "maya_invited"
+            ],
+            "nextQuestIds": [
+                "dead_air"
+            ]
+        },
+        {
+            "id": "dead_air",
+            "chapterId": "chapter_2",
+            "pairId": "",
+            "dialogueId": "dead_air_dialogue",
+            "triggerId": "dead_air_trigger",
+            "prerequisiteQuestIds": [
+                "last_sign"
+            ],
+            "prerequisiteFacts": [],
+            "completionMode": "physical",
+            "minigameId": "wiring_game",
+            "completionFacts": [
+                "noah_recordings_heard"
+            ],
+            "nextQuestIds": [
+                "one_more_table"
+            ]
+        },
+        {
+            "id": "one_more_table",
+            "chapterId": "chapter_2",
+            "pairId": "",
+            "dialogueId": "one_more_table_dialogue",
+            "triggerId": "one_more_table_trigger",
+            "prerequisiteQuestIds": [
+                "dead_air"
+            ],
+            "prerequisiteFacts": [],
+            "completionMode": "physical",
+            "minigameId": "",
+            "completionFacts": [
+                "leo_grandmother_table"
+            ],
+            "nextQuestIds": [
+                "alternator",
+                "first_light"
+            ]
+        },
+        {
+            "id": "alternator",
+            "chapterId": "chapter_3_day_3",
+            "pairId": "alternator|first_light",
+            "dialogueId": "alternator_dialogue",
+            "triggerId": "alternator_trigger",
+            "prerequisiteQuestIds": [
+                "one_more_table"
+            ],
+            "prerequisiteFacts": [],
+            "completionMode": "physical",
+            "minigameId": "",
+            "completionFacts": [
+                "helped_elias",
+                "promise",
+                "car_progress"
+            ],
+            "nextQuestIds": [
+                "road_test",
+                "static"
+            ]
+        },
+        {
+            "id": "first_light",
+            "chapterId": "chapter_3_day_3",
+            "pairId": "alternator|first_light",
+            "dialogueId": "first_light_dialogue",
+            "triggerId": "first_light_trigger",
+            "prerequisiteQuestIds": [
+                "one_more_table"
+            ],
+            "prerequisiteFacts": [],
+            "completionMode": "physical",
+            "minigameId": "",
+            "completionFacts": [
+                "helped_maya",
+                "attended_maya_exhibition",
+                "connection"
+            ],
+            "nextQuestIds": [
+                "road_test",
+                "static"
+            ]
+        },
+        {
+            "id": "road_test",
+            "chapterId": "chapter_3_day_2",
+            "pairId": "road_test|static",
+            "dialogueId": "road_test_dialogue",
+            "triggerId": "road_test_trigger",
+            "prerequisiteQuestIds": [
+                "alternator",
+                "first_light"
+            ],
+            "prerequisiteFacts": [],
+            "completionMode": "physical",
+            "minigameId": "",
+            "completionFacts": [
+                "helped_elias",
+                "completed_road_test",
+                "promise"
+            ],
+            "nextQuestIds": [
+                "pack_trunk",
+                "last_night_open"
+            ]
+        },
+        {
+            "id": "static",
+            "chapterId": "chapter_3_day_2",
+            "pairId": "road_test|static",
+            "dialogueId": "static_dialogue",
+            "triggerId": "static_trigger",
+            "prerequisiteQuestIds": [
+                "alternator",
+                "first_light"
+            ],
+            "prerequisiteFacts": [],
+            "completionMode": "physical",
+            "minigameId": "",
+            "completionFacts": [
+                "helped_noah",
+                "connection"
+            ],
+            "nextQuestIds": [
+                "pack_trunk",
+                "last_night_open"
+            ]
+        },
+        {
+            "id": "pack_trunk",
+            "chapterId": "chapter_3_day_2",
+            "pairId": "pack_trunk|last_night_open",
+            "dialogueId": "pack_trunk_dialogue",
+            "triggerId": "pack_trunk_trigger",
+            "prerequisiteQuestIds": [
+                "road_test",
+                "static"
+            ],
+            "prerequisiteFacts": [],
+            "completionMode": "physical",
+            "minigameId": "trunk_packing",
+            "completionFacts": [
+                "packed_trunk",
+                "promise"
+            ],
+            "nextQuestIds": [
+                "things_we_leave"
+            ]
+        },
+        {
+            "id": "last_night_open",
+            "chapterId": "chapter_3_day_2",
+            "pairId": "pack_trunk|last_night_open",
+            "dialogueId": "last_night_open_dialogue",
+            "triggerId": "last_night_open_trigger",
+            "prerequisiteQuestIds": [
+                "road_test",
+                "static"
+            ],
+            "prerequisiteFacts": [],
+            "completionMode": "physical",
+            "minigameId": "diner_shift",
+            "completionFacts": [
+                "helped_leo",
+                "connection"
+            ],
+            "nextQuestIds": [
+                "things_we_leave"
+            ]
+        },
+        {
+            "id": "things_we_leave",
+            "chapterId": "chapter_4",
+            "pairId": "",
+            "dialogueId": "things_we_leave_dialogue",
+            "triggerId": "things_we_leave_trigger",
+            "prerequisiteQuestIds": [
+                "pack_trunk",
+                "last_night_open"
+            ],
+            "prerequisiteFacts": [],
+            "completionMode": "physical",
+            "minigameId": "",
+            "completionFacts": [],
+            "nextQuestIds": [
+                "spare_key"
+            ]
+        },
+        {
+            "id": "spare_key",
+            "chapterId": "chapter_4",
+            "pairId": "",
+            "dialogueId": "spare_key_dialogue",
+            "triggerId": "spare_key_trigger",
+            "prerequisiteQuestIds": [
+                "things_we_leave"
+            ],
+            "prerequisiteFacts": [],
+            "completionMode": "physical",
+            "minigameId": "",
+            "completionFacts": [
+                "two_keys"
+            ],
+            "nextQuestIds": [
+                "before_morning"
+            ]
+        },
+        {
+            "id": "before_morning",
+            "chapterId": "chapter_4",
+            "pairId": "",
+            "dialogueId": "before_morning_dialogue",
+            "triggerId": "before_morning_trigger",
+            "prerequisiteQuestIds": [
+                "spare_key"
+            ],
+            "prerequisiteFacts": [],
+            "completionMode": "physical",
+            "minigameId": "",
+            "completionFacts": [
+                "farewell_complete"
+            ],
+            "nextQuestIds": []
+        }
+    ],
+    "dialogues": [
+        {
+            "id": "prologue_opening",
+            "kind": "cinematic"
+        },
+        {
+            "id": "clock_in_dialogue",
+            "kind": "required"
+        },
+        {
+            "id": "missing_socket_dialogue",
+            "kind": "required"
+        },
+        {
+            "id": "parts_future_dialogue",
+            "kind": "required"
+        },
+        {
+            "id": "rooftop_inventory_dialogue",
+            "kind": "required"
+        },
+        {
+            "id": "last_sign_dialogue",
+            "kind": "required"
+        },
+        {
+            "id": "dead_air_dialogue",
+            "kind": "required"
+        },
+        {
+            "id": "one_more_table_dialogue",
+            "kind": "required"
+        },
+        {
+            "id": "chapter_two_rooftop",
+            "kind": "required"
+        },
+        {
+            "id": "alternator_dialogue",
+            "kind": "required"
+        },
+        {
+            "id": "first_light_dialogue",
+            "kind": "required"
+        },
+        {
+            "id": "road_test_dialogue",
+            "kind": "required"
+        },
+        {
+            "id": "static_dialogue",
+            "kind": "required"
+        },
+        {
+            "id": "pack_trunk_dialogue",
+            "kind": "required"
+        },
+        {
+            "id": "last_night_open_dialogue",
+            "kind": "required"
+        },
+        {
+            "id": "rooftop_fracture",
+            "kind": "cinematic"
+        },
+        {
+            "id": "rooftop_decision",
+            "kind": "required"
+        },
+        {
+            "id": "things_we_leave_dialogue",
+            "kind": "required"
+        },
+        {
+            "id": "spare_key_dialogue",
+            "kind": "required"
+        },
+        {
+            "id": "before_morning_dialogue",
+            "kind": "required"
+        },
+        {
+            "id": "farewell_maya",
+            "kind": "farewell"
+        },
+        {
+            "id": "farewell_noah",
+            "kind": "farewell"
+        },
+        {
+            "id": "farewell_leo",
+            "kind": "farewell"
+        },
+        {
+            "id": "optional_elias_garage",
+            "kind": "optional"
+        },
+        {
+            "id": "optional_maya_mural",
+            "kind": "optional"
+        },
+        {
+            "id": "optional_noah_radio",
+            "kind": "optional"
+        },
+        {
+            "id": "optional_leo_diner",
+            "kind": "optional"
+        },
+        {
+            "id": "missed_first_light",
+            "kind": "missed"
+        },
+        {
+            "id": "missed_alternator",
+            "kind": "missed"
+        },
+        {
+            "id": "missed_static",
+            "kind": "missed"
+        },
+        {
+            "id": "missed_road_test",
+            "kind": "missed"
+        },
+        {
+            "id": "missed_last_night_open",
+            "kind": "missed"
+        },
+        {
+            "id": "missed_pack_trunk",
+            "kind": "missed"
+        },
+        {
+            "id": "highlight_maya",
+            "kind": "cinematic"
+        },
+        {
+            "id": "highlight_noah",
+            "kind": "cinematic"
+        },
+        {
+            "id": "highlight_leo",
+            "kind": "cinematic"
+        },
+        {
+            "id": "finale_are_you_coming",
+            "kind": "cinematic"
+        },
+        {
+            "id": "ending_northbound_high",
+            "kind": "ending"
+        },
+        {
+            "id": "ending_northbound_low",
+            "kind": "ending"
+        },
+        {
+            "id": "ending_home_high",
+            "kind": "ending"
+        },
+        {
+            "id": "ending_home_low",
+            "kind": "ending"
+        },
+        {
+            "id": "ending_no_map_notebook",
+            "kind": "ending"
+        },
+        {
+            "id": "ending_no_map_map",
+            "kind": "ending"
+        },
+        {
+            "id": "ending_no_map_photo",
+            "kind": "ending"
+        },
+        {
+            "id": "ending_no_map_house_key",
+            "kind": "ending"
+        },
+        {
+            "id": "ending_pause_journey",
+            "kind": "ending"
+        },
+        {
+            "id": "npc_ruth",
+            "kind": "optional"
+        },
+        {
+            "id": "npc_market",
+            "kind": "optional"
+        },
+        {
+            "id": "npc_rooftop",
+            "kind": "optional"
+        },
+        {
+            "id": "return_to_title",
+            "kind": "ending"
+        }
+    ],
+    "triggers": [
+        {
+            "id": "clock_in_trigger",
+            "routeType": "quest",
+            "targetId": "clock_in",
+            "chapterId": "chapter_1",
+            "prerequisiteFacts": [],
+            "phase": "play"
+        },
+        {
+            "id": "missing_socket_trigger",
+            "routeType": "quest",
+            "targetId": "missing_socket",
+            "chapterId": "chapter_1",
+            "prerequisiteFacts": [],
+            "phase": "play"
+        },
+        {
+            "id": "parts_future_trigger",
+            "routeType": "quest",
+            "targetId": "parts_future",
+            "chapterId": "chapter_1",
+            "prerequisiteFacts": [],
+            "phase": "play"
+        },
+        {
+            "id": "rooftop_inventory_trigger",
+            "routeType": "quest",
+            "targetId": "rooftop_inventory",
+            "chapterId": "chapter_1",
+            "prerequisiteFacts": [],
+            "phase": "play"
+        },
+        {
+            "id": "last_sign_trigger",
+            "routeType": "quest",
+            "targetId": "last_sign",
+            "chapterId": "chapter_2",
+            "prerequisiteFacts": [],
+            "phase": "play"
+        },
+        {
+            "id": "dead_air_trigger",
+            "routeType": "quest",
+            "targetId": "dead_air",
+            "chapterId": "chapter_2",
+            "prerequisiteFacts": [],
+            "phase": "play"
+        },
+        {
+            "id": "one_more_table_trigger",
+            "routeType": "quest",
+            "targetId": "one_more_table",
+            "chapterId": "chapter_2",
+            "prerequisiteFacts": [],
+            "phase": "play"
+        },
+        {
+            "id": "alternator_trigger",
+            "routeType": "quest",
+            "targetId": "alternator",
+            "chapterId": "chapter_3_day_3",
+            "prerequisiteFacts": [],
+            "phase": "play"
+        },
+        {
+            "id": "first_light_trigger",
+            "routeType": "quest",
+            "targetId": "first_light",
+            "chapterId": "chapter_3_day_3",
+            "prerequisiteFacts": [],
+            "phase": "play"
+        },
+        {
+            "id": "road_test_trigger",
+            "routeType": "quest",
+            "targetId": "road_test",
+            "chapterId": "chapter_3_day_2",
+            "prerequisiteFacts": [],
+            "phase": "play"
+        },
+        {
+            "id": "static_trigger",
+            "routeType": "quest",
+            "targetId": "static",
+            "chapterId": "chapter_3_day_2",
+            "prerequisiteFacts": [],
+            "phase": "play"
+        },
+        {
+            "id": "pack_trunk_trigger",
+            "routeType": "quest",
+            "targetId": "pack_trunk",
+            "chapterId": "chapter_3_day_2",
+            "prerequisiteFacts": [],
+            "phase": "play"
+        },
+        {
+            "id": "last_night_open_trigger",
+            "routeType": "quest",
+            "targetId": "last_night_open",
+            "chapterId": "chapter_3_day_2",
+            "prerequisiteFacts": [],
+            "phase": "play"
+        },
+        {
+            "id": "things_we_leave_trigger",
+            "routeType": "quest",
+            "targetId": "things_we_leave",
+            "chapterId": "chapter_4",
+            "prerequisiteFacts": [],
+            "phase": "play"
+        },
+        {
+            "id": "spare_key_trigger",
+            "routeType": "quest",
+            "targetId": "spare_key",
+            "chapterId": "chapter_4",
+            "prerequisiteFacts": [],
+            "phase": "play"
+        },
+        {
+            "id": "before_morning_trigger",
+            "routeType": "quest",
+            "targetId": "before_morning",
+            "chapterId": "chapter_4",
+            "prerequisiteFacts": [],
+            "phase": "play"
+        },
+        {
+            "id": "farewell_maya_trigger",
+            "routeType": "dialogue",
+            "targetId": "farewell_maya",
+            "chapterId": "chapter_4",
+            "prerequisiteFacts": [],
+            "phase": "optional"
+        },
+        {
+            "id": "farewell_noah_trigger",
+            "routeType": "dialogue",
+            "targetId": "farewell_noah",
+            "chapterId": "chapter_4",
+            "prerequisiteFacts": [],
+            "phase": "optional"
+        },
+        {
+            "id": "farewell_leo_trigger",
+            "routeType": "dialogue",
+            "targetId": "farewell_leo",
+            "chapterId": "chapter_4",
+            "prerequisiteFacts": [],
+            "phase": "optional"
+        },
+        {
+            "id": "optional_elias_garage_trigger",
+            "routeType": "dialogue",
+            "targetId": "optional_elias_garage",
+            "chapterId": "chapter_2",
+            "prerequisiteFacts": [],
+            "phase": "optional"
+        },
+        {
+            "id": "optional_maya_mural_trigger",
+            "routeType": "dialogue",
+            "targetId": "optional_maya_mural",
+            "chapterId": "chapter_2",
+            "prerequisiteFacts": [],
+            "phase": "optional"
+        },
+        {
+            "id": "optional_noah_radio_trigger",
+            "routeType": "dialogue",
+            "targetId": "optional_noah_radio",
+            "chapterId": "chapter_2",
+            "prerequisiteFacts": [],
+            "phase": "optional"
+        },
+        {
+            "id": "optional_leo_diner_trigger",
+            "routeType": "dialogue",
+            "targetId": "optional_leo_diner",
+            "chapterId": "chapter_2",
+            "prerequisiteFacts": [],
+            "phase": "optional"
+        },
+        {
+            "id": "missed_first_light_trigger",
+            "routeType": "dialogue",
+            "targetId": "missed_first_light",
+            "chapterId": "chapter_3_day_2",
+            "prerequisiteFacts": [
+                "missed_first_light"
+            ],
+            "phase": "optional"
+        },
+        {
+            "id": "missed_alternator_trigger",
+            "routeType": "dialogue",
+            "targetId": "missed_alternator",
+            "chapterId": "chapter_3_day_2",
+            "prerequisiteFacts": [
+                "missed_alternator"
+            ],
+            "phase": "optional"
+        },
+        {
+            "id": "missed_static_trigger",
+            "routeType": "dialogue",
+            "targetId": "missed_static",
+            "chapterId": "chapter_3_day_2",
+            "prerequisiteFacts": [
+                "missed_static"
+            ],
+            "phase": "optional"
+        },
+        {
+            "id": "missed_road_test_trigger",
+            "routeType": "dialogue",
+            "targetId": "missed_road_test",
+            "chapterId": "chapter_3_day_2",
+            "prerequisiteFacts": [
+                "missed_road_test"
+            ],
+            "phase": "optional"
+        },
+        {
+            "id": "missed_last_night_open_trigger",
+            "routeType": "dialogue",
+            "targetId": "missed_last_night_open",
+            "chapterId": "chapter_3_day_2",
+            "prerequisiteFacts": [
+                "missed_last_night_open"
+            ],
+            "phase": "optional"
+        },
+        {
+            "id": "missed_pack_trunk_trigger",
+            "routeType": "dialogue",
+            "targetId": "missed_pack_trunk",
+            "chapterId": "chapter_3_day_2",
+            "prerequisiteFacts": [
+                "missed_pack_trunk"
+            ],
+            "phase": "optional"
+        },
+        {
+            "id": "opening_cinematic_trigger",
+            "routeType": "cinematic",
+            "targetId": "opening",
+            "chapterId": "prologue",
+            "prerequisiteFacts": [],
+            "phase": "automatic"
+        },
+        {
+            "id": "maya_cinematic_trigger",
+            "routeType": "cinematic",
+            "targetId": "maya",
+            "chapterId": "chapter_3_day_3",
+            "prerequisiteFacts": [],
+            "phase": "automatic"
+        },
+        {
+            "id": "noah_cinematic_trigger",
+            "routeType": "cinematic",
+            "targetId": "noah",
+            "chapterId": "chapter_3_day_2",
+            "prerequisiteFacts": [],
+            "phase": "automatic"
+        },
+        {
+            "id": "leo_cinematic_trigger",
+            "routeType": "cinematic",
+            "targetId": "leo",
+            "chapterId": "chapter_3_day_2",
+            "prerequisiteFacts": [],
+            "phase": "automatic"
+        },
+        {
+            "id": "rooftop_cinematic_trigger",
+            "routeType": "cinematic",
+            "targetId": "rooftop",
+            "chapterId": "chapter_3_day_2",
+            "prerequisiteFacts": [],
+            "phase": "automatic"
+        },
+        {
+            "id": "finale_cinematic_trigger",
+            "routeType": "cinematic",
+            "targetId": "finale",
+            "chapterId": "finale",
+            "prerequisiteFacts": [],
+            "phase": "automatic"
+        }
+    ],
+    "cinematics": [
+        {
+            "id": "opening",
+            "completionFact": "cinematic_opening_complete",
+            "dialogueId": "prologue_opening",
+            "subtitleCues": [
+                "00:00 See those lights?",
+                "00:05 That's a water tower.",
+                "00:10 Tonight, it's north.",
+                "00:15 What's there?",
+                "00:20 Whatever isn't here.",
+                "00:25 Do they have better fries?",
+                "00:30 Statistically, probably.",
+                "00:35 Then it's settled. We save up, fix a car, and we all go.",
+                "00:40 All of us?",
+                "00:45 All of us."
+            ]
+        },
+        {
+            "id": "maya",
+            "completionFact": "cinematic_maya_complete",
+            "dialogueId": "highlight_maya",
+            "subtitleCues": [
+                "00:00 The room is nearly empty, which is somehow worse and better.",
+                "00:05 You looked at it anyway. That counts.",
+                "00:10 Maya stands beneath the gallery lights and lets the silence belong to the paintings.",
+                "00:15 A child points at the shuttered market on one canvas.",
+                "00:20 Maya hands Jamie the studio key without claiming she will use it.",
+                "00:25 The coordinator leaves the room so the paintings can be looked at without an explanation.",
+                "00:30 Maya notices the old map in Jamie's bag and smiles without forgiving it.",
+                "00:35 Outside, the market sign becomes a dark blue shape in the window.",
+                "00:40 She says the studio can be a place to start, not a place to hide."
+            ]
+        },
+        {
+            "id": "noah",
+            "completionFact": "cinematic_noah_complete",
+            "dialogueId": "highlight_noah",
+            "subtitleCues": [
+                "00:00 The radio tower is not north. It is only up the hill.",
+                "00:05 For today, that is far enough.",
+                "00:10 Noah puts on the headphones before he enters the booth.",
+                "00:15 The first thing on the tape is rain on the diner awning.",
+                "00:20 He speaks his own name into the microphone and does not apologize.",
+                "00:25 His father hears the signal through the shop radio but does not interrupt it.",
+                "00:30 Noah lowers the volume until the station sounds like a room, not an escape hatch.",
+                "00:35 Jamie hears the garage wrench click between the train and the wind.",
+                "00:40 The recording ends with Noah breathing into the microphone on purpose."
+            ]
+        },
+        {
+            "id": "leo",
+            "completionFact": "cinematic_leo_complete",
+            "dialogueId": "highlight_leo",
+            "subtitleCues": [
+                "00:00 Last customer. Last fries. Last bell. I don't know what comes after last.",
+                "00:05 Maybe tomorrow gets a turn.",
+                "00:10 Leo keeps one diner light on after the chairs are stacked.",
+                "00:15 He rubs the CLOSED sign clean with his sleeve.",
+                "00:20 The blank reverse side makes him laugh without hiding the sadness.",
+                "00:25 Ruth leaves him the keys long enough to lock the door himself.",
+                "00:30 Leo sets one mug aside for his grandmother and does not make a joke about it.",
+                "00:35 The fryer goes quiet, making the room feel larger.",
+                "00:40 He turns the sign over slowly, as if the word needs time to land."
+            ]
+        },
+        {
+            "id": "rooftop",
+            "completionFact": "cinematic_rooftop_complete",
+            "dialogueId": "rooftop_fracture",
+            "subtitleCues": [
+                "00:00 We made one promise.",
+                "00:05 We were twelve.",
+                "00:10 We were honest.",
+                "00:15 We were scared.",
+                "00:20 And now you're all pretending fear is growth.",
+                "00:25 Maybe growth is admitting the plan doesn't fit.",
+                "00:30 It fit when I was fixing everything.",
+                "00:35 That's the problem, Eli. You started fixing us too.",
+                "00:40 The chalk arrow has faded until it points nowhere in particular."
+            ]
+        },
+        {
+            "id": "finale",
+            "completionFact": "cinematic_finale_complete",
+            "dialogueId": "finale_are_you_coming",
+            "subtitleCues": [
+                "00:00 Are you coming?",
+                "00:05 The station wagon idles while the five friends keep separate distances.",
+                "00:10 The second key catches the first edge of dawn.",
+                "00:15 No marker points toward the road nobody named.",
+                "00:20 Maya waits near the arts center with paint on her sleeve.",
+                "00:25 Noah stands between the shop and the radio station, listening to both.",
+                "00:30 Leo leans against the dark diner door with the sign turned blank.",
+                "00:35 Elias asks once and lets the engine fill the space afterward."
+            ]
+        }
+    ],
+    "facts": [
+        {
+            "id": "helped_elias"
+        },
+        {
+            "id": "helped_maya"
+        },
+        {
+            "id": "helped_noah"
+        },
+        {
+            "id": "helped_leo"
+        },
+        {
+            "id": "attended_maya_exhibition"
+        },
+        {
+            "id": "completed_road_test"
+        },
+        {
+            "id": "packed_trunk"
+        },
+        {
+            "id": "packed_noah_recorder"
+        },
+        {
+            "id": "carried_photo"
+        },
+        {
+            "id": "carried_notebook"
+        },
+        {
+            "id": "carried_house_key"
+        },
+        {
+            "id": "carried_old_map"
+        },
+        {
+            "id": "missed_alternator"
+        },
+        {
+            "id": "missed_first_light"
+        },
+        {
+            "id": "missed_road_test"
+        },
+        {
+            "id": "missed_static"
+        },
+        {
+            "id": "missed_pack_trunk"
+        },
+        {
+            "id": "missed_last_night_open"
+        },
+        {
+            "id": "cinematic_opening_complete"
+        },
+        {
+            "id": "cinematic_maya_complete"
+        },
+        {
+            "id": "cinematic_noah_complete"
+        },
+        {
+            "id": "cinematic_leo_complete"
+        },
+        {
+            "id": "cinematic_rooftop_complete"
+        },
+        {
+            "id": "cinematic_finale_complete"
+        },
+        {
+            "id": "earned_travel_fund"
+        },
+        {
+            "id": "battery_fitted"
+        },
+        {
+            "id": "parts_collected"
+        },
+        {
+            "id": "four_days"
+        },
+        {
+            "id": "maya_invited"
+        },
+        {
+            "id": "noah_recordings_heard"
+        },
+        {
+            "id": "leo_grandmother_table"
+        },
+        {
+            "id": "promise"
+        },
+        {
+            "id": "car_progress"
+        },
+        {
+            "id": "connection"
+        },
+        {
+            "id": "two_keys"
+        },
+        {
+            "id": "farewell_complete"
+        },
+        {
+            "id": "choice_ch1_clock_northbound"
+        },
+        {
+            "id": "choice_ch1_clock_balance"
+        },
+        {
+            "id": "choice_ch1_clock_home"
+        },
+        {
+            "id": "choice_ch1_rooftop_northbound"
+        },
+        {
+            "id": "choice_ch1_rooftop_balance"
+        },
+        {
+            "id": "choice_ch1_rooftop_home"
+        },
+        {
+            "id": "story_mark_ch1_a"
+        },
+        {
+            "id": "story_mark_ch1_b"
+        },
+        {
+            "id": "story_mark_ch1_c"
+        },
+        {
+            "id": "story_mark_ch2_a"
+        },
+        {
+            "id": "story_mark_ch2_b"
+        },
+        {
+            "id": "story_mark_ch2_c"
+        },
+        {
+            "id": "story_mark_ch3_a"
+        },
+        {
+            "id": "story_mark_ch3_b"
+        },
+        {
+            "id": "story_mark_ch3_c"
+        },
+        {
+            "id": "story_mark_ch4_a"
+        },
+        {
+            "id": "story_mark_ch4_b"
+        },
+        {
+            "id": "story_mark_ch4_c"
+        }
+    ],
+    "endings": [
+        {
+            "id": "northbound",
+            "dialogueIds": [
+                "ending_northbound_high",
+                "ending_northbound_low"
+            ]
+        },
+        {
+            "id": "home_chosen",
+            "dialogueIds": [
+                "ending_home_high",
+                "ending_home_low"
+            ]
+        },
+        {
+            "id": "no_map",
+            "dialogueIds": [
+                "ending_no_map_photo",
+                "ending_no_map_notebook",
+                "ending_no_map_house_key",
+                "ending_no_map_map"
+            ]
+        },
+        {
+            "id": "pause_journey",
+            "dialogueIds": [
+                "ending_pause_journey"
+            ]
+        }
+    ],
+    "characters": [
+        {
+            "id": "jamie",
+            "prefabId": "jamie"
+        },
+        {
+            "id": "elias",
+            "prefabId": "elias"
+        },
+        {
+            "id": "maya",
+            "prefabId": "maya"
+        },
+        {
+            "id": "noah",
+            "prefabId": "noah"
+        },
+        {
+            "id": "leo",
+            "prefabId": "leo"
+        }
+    ]
+}

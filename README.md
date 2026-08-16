@@ -1,84 +1,47 @@
-# 向北 Northbound
+# Northbound / 向北
 
-一款基于 Phaser 3 的俯视角剧情探索游戏。你将扮演杰米（Jamie），与 Elias、Maya、Noah、Leo 穿梭于格雷布里奇的老街、修理厂与屋顶，在「一起北上」的约定和每个人真实的人生选择之间寻找答案。
+Northbound is a bilingual narrative game about five friends in Greybridge deciding whether "going north" is still a shared promise or a path each person must redefine.
 
-## 在线游玩
+Northbound 是一款中英双语叙事游戏。五位 Greybridge 的旧友必须重新理解“向北”的约定：一起离开、选择留下、独自出发，或暂缓启程。
 
-无需下载安装，直接访问：
+## Projects / 项目目录
 
-**[dried-hollow-decent-gospel.trycloudflare.com](https://dried-hollow-decent-gospel.trycloudflare.com/)**
-
-## 最新版本
-
-- 完整中英双语，可在标题界面切换语言
-- 序章、四个主章节与终章，共六段连续剧情
-- 对话选择会记录跨章 A / B / C 印记，并改变人物羁绊、后续台词和支线
-- 四种主要结局，并根据累计选择呈现不同人物、道具与场景细节
-- 浏览器本地自动存档，可从标题界面继续游戏
-- 加入「数北方的灯」小游戏、可调查场景物件与任务链
-- 支持 PWA，可安装到桌面并缓存核心资源
-
-## 故事简介
-
-北方曾象征希望与崭新的人生。杰米和四位朋友早早立下约定，要一起离开格雷布里奇。但随着启程之日临近，故土、家庭、热爱和彼此之间的承诺开始拉扯每个人。坚持原计划、选择留下、独自出发，还是暂缓前行，都将由你一路留下的选择决定。
-
-## 操作
-
-| 操作 | 按键 |
+| Folder / 目录 | Description / 说明 |
 | --- | --- |
-| 移动 | `W` `A` `S` `D` 或方向键 |
-| 奔跑 | 长按 `Shift` |
-| 交互 | 靠近目标后按 `E` |
-| 推进对话 | `空格`、`Enter` 或鼠标点击 |
-| 选择选项 | `W` / `S`、上下方向键或鼠标 |
-| 返回标题 | `Esc`（自动存档保留） |
+| [`website/`](website/) | Phaser 3 browser edition with PWA support. / 基于 Phaser 3、支持 PWA 的网页版本。 |
+| [`APP/`](APP/) | Full Unity 6 desktop game source project. / 完整的 Unity 6 桌面游戏源码工程。 |
 
-## 章节
+Each project has its own bilingual README with setup, controls, structure, and build instructions.
 
-| 章节 | 标题 | 核心冲突 |
-| --- | --- | --- |
-| 序章 | 北方的召唤 | 写下愿望，认识所有伙伴 |
-| 第一章 | 既定计划 | 攒路费时出现第一道裂痕 |
-| 第二章 | 裂痕显现 | 朋友们的人生开始分岔 |
-| 第三章 | 两难抉择 | 在互相冲突的任务之间取舍 |
-| 第四章 | 北上成为枷锁 | 整理回忆，面对最终选择 |
-| 终章 | 你来吗？ | 旧车已经修好，你是否出发 |
+每个项目目录均包含独立的中英文 README，说明运行方式、操作、目录结构与构建流程。
 
-## 本地运行
+## Quick Start / 快速开始
 
-需要 Node.js 20 或更高版本。
+### Website / 网页版
 
 ```bash
-npm install
-npm run dev
+cd website
+pnpm install
+pnpm dev
 ```
 
-生产构建与本地预览：
+### APP / Unity 桌面版
+
+Install Git LFS before cloning, then open `APP/` with Unity `6000.3.22f1`.
+
+克隆前请先安装 Git LFS，然后使用 Unity `6000.3.22f1` 打开 `APP/`。
 
 ```bash
-npm run build
-npm run preview
+git lfs install
+git clone https://github.com/denniskong666/Northbound.git
 ```
 
-## 技术栈
+Large cinematic files are stored with Git LFS. Generated Unity folders and compiled `.app` builds are intentionally excluded; the complete rebuildable source and media assets are included.
 
-- Phaser 3.80
-- TypeScript 5
-- Vite 5
-- Cloudflare Tunnel
-- Service Worker + Web App Manifest
+大型剧情视频由 Git LFS 管理。Unity 缓存目录和编译后的 `.app` 不纳入仓库；仓库包含可完整重建的源码与媒体资源。
 
-## 项目结构
+## License / 许可
 
-```text
-src/
-|-- config/       # 游戏配置
-|-- data/         # 双语对话与 NPC 定义
-|-- scenes/       # 标题、探索场景与终章
-|-- state/        # 章节、选择、存档与结局状态
-|-- systems/      # 对话、任务、选择、国际化与场景绘制
-`-- main.ts       # 游戏入口
+No open-source license is currently granted. All source code, story content, artwork, audio, and video remain under the project owner's copyright unless stated otherwise.
 
-public/           # PWA 图标、清单与 Service Worker
-dist/             # 当前生产构建
-```
+本项目目前未授予开源许可。除非另有说明，源码、剧情、美术、音频与视频的版权均归项目所有者所有。

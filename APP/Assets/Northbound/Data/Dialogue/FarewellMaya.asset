@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed70aee8cc8cd4f8ca7ec0b6c7dc5db3, type: 3}
+  m_Name: FarewellMaya
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Dialogue.DialogueAsset
+  id: farewell_maya
+  lines:
+  - speakerId: Maya
+    text: If you go, don't go because he remembers an older version of you.
+    textChinese: 如果你要走，别只是因为他还记得那个更早的你。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Maya
+    text: The mural can change without pretending the old arrow was never there.
+    textChinese: 壁画可以改变，不必假装那支旧箭头从来没有存在过。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Jamie
+    presentation: 1
+    text: How should Jamie answer Maya before morning?
+    textChinese: 天亮以前，杰米该怎么回答玛雅？
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices:
+    - text: If I leave, I'll come back to see what the mural becomes.
+      textChinese: 如果我离开，我也会回来看看这幅壁画最后变成什么。
+      grantedFact: farewell_maya_committed
+      nextLineIndex: 3
+    - text: Do you want me to stay, or just choose for myself?
+      textChinese: 你希望我留下，还是只希望我真正替自己选择？
+      grantedFact: farewell_maya_curious
+      nextLineIndex: 4
+    - text: I still don't know which road is mine.
+      textChinese: 我仍然不知道哪一条路才属于我。
+      grantedFact: farewell_maya_uncertain
+      nextLineIndex: 5
+    - text: Take the brush and add one quiet stroke.
+      textChinese: 接过画笔，安静地添上一笔。
+      grantedFact: farewell_maya_silent
+      nextLineIndex: 6
+  - speakerId: Maya
+    text: Then bring paint, not a speech.
+    textChinese: 那就带颜料来，别带一篇演讲。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Maya
+    text: I do, but I am tired of being brave for an audience.
+    textChinese: 我想。但我已经厌倦了为了观众装得勇敢。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Maya
+    text: Uncertainty has better colors than certainty.
+    textChinese: 不确定，往往比确定拥有更多颜色。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Maya
+    text: I can work beside quiet. I cannot work beside pretending.
+    textChinese: 我可以和沉默并肩工作，但不能和伪装一起。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []

@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed70aee8cc8cd4f8ca7ec0b6c7dc5db3, type: 3}
+  m_Name: FarewellNoah
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Dialogue.DialogueAsset
+  id: farewell_noah
+  lines:
+  - speakerId: Noah
+    text: I kept waiting to feel certain. I don't think certainty comes first.
+    textChinese: 我一直等着自己变得确定。现在我觉得，确定从来不会先到。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Noah
+    text: The station has one spare set of headphones. That feels like a fact, at
+      least.
+    textChinese: 电台还有一副备用耳机。至少，这件事是确定的。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Jamie
+    presentation: 1
+    text: How should Jamie answer Noah before morning?
+    textChinese: 天亮以前，杰米该怎么回答诺亚？
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices:
+    - text: I'll listen when your first broadcast goes live.
+      textChinese: 你的第一次广播开始时，我一定会听。
+      grantedFact: farewell_noah_committed
+      nextLineIndex: 3
+    - text: Do you want the station more than the road north?
+      textChinese: 比起北上的路，你是不是更想要那间电台？
+      grantedFact: farewell_noah_curious
+      nextLineIndex: 4
+    - text: I don't know where I'm going, but I want to hear your answer.
+      textChinese: 我不知道自己会去哪里，但我想听见你的答案。
+      grantedFact: farewell_noah_uncertain
+      nextLineIndex: 5
+    - text: Put on the spare headphones beside him.
+      textChinese: 在他身边戴上那副备用耳机。
+      grantedFact: farewell_noah_silent
+      nextLineIndex: 6
+  - speakerId: Noah
+    text: Stay for the next recording; the train comes through at six.
+    textChinese: 留下来录下一段吧，火车六点会经过这里。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Noah
+    text: I do, and that is why the answer scares me.
+    textChinese: 我想。正因为想，所以这个答案才让我害怕。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Noah
+    text: I am trying to let an unfinished answer exist.
+    textChinese: 我正在学着接受一个还没写完的答案。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []
+  - speakerId: Noah
+    text: I will leave a space on the tape for what you did not say.
+    textChinese: 我会在磁带上留一段空白，放你没有说出口的话。
+    portrait: {fileID: 0}
+    reactionClip: {fileID: 0}
+    requiredFact: 
+    grantedFact: 
+    nextLineIndex: -1
+    choices: []

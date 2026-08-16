@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fb66d38385784536bd36e40f6a36a3d, type: 3}
+  m_Name: CinematicCatalog
+  m_EditorClassIdentifier: Northbound.Runtime::Northbound.Cinematics.CinematicCatalog
+  all:
+  - {fileID: 11400000, guid: 80dbf137927a40d99cfcb414e9851c6e, type: 2}
+  - {fileID: 11400000, guid: 66a11cb58919412d805da08399ef8e63, type: 2}
+  - {fileID: 11400000, guid: 154b9d2cd10a4c1f8d463c2a2cda4701, type: 2}
+  - {fileID: 11400000, guid: 1dfd11e097074378b36b115d54852c66, type: 2}
+  - {fileID: 11400000, guid: 4c463b289f454e39860b0f9e26723d19, type: 2}
+  - {fileID: 11400000, guid: 5134198c09294903a4dd40f6fd36ce67, type: 2}
