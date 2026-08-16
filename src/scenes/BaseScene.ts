@@ -12,6 +12,7 @@ import { TaskSystem } from '../systems/TaskSystem';
 import { NpcPlacement, NpcProfile, getNpcProfile, NpcId } from '../data/NpcDefs';
 import { DIALOGUES, DIALOGUES_DAILY, CH0_ELIAS_DIALOGUE, CH0_MAYA_DIALOGUE, CH0_NOAH_DIALOGUE, CH0_LEO_DIALOGUE } from '../data/Dialogues';
 import { SceneArt } from '../systems/SceneArt';
+import { t, L, getLang } from '../systems/I18n';
 
 // POI 类型：决定标记点颜色（物品/任务/门/信息）
 export type PoiType = 'item' | 'task' | 'door' | 'info';
@@ -132,6 +133,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.nearby = null;
     this.currentDir = 'down';
     this.inputLocked = false;
+    this.currentTaskId = null;  // 重置任务ID缓存，确保新场景立即刷新任务文本
     this.zoomOverlay = undefined;  // 重置放大查看状态，避免场景重启后残留引用阻断输入
     this._zoomCloseCallback = undefined;
     // 重置数北方灯火小游戏
@@ -164,6 +166,8 @@ export abstract class BaseScene extends Phaser.Scene {
     this.applyChapterContent(GameState.inst.chapter);
     this.applyChapterTint(GameState.inst.chapter);
     this.updateChapterLabel();
+    // 场景启动后立即刷新任务提示（不等第一帧 update，避免场景切换后短暂不可见）
+    this.updateTaskUI();
 
     this.cameras.main.fadeIn(500, 0, 0, 0);
   }
@@ -281,7 +285,10 @@ export abstract class BaseScene extends Phaser.Scene {
   // 刷新章节标识（只显示"第X章"序号，不显示副标题）
   protected updateChapterLabel(): void {
     const full = chapterMeta(GameState.inst.chapter).title; // 形如 "第一章 · 既定计划"
-    this.chapterText.setText(full.split(' · ')[0]);
+    const expected = full.split(' · ')[0];
+    if (this.chapterText.text !== expected) {
+      this.chapterText.setText(expected);
+    }
   }
 
   // 屏幕暗角：径向渐变叠加，增强氛围感
@@ -328,17 +335,26 @@ export abstract class BaseScene extends Phaser.Scene {
     }
   }
 
-  // 刷新任务提示（仅在任务变化时重设文本）
+  // 刷新任务提示：任务存在期间强制常驻显示（完成前不消失）
   protected updateTaskUI(): void {
-    const t = TaskSystem.inst.currentTask(GameState.inst.chapter);
-    const id = t?.id ?? null;
+    const task = TaskSystem.inst.currentTask(GameState.inst.chapter);
+    const id = task?.id ?? null;
     if (id !== this.currentTaskId) {
       this.currentTaskId = id;
-      if (t) {
-        this.taskText.setText(`【任务】${t.title}\n${t.goal}`).setVisible(true);
-      } else {
-        this.taskText.setVisible(false);
+      if (task) {
+        this.taskText.setText(`${t('task_prefix')}${task.title}\n${task.goal}`);
       }
+    }
+    // 强制：只要有活跃任务就常驻显示；无活跃任务才隐藏
+    if (task) {
+      // 语言变化后，即使 taskId 相同也要刷新文字（避免切换语言后文本仍为旧语言）
+      const expectedText = `${t('task_prefix')}${task.title}\n${task.goal}`;
+      if (this.taskText.text !== expectedText) {
+        this.taskText.setText(expectedText);
+      }
+      this.taskText.setVisible(true);
+    } else {
+      this.taskText.setVisible(false);
     }
   }
 
@@ -466,15 +482,15 @@ export abstract class BaseScene extends Phaser.Scene {
       if (!m1) return null;
 
       if (npcId === 'maya') {
-        speaker = '玛雅';
-        if (m1 === 'A1') text = 'Elias 前段时间和我说，你一门心思只想凑路费去北边，完全不在意老街的一切。';
-        else if (m1 === 'C1') text = 'Leo 前段时间来找我聊天，说你和他想法一样，都舍不得这座城市。我本来还以为所有人都只想逃离。';
-        else text = 'Elias 和 Leo 对你的评价完全不一样，说你两边都能理解，不会偏执一方。';
+        speaker = t('npc_maya');
+        if (m1 === 'A1') text = L('Elias 前段时间和我说，你一门心思只想凑路费去北边，完全不在意老街的一切。', 'Elias told me recently that you only care about saving fare for the North and have no regard for the old street at all.');
+        else if (m1 === 'C1') text = L('Leo 前段时间来找我聊天，说你和他想法一样，都舍不得这座城市。我本来还以为所有人都只想逃离。', 'Leo came to chat with me recently, saying you and he feel the same — reluctant to leave this city. I had thought everyone just wanted to escape.');
+        else text = L('Elias 和 Leo 对你的评价完全不一样，说你两边都能理解，不会偏执一方。', 'Elias and Leo describe you completely differently, saying you can understand both sides and won\u2019t favor either.');
       } else if (npcId === 'noah') {
-        speaker = '诺亚';
-        if (m1 === 'A1') text = '我本来也想靠北上躲开家里安排，但听完你们的想法，我有点犹豫该不该放弃手工爱好。';
-        else if (m1 === 'C1') text = '如果这座城市值得留下，或许我不用非要靠远走来逃避家人。';
-        else text = '那正好，我一边想逃离家庭，一边又舍不得刚找到的手工乐趣。';
+        speaker = t('npc_noah');
+        if (m1 === 'A1') text = L('我本来也想靠北上躲开家里安排，但听完你们的想法，我有点犹豫该不该放弃手工爱好。', 'I also wanted to head North to dodge my family\u2019s plans, but hearing your thoughts, I\u2019m hesitating whether to give up my craft.');
+        else if (m1 === 'C1') text = L('如果这座城市值得留下，或许我不用非要靠远走来逃避家人。', 'If this city is worth staying for, maybe I don\u2019t have to flee far to escape my family.');
+        else text = L('那正好，我一边想逃离家庭，一边又舍不得刚找到的手工乐趣。', 'That works out — part of me wants to escape my family, yet I can\u2019t bear to leave this craft I just found.');
       } else return null;
     }
     // 第三章：根据 ch1+ch2 组合印记 → 剧本原文三分支
@@ -487,15 +503,15 @@ export abstract class BaseScene extends Phaser.Scene {
       const bothC = m1 === 'C1' && m2 === 'C2';
 
       if (npcId === 'elias') {
-        speaker = '伊莱亚斯';
-        if (bothA) text = '之前听 Leo、Maya 说，从攒路费到收集物资，你一直都以我们共同的北上约定为先。办通行材料我帮你加急。';
-        else if (bothC) text = '我听说你一直认同 Leo，还支持 Maya 留下来画画，看来你早就不把我们年少的约定放在心上了。';
-        else text = '我知道你两边都顾及，不会完全偏袒谁，但通行手续不能拖。';
+        speaker = t('npc_elias');
+        if (bothA) text = L('之前听 Leo、Maya 说，从攒路费到收集物资，你一直都以我们共同的北上约定为先。办通行材料我帮你加急。', 'Leo and Maya mentioned that from saving fare to gathering supplies, you always put our shared Northbound pact first. I\u2019ll expedite your travel documents.');
+        else if (bothC) text = L('我听说你一直认同 Leo，还支持 Maya 留下来画画，看来你早就不把我们年少的约定放在心上了。', 'I hear you\u2019ve sided with Leo all along and backed Maya staying to paint — seems you stopped caring about our childhood pact long ago.');
+        else text = L('我知道你两边都顾及，不会完全偏袒谁，但通行手续不能拖。', 'I know you\u2019ve been mindful of both sides and won\u2019t fully favor anyone, but the travel paperwork can\u2019t wait.');
       } else if (npcId === 'maya') {
-        speaker = '玛雅';
-        if (bothA) text = '我知道你的重心一直在远行，我的画展你大概率没时间来看，我不勉强你。';
-        else if (bothC) text = '我很早就想和你聊聊，难得有人能理解我不想盲目离开的想法。首展我特别希望你到场。';
-        else text = '如果你愿意抽空过来，我可以把开展时间延后一点。';
+        speaker = t('npc_maya');
+        if (bothA) text = L('我知道你的重心一直在远行，我的画展你大概率没时间来看，我不勉强你。', 'I know your heart has been on the journey — you probably won\u2019t have time to see my show. I won\u2019t insist.');
+        else if (bothC) text = L('我很早就想和你聊聊，难得有人能理解我不想盲目离开的想法。首展我特别希望你到场。', 'I\u2019ve wanted to talk to you for a while — it\u2019s rare to find someone who understands why I don\u2019t want to leave blindly. I really hope you\u2019ll be at the opening.');
+        else text = L('如果你愿意抽空过来，我可以把开展时间延后一点。', 'If you can spare the time to come, I can push the opening back a little.');
       } else return null;
     }
     // 第四章：根据 ch1+ch2+ch3 组合印记 → 剧本原文三分支
@@ -509,15 +525,15 @@ export abstract class BaseScene extends Phaser.Scene {
       const fullC = m1 === 'C1' && m2 === 'C2' && m3 === 'C3';
 
       if (npcId === 'noah') {
-        speaker = '诺亚';
-        if (fullA) text = 'Maya 和我说，办通行材料的时候你毫不犹豫选择优先北上手续，放弃了她的画展。你从头到尾都只想离开这座城市。';
-        else if (fullC) text = 'Maya 告诉我，为了陪她看画展，你推迟了出城手续。我现在也不想为了逃避家人盲目北上。';
-        else text = '我听 Maya、Elias 说，一路上你谁都没有刻意辜负，一直在平衡远行和留在本地两种生活。';
+        speaker = t('npc_noah');
+        if (fullA) text = L('Maya 和我说，办通行材料的时候你毫不犹豫选择优先北上手续，放弃了她的画展。你从头到尾都只想离开这座城市。', 'Maya told me that when handling the travel documents, you didn\u2019t hesitate to prioritize the Northbound paperwork and skipped her show. You\u2019ve wanted to leave this city from start to finish.');
+        else if (fullC) text = L('Maya 告诉我，为了陪她看画展，你推迟了出城手续。我现在也不想为了逃避家人盲目北上。', 'Maya told me you delayed the departure paperwork so you could attend her show. Now I also don\u2019t want to head North blindly just to escape my family.');
+        else text = L('我听 Maya、Elias 说，一路上你谁都没有刻意辜负，一直在平衡远行和留在本地两种生活。', 'Maya and Elias said that along the way you never let anyone down on purpose, always balancing the journey and staying put.');
       } else if (npcId === 'leo') {
-        speaker = '利奥';
-        if (fullA) text = '当初我和你聊老街回忆的时候，你完全不在意，现在看来我们本来就不是一路人。';
-        else if (fullC) text = '第一章我们在屋顶聊家乡的时候，我就知道你和我一样，舍不得这里的一切。';
-        else text = '不管是走是留，至少你从来没有强迫任何人遵从某一种选择。';
+        speaker = t('npc_leo');
+        if (fullA) text = L('当初我和你聊老街回忆的时候，你完全不在意，现在看来我们本来就不是一路人。', 'When I talked to you about old street memories back then, you didn\u2019t care at all — looks like we were never on the same path.');
+        else if (fullC) text = L('第一章我们在屋顶聊家乡的时候，我就知道你和我一样，舍不得这里的一切。', 'Back in Chapter One, when we talked about home on the rooftop, I knew you were like me — reluctant to leave all of this behind.');
+        else text = L('不管是走是留，至少你从来没有强迫任何人遵从某一种选择。', 'Whether to leave or stay, at least you never forced anyone to follow a single choice.');
       } else return null;
     } else {
       return null;
@@ -545,35 +561,35 @@ export abstract class BaseScene extends Phaser.Scene {
     const base = DIALOGUES_DAILY[npcId];
     const lineMap: Record<string, Partial<Record<ChapterId, string>>> = {
       elias: {
-        ch0: '路线我反复查过了，没错。北方就是我们的方向！',
-        ch1: '零件的事不急，先把手头的活干完。北边不会跑掉的。',
-        ch2: '旅行车又出了点小问题，不过修修就好。你那边进展如何？',
-        ch3: '通行材料的事我听说了，先办好这个，画展的事 Maya 能理解的。',
-        ch4: '这是最后一次整理物资了。你准备好了吗？',
+        ch0: L('路线我反复查过了，没错。北方就是我们的方向！', 'I\u2019ve checked the route over and over, it\u2019s right. The North is our direction!'),
+        ch1: L('零件的事不急，先把手头的活干完。北边不会跑掉的。', 'No rush on the parts, let\u2019s finish what\u2019s at hand first. The North isn\u2019t going anywhere.'),
+        ch2: L('旅行车又出了点小问题，不过修修就好。你那边进展如何？', 'The camper had a small issue again, but it\u2019ll be fine after a fix. How\u2019s your end coming along?'),
+        ch3: L('通行材料的事我听说了，先办好这个，画展的事 Maya 能理解的。', 'I heard about the travel documents — get that sorted first, Maya will understand about the show.'),
+        ch4: L('这是最后一次整理物资了。你准备好了吗？', 'This is the last time we\u2019re packing supplies. Are you ready?'),
         epilogue: ''
       },
       maya: {
-        ch0: '我昨晚画到很晚——北方的极光，颜色太美了！',
-        ch1: '今天光线不错，回头我画一张这条街的速写给你看。',
-        ch2: '我在考虑提交参展作品，画的是这条街四季的样子。',
-        ch3: '画展就在这周了。你选了集体那边的话也没关系，我知道你在做选择。',
-        ch4: '画作我已经装箱了。不管去哪儿，这条街的颜色都会跟着我。',
+        ch0: L('我昨晚画到很晚——北方的极光，颜色太美了！', 'I painted late into the night — the Northern lights, the colors are so beautiful!'),
+        ch1: L('今天光线不错，回头我画一张这条街的速写给你看。', 'The light is nice today, I\u2019ll sketch this street for you later.'),
+        ch2: L('我在考虑提交参展作品，画的是这条街四季的样子。', 'I\u2019m considering submitting a piece for the show — it\u2019s this street through the four seasons.'),
+        ch3: L('画展就在这周了。你选了集体那边的话也没关系，我知道你在做选择。', 'The show is this week. It\u2019s okay if you went with the group\u2019s side — I know you\u2019re making a choice.'),
+        ch4: L('画作我已经装箱了。不管去哪儿，这条街的颜色都会跟着我。', 'I\u2019ve packed up the paintings. No matter where I go, the colors of this street will follow me.'),
         epilogue: ''
       },
       noah: {
-        ch0: '一想到北方没人认识我，就觉得呼吸都顺畅了。',
-        ch1: '录音机昨天又录到一段不错的风声。走了以后，大概会想念这些声音吧。',
-        ch2: '我决定不去考那个学校了。有些事现在不做，以后就再也没机会了。',
-        ch3: '录音机录了大家筹备画展的声音，回头剪在一起应该挺有味道。',
-        ch4: '最后一段录音我想留给自己。未来的路，需要自己听清楚。',
+        ch0: L('一想到北方没人认识我，就觉得呼吸都顺畅了。', 'Just thinking that no one in the North knows me makes it easier to breathe.'),
+        ch1: L('录音机昨天又录到一段不错的风声。走了以后，大概会想念这些声音吧。', 'The recorder caught a nice stretch of wind yesterday. After we leave, I\u2019ll probably miss these sounds.'),
+        ch2: L('我决定不去考那个学校了。有些事现在不做，以后就再也没机会了。', 'I\u2019ve decided not to take that school\u2019s exam. Some things, if not done now, will never have another chance.'),
+        ch3: L('录音机录了大家筹备画展的声音，回头剪在一起应该挺有味道。', 'The recorder captured everyone prepping for the show — splicing them together later should be quite something.'),
+        ch4: L('最后一段录音我想留给自己。未来的路，需要自己听清楚。', 'I want to keep the last recording for myself. The road ahead, I need to hear it clearly on my own.'),
         epilogue: ''
       },
       leo: {
-        ch0: '十八年了，终于要走出去看看外面是什么样了！',
-        ch1: '餐厅今天有新菜。说真的，这地方的吃的，到哪儿都替代不了。',
-        ch2: '我帮你看着仓库了，你放心去收物资。老街的治安我最熟。',
-        ch3: '画展布置得差不多了，缺的那些画架我已经找人搬过去了。',
-        ch4: '老街的街角我拍了最后一张照。以后想起来，就看这个。',
+        ch0: L('十八年了，终于要走出去看看外面是什么样了！', 'Eighteen years, finally stepping out to see what the outside is like!'),
+        ch1: L('餐厅今天有新菜。说真的，这地方的吃的，到哪儿都替代不了。', 'The diner has a new dish today. Honestly, the food here can\u2019t be replaced anywhere.'),
+        ch2: L('我帮你看着仓库了，你放心去收物资。老街的治安我最熟。', 'I\u2019m watching the warehouse for you, go gather supplies in peace. I know the old street\u2019s security best.'),
+        ch3: L('画展布置得差不多了，缺的那些画架我已经找人搬过去了。', 'The show setup is nearly done, I\u2019ve already had someone move the missing easels over.'),
+        ch4: L('老街的街角我拍了最后一张照。以后想起来，就看这个。', 'I took a final photo of the old street corner. When I think of it later, I\u2019ll look at this.'),
         epilogue: ''
       }
     };
@@ -656,7 +672,7 @@ export abstract class BaseScene extends Phaser.Scene {
   // —— 章节与调试 ——
   protected advanceChapter(): void {
     const n = GameState.inst.advance();
-    if (!n) { this.showSpeech('已是终章。'); return; }
+    if (!n) { this.showSpeech(t('already_finale')); return; }
     this.applyChapterContent(n);
     this.applyChapterTint(n);
     this.updateChapterLabel();
@@ -667,7 +683,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.applyChapterContent(GameState.inst.chapter);
     this.applyChapterTint(GameState.inst.chapter);
     this.updateChapterLabel();
-    this.showSpeech('存档已重置。');
+    this.showSpeech(t('save_reset'));
   }
 
   // ESC 一键退出到标题界面（存档保留，可从"继续游戏"恢复）
@@ -815,7 +831,7 @@ export abstract class BaseScene extends Phaser.Scene {
     overlay.add(desc);
 
     // 关闭提示
-    const hint = this.add.text(W / 2, H - 28, '按 E / 空格 / 点击 关闭', {
+    const hint = this.add.text(W / 2, H - 28, t('hint_close'), {
       fontFamily: '"PingFang SC","Microsoft YaHei",sans-serif',
       fontSize: '13px', color: '#8a8275'
     }).setOrigin(0.5);
@@ -899,7 +915,7 @@ export abstract class BaseScene extends Phaser.Scene {
     overlay.add(mountains);
 
     // 标题
-    const title = this.add.text(W / 2, 36, '— 数 北 方 的 灯 —', {
+    const title = this.add.text(W / 2, 36, t('lightgame_title'), {
       fontFamily: '"PingFang SC","Microsoft YaHei",serif',
       fontSize: '22px', color: '#f5c97a', fontStyle: 'bold',
       stroke: '#000000', strokeThickness: 5
@@ -907,21 +923,21 @@ export abstract class BaseScene extends Phaser.Scene {
     overlay.add(title);
 
     // 副标题（玩法说明）
-    const sub = this.add.text(W / 2, 66, '用鼠标点击浮现的灯火 · 20 秒内点亮 8 盏', {
+    const sub = this.add.text(W / 2, 66, t('lightgame_subtitle'), {
       fontFamily: '"PingFang SC","Microsoft YaHei",sans-serif',
       fontSize: '14px', color: '#a0a8c0'
     }).setOrigin(0.5);
     overlay.add(sub);
 
     // 操作提示（醒目）
-    const howto = this.add.text(W / 2, 90, '▼ 鼠标点击光点即可点亮 ▼', {
+    const howto = this.add.text(W / 2, 90, t('lightgame_howto'), {
       fontFamily: '"PingFang SC","Microsoft YaHei",sans-serif',
       fontSize: '13px', color: '#8ad8ff'
     }).setOrigin(0.5);
     overlay.add(howto);
 
     // 进度条文字
-    this.nbLightText = this.add.text(W / 2, 114, '灯火 0 / 8', {
+    this.nbLightText = this.add.text(W / 2, 114, `${t('lightgame_progress')} 0 / 8`, {
       fontFamily: '"PingFang SC","Microsoft YaHei",sans-serif',
       fontSize: '16px', color: '#f5c97a', fontStyle: 'bold'
     }).setOrigin(0.5);
@@ -935,7 +951,7 @@ export abstract class BaseScene extends Phaser.Scene {
     overlay.add(this.nbLightTimerText);
 
     // 退出提示（左上角，明确告知只是放弃小游戏）
-    const hint = this.add.text(50, 30, 'ESC 放弃小游戏', {
+    const hint = this.add.text(50, 30, t('lightgame_esc'), {
       fontFamily: '"PingFang SC","Microsoft YaHei",sans-serif',
       fontSize: '12px', color: '#6a6258'
     }).setOrigin(0.5);
@@ -997,7 +1013,7 @@ export abstract class BaseScene extends Phaser.Scene {
     if (!this.nbLightOverlay || !dot.visible) return;
     this.nbLightHitCount++;
     if (this.nbLightText) {
-      this.nbLightText.setText(`灯火 ${this.nbLightHitCount} / ${this.nbLightTarget}`);
+      this.nbLightText.setText(`${t('lightgame_progress')} ${this.nbLightHitCount} / ${this.nbLightTarget}`);
     }
     // 点击反馈：粒子 + 变亮 + 消失
     this.burstSparkle(dot.x, dot.y, 0x8ad8ff);
@@ -1028,7 +1044,7 @@ export abstract class BaseScene extends Phaser.Scene {
     const W = this.scale.width;
     const H = this.scale.height;
     const result = this.add.text(W / 2, H / 2 - 20,
-      success ? `✨ 点亮了 ${count} 盏灯火！✨` : `点了 ${count} 盏灯火`,
+      success ? `${t('lightgame_result_win')} ${count} ${t('lightgame_seconds')}` : `${t('lightgame_result_lose')} ${count} ${t('lightgame_lights')}`,
       {
         fontFamily: '"PingFang SC","Microsoft YaHei",serif',
         fontSize: '28px', color: success ? '#f5c97a' : '#a0a8c0',
@@ -1114,7 +1130,7 @@ export abstract class BaseScene extends Phaser.Scene {
     });
 
     // 操作提示
-    const hint = this.add.text(W / 2, panelY + panelH / 2 - 14, '↑↓ 选择  ·  回车/点击 确认', {
+    const hint = this.add.text(W / 2, panelY + panelH / 2 - 14, t('simple_choice_hint'), {
       fontFamily: '"PingFang SC","Microsoft YaHei",sans-serif',
       fontSize: '12px', color: '#6a6258'
     }).setOrigin(0.5);
@@ -1228,30 +1244,30 @@ export abstract class BaseScene extends Phaser.Scene {
   // 任务完成统一入口：记录 flag + 弹 Toast（供子类调用）
   protected completeTaskWithToast(taskId: string, title: string): void {
     TaskSystem.inst.complete(taskId);
-    this.showToast(`任务完成 · ${title}`);
+    this.showToast(`${t('task_complete')}${title}`);
   }
 
   protected updateDebug(): void {
     const s = GameState.inst;
-    const t = s.tendency;
+    const tend = s.tendency;
     const b = s.bond;
     const ending = s.computeEnding();
     const fmt = (v: number) => (v >= 0 ? '+' : '') + v;
     const resolved = [...s.resolvedChoices].map(id => {
       const c = this.choiceSystem.chosenOption(id);
       return c ? `${id}=${c}` : id;
-    }).join(', ') || '无';
-    const carried = s.carriedItem ? CARRY_ITEM_LABEL[s.carriedItem] : '无';
+    }).join(', ') || t('dbg_none');
+    const carried = s.carriedItem ? CARRY_ITEM_LABEL[s.carriedItem] : t('none_label');
     this.debugText.setText([
-      `主角: ${PLAYER_NAME}  ·  场景: ${this.sceneKey()}  ·  章节: ${s.chapter}  ·  倒计时: ${s.daysLeft}天`,
+      `${t('dbg_protagonist')}: ${PLAYER_NAME}  ·  ${t('dbg_scene')}: ${this.sceneKey()}  ·  ${t('dbg_chapter')}: ${s.chapter}  ·  ${t('dbg_countdown')}: ${s.daysLeft}${t('dbg_days')}`,
       chapterMeta(s.chapter).title,
-      `信守约定 ${fmt(t.commitment)}  联结故土 ${fmt(t.rootedness)}  自我主导 ${fmt(t.agency)}`,
-      `羁绊: 玛雅 ${b.maya} / 诺亚 ${b.noah} / 利奥 ${b.leo}  (最高: ${s.topBond() ?? '—'})`,
-      `已选互斥: ${resolved}`,
-      `携带: ${carried}  叙事flag: ${s.flags.size}`,
-      `结局: ${ending ? ENDING_LABEL[ending] : '未决定'}`,
+      `${t('dbg_commitment')} ${fmt(tend.commitment)}  ${t('dbg_rootedness')} ${fmt(tend.rootedness)}  ${t('dbg_agency')} ${fmt(tend.agency)}`,
+      `${t('dbg_bond')}: ${t('dbg_bond_maya')} ${b.maya} / ${t('dbg_bond_noah')} ${b.noah} / ${t('dbg_bond_leo')} ${b.leo}  (${t('dbg_highest')}: ${s.topBond() ?? '—'})`,
+      `${t('dbg_resolved')}: ${resolved}`,
+      `${t('dbg_carry')}: ${carried}  ${t('dbg_flags')}: ${s.flags.size}`,
+      `${t('dbg_ending')}: ${ending ? ENDING_LABEL[ending] : t('dbg_undecided')}`,
       '',
-      '[调试] T=下一章  R=重置  P=开关面板  ESC=退出'
+      `[Debug] ${t('dbg_next_chapter')}`
     ].join('\n'));
   }
 
@@ -1296,6 +1312,7 @@ export abstract class BaseScene extends Phaser.Scene {
     this.handleInteraction();
     this.handleDebugKeys();
     this.updateTaskUI();
+    this.updateChapterLabel();
     if (this.debugVisible) this.updateDebug();
   }
 
@@ -1393,7 +1410,7 @@ export abstract class BaseScene extends Phaser.Scene {
           cur.nameText.setColor('#f5c97a');
         }
       }
-      if (closest) this.promptText.setText(`按 E — ${closest.label}`).setVisible(true);
+      if (closest) this.promptText.setText(`${t('press_e')}${closest.label}`).setVisible(true);
       else this.promptText.setVisible(false);
     }
 

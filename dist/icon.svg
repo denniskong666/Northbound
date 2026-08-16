@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#0a0a0f"/>
+  <circle cx="256" cy="200" r="120" fill="none" stroke="#f5c97a" stroke-width="3" opacity="0.3"/>
+  <path d="M256 80 L300 280 L256 240 L212 280 Z" fill="#f5c97a" opacity="0.9"/>
+  <path d="M256 240 L268 200 L256 210 L244 200 Z" fill="#0a0a0f"/>
+  <text x="256" y="380" text-anchor="middle" fill="#f5c97a" font-family="serif" font-size="48" font-weight="bold" opacity="0.8">向北</text>
+  <text x="256" y="430" text-anchor="middle" fill="#a09a8c" font-family="serif" font-size="20" opacity="0.5">Northbound</text>
+</svg>

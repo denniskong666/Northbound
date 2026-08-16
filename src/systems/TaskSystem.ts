@@ -8,6 +8,7 @@
 
 import { GameState } from '../state/GameState';
 import { ChapterId } from '../state/Chapter';
+import { L } from './I18n';
 
 export interface TaskDef {
   id: string;
@@ -24,23 +25,23 @@ export const TASKS: TaskDef[] = [
   {
     id: 'ch0_posters',
     chapter: 'ch0',
-    title: '北方的讯息',
-    goal: '收集老街区散落的 4 张北方宣传明信片',
+    title: L('北方的讯息', 'Messages from the North'),
+    goal: L('收集老街区散落的 4 张北方宣传明信片', 'Collect 4 northbound postcards scattered around the old district'),
     onChapterComplete: false
   },
   {
     id: 'ch0_talk',
     chapter: 'ch0',
-    title: '北方的召唤',
-    goal: '和老街区的伙伴们聊聊大家对北方的期待',
+    title: L('北方的召唤', 'The Call of the North'),
+    goal: L('和老街区的伙伴们聊聊大家对北方的期待', 'Talk with friends in the old district about their hopes for the North'),
     startsAfter: 'ch0_posters',
     onChapterComplete: false
   },
   {
     id: 'ch0_rooftop',
     chapter: 'ch0',
-    title: '屋顶聚会',
-    goal: '上屋顶，和大家一起眺望北方',
+    title: L('屋顶聚会', 'Rooftop Gathering'),
+    goal: L('上屋顶，和大家一起眺望北方', 'Head to the rooftop and gaze north with everyone'),
     startsAfter: 'ch0_talk'
     // 序章收尾：全员屋顶欢愉对话 → 丝滑转场推进 ch1
   },
@@ -49,30 +50,30 @@ export const TASKS: TaskDef[] = [
   {
     id: 'ch1_work',
     chapter: 'ch1',
-    title: '上岗开工',
-    goal: '在露丝餐厅打工：拾取餐品并送到桌位（3 单）',
+    title: L('上岗开工', 'On the Job'),
+    goal: L('在露丝餐厅打工：拾取餐品并送到桌位（3 单）', 'Work at Ruth\'s Diner: pick up dishes and deliver them to tables (3 orders)'),
     startsAfter: 'ch0_rooftop',
     onChapterComplete: false
   },
   {
     id: 'ch1_wrench',
     chapter: 'ch1',
-    title: '失踪的套筒扳手',
-    goal: '在修理厂后巷翻找，找回套筒扳手',
+    title: L('失踪的套筒扳手', 'The Missing Socket Wrench'),
+    goal: L('在修理厂后巷翻找，找回套筒扳手', 'Search the alley behind the repair shop and recover the socket wrench'),
     startsAfter: 'ch1_work'
   },
   {
     id: 'ch1_parts',
     chapter: 'ch1',
-    title: '未来的零部件',
-    goal: '取回风扇皮带、保险丝、工具箱（3 件）',
+    title: L('未来的零部件', 'Parts for the Future'),
+    goal: L('取回风扇皮带、保险丝、工具箱（3 件）', 'Retrieve the fan belt, fuses, and toolbox (3 items)'),
     startsAfter: 'ch1_wrench'
   },
   {
     id: 'ch1_rooftop',
     chapter: 'ch1',
-    title: '屋顶清点物资',
-    goal: '上屋顶，和伙伴们交谈',
+    title: L('屋顶清点物资', 'Rooftop Inventory'),
+    goal: L('上屋顶，和伙伴们交谈', 'Head to the rooftop and talk with your friends'),
     startsAfter: 'ch1_parts'
     // 章节推进与倒计时不再由 TaskSystem 自动触发，
     // 改由场景的 playChapterTransition 丝滑转场手动推进（留 CG 动画插入点）。
@@ -84,15 +85,15 @@ export const TASKS: TaskDef[] = [
   {
     id: 'ch2_supplies',
     chapter: 'ch2',
-    title: '收集远行物资',
-    goal: '去杂货铺、市场、修理厂收集远行物资（3 处）',
+    title: L('收集远行物资', 'Gathering Supplies'),
+    goal: L('去杂货铺、市场、修理厂收集远行物资（3 处）', 'Collect travel supplies from the grocery, market, and repair shop (3 places)'),
     startsAfter: 'ch1_rooftop'
   },
   {
     id: 'ch2_rooftop',
     chapter: 'ch2',
-    title: '屋顶雨夜',
-    goal: '上屋顶，看看大家',
+    title: L('屋顶雨夜', 'Rainy Rooftop Night'),
+    goal: L('上屋顶，看看大家', 'Head to the rooftop and check on everyone'),
     startsAfter: 'ch2_supplies'
     // 章节收尾：Maya+Noah 屋顶对话 → 丝滑转场推进 ch3 + 倒计时 4→3
   },
@@ -103,15 +104,15 @@ export const TASKS: TaskDef[] = [
   {
     id: 'ch3_pass',
     chapter: 'ch3',
-    title: '办理出城通行材料',
-    goal: '去市政厅办理出城通行材料（Elias 在场）',
+    title: L('办理出城通行材料', 'Travel Papers'),
+    goal: L('去市政厅办理出城通行材料（Elias 在场）', 'Go to the town hall to process the travel papers (Elias is present)'),
     startsAfter: 'ch2_rooftop'
   },
   {
     id: 'ch3_rooftop',
     chapter: 'ch3',
-    title: '屋顶抉择',
-    goal: '上屋顶，看看大家',
+    title: L('屋顶抉择', 'Rooftop Decision'),
+    goal: L('上屋顶，看看大家', 'Head to the rooftop and check on everyone'),
     startsAfter: 'ch3_pass'
     // 章节收尾 → 丝滑转场推进 ch4 + 倒计时 3→2
   },
@@ -120,8 +121,8 @@ export const TASKS: TaskDef[] = [
   {
     id: 'ch3_maya_help',
     chapter: 'ch3',
-    title: '帮 Maya 整理画展',
-    goal: '搬画架、找画册，帮 Maya 准备画展（可选支线）',
+    title: L('帮 Maya 整理画展', 'Help Maya Set Up the Exhibition'),
+    goal: L('搬画架、找画册，帮 Maya 准备画展（可选支线）', 'Move easels and find catalogs to help Maya prepare the exhibition (optional side story)'),
     startsAfter: 'ch3_pass'
   },
 
@@ -131,15 +132,15 @@ export const TASKS: TaskDef[] = [
   {
     id: 'ch4_organize',
     chapter: 'ch4',
-    title: '整理回忆',
-    goal: '在老街区整理物资，和 Noah、Leo 交谈',
+    title: L('整理回忆', 'Sorting Memories'),
+    goal: L('在老街区整理物资，和 Noah、Leo 交谈', 'Sort supplies in the old district; talk with Noah and Leo'),
     startsAfter: 'ch3_rooftop'
   },
   {
     id: 'ch4_rooftop',
     chapter: 'ch4',
-    title: '最终抉择',
-    goal: '上屋顶，做出最终选择',
+    title: L('最终抉择', 'The Final Choice'),
+    goal: L('上屋顶，做出最终选择', 'Head to the rooftop and make your final choice'),
     startsAfter: 'ch4_organize'
     // 章节收尾 → 四选一直接锁定结局 → 丝滑转场推进 epilogue
   },
@@ -148,8 +149,8 @@ export const TASKS: TaskDef[] = [
   {
     id: 'ch4_memory_walk',
     chapter: 'ch4',
-    title: '重走老街的承诺',
-    goal: '探访合照墙、Noah 的录音机、Leo 的老街角（可选支线）',
+    title: L('重走老街的承诺', 'Promises of the Old Streets'),
+    goal: L('探访合照墙、Noah 的录音机、Leo 的老街角（可选支线）', 'Visit the group-photo wall, Noah\'s recorder, and Leo\'s old corner (optional side story)'),
     startsAfter: 'ch4_organize'
   }
 ];

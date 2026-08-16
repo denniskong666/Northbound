@@ -8,6 +8,7 @@ import { TaskSystem } from '../systems/TaskSystem';
 import { GameState, ChoiceEffects } from '../state/GameState';
 import { CH0_POSTCARD_DESC, CH0_BOARD_DESC, CH0_WISH_OPTIONS, WishType, CH2_SUPPLIES_DIALOGUE, CH3_PASS_DIALOGUE, CH4_MAIN_DIALOGUE } from '../data/Dialogues';
 import { DialogueData } from '../systems/DialogueSystem';
+import { L, t } from '../systems/I18n';
 
 const MAP: string[] = [
   '1111111111111111111111111',
@@ -33,9 +34,9 @@ const CH3_CHOICE_ID = 'ch3_first';
 
 // 任务3：零部件取物点（文档8.2任务3：风扇皮带/保险丝/工具箱）
 const PARTS_TARGETS: { id: string; tx: number; ty: number; label: string; line: string }[] = [
-  { id: 'belt',     tx: 20, ty: 8, label: '取风扇皮带', line: '从布鲁克斯市场取到风扇皮带。' },
-  { id: 'fuse',     tx: 8,  ty: 8, label: '取保险丝',     line: '从电子店拿到保险丝。' },
-  { id: 'toolbox',  tx: 4,  ty: 7, label: '取工具箱',     line: '从露丝餐厅取回工具箱。' }
+  { id: 'belt',     tx: 20, ty: 8, label: L('取风扇皮带', 'Get Fan Belt'),       line: L('从布鲁克斯市场取到风扇皮带。', 'Picked up the fan belt from Brooks Market.') },
+  { id: 'fuse',     tx: 8,  ty: 8, label: L('取保险丝', 'Get Fuse'),             line: L('从电子店拿到保险丝。', 'Got the fuse from the electronics shop.') },
+  { id: 'toolbox',  tx: 4,  ty: 7, label: L('取工具箱', 'Get Toolbox'),          line: L('从露丝餐厅取回工具箱。', "Retrieved the toolbox from Ruth's Diner.") }
 ];
 
 export class OldDistrictScene extends BaseScene {
@@ -69,10 +70,10 @@ export class OldDistrictScene extends BaseScene {
   protected registerChoices(): void {
     this.choiceSystem.register({
       id: CH3_CHOICE_ID,
-      prompt: '更换交流发电机（伊莱亚斯）/ 拂晓微光（玛雅画展）',
+      prompt: L('更换交流发电机（伊莱亚斯）/ 拂晓微光（玛雅画展）', "Replace the Alternator (Elias) / Dawn's Gleam (Maya's Exhibit)"),
       options: [
-        { id: 'elias_alternator', label: '更换交流发电机', effects: { commitment: 15, flag: 'task_alternator_done' } },
-        { id: 'maya_exhibit',     label: '拂晓微光 · 玛雅画展', effects: { rootedness: 15, bond: { maya: 10 }, flag: 'attended_maya_exhibit' } }
+        { id: 'elias_alternator', label: L('更换交流发电机', 'Replace the Alternator'), effects: { commitment: 15, flag: 'task_alternator_done' } },
+        { id: 'maya_exhibit',     label: L('拂晓微光 · 玛雅画展', "Dawn's Gleam · Maya's Exhibit"), effects: { rootedness: 15, bond: { maya: 10 }, flag: 'attended_maya_exhibit' } }
       ]
     });
   }
@@ -123,7 +124,7 @@ export class OldDistrictScene extends BaseScene {
     // —— 第一章任务 ——
     // 任务1：露丝餐厅打工（未完成时显示）
     if (TaskSystem.inst.isUnlocked('ch1_work') && !TaskSystem.inst.isDone('ch1_work')) {
-      this.workPoi = this.addPoi(3, 5, '露丝餐厅打工', { type: 'task', onInteract: () => this.startWorkMinigame() });
+      this.workPoi = this.addPoi(3, 5, L("露丝餐厅打工", "Work at Ruth's Diner"), { type: 'task', onInteract: () => this.startWorkMinigame() });
     }
 
     // 任务3：取零部件（任务3激活时显示）
@@ -139,7 +140,7 @@ export class OldDistrictScene extends BaseScene {
 
     // —— 第三章任务：办理出城通行材料 ——
     if (TaskSystem.inst.isUnlocked('ch3_pass') && !TaskSystem.inst.isDone('ch3_pass') && !GameState.inst.hasFlag('ch3_pass_dlg_started')) {
-      const passPoi = this.addPoi(12, 6, '社区办事处', {
+      const passPoi = this.addPoi(12, 6, L('社区办事处', 'Community Office'), {
         type: 'task',
         onInteract: () => {
           this.removePoi(passPoi);
@@ -147,7 +148,7 @@ export class OldDistrictScene extends BaseScene {
           const opening = this.getCh3OpeningDialogue();
           const startMain = () => {
             this.dialogueSystem.start(CH3_PASS_DIALOGUE, () => {
-              this.completeTaskWithToast('ch3_pass', '办理出城通行材料');
+              this.completeTaskWithToast('ch3_pass', L('办理出城通行材料', 'Arrange Travel Papers'));
             });
           };
           if (opening) {
@@ -162,7 +163,7 @@ export class OldDistrictScene extends BaseScene {
 
     // —— 第四章任务：整理回忆 ——
     if (TaskSystem.inst.isUnlocked('ch4_organize') && !TaskSystem.inst.isDone('ch4_organize') && !GameState.inst.hasFlag('ch4_organize_dlg_started')) {
-      const orgPoi = this.addPoi(12, 10, '整理物资', {
+      const orgPoi = this.addPoi(12, 10, L('整理物资', 'Sort Supplies'), {
         type: 'task',
         onInteract: () => {
           this.removePoi(orgPoi);
@@ -170,7 +171,7 @@ export class OldDistrictScene extends BaseScene {
           const opening = this.getCh4OpeningDialogue();
           const startMain = () => {
             this.dialogueSystem.start(CH4_MAIN_DIALOGUE, () => {
-              this.completeTaskWithToast('ch4_organize', '整理回忆');
+              this.completeTaskWithToast('ch4_organize', L('整理回忆', 'Sorting Memories'));
             });
           };
           if (opening) {
@@ -194,7 +195,7 @@ export class OldDistrictScene extends BaseScene {
         if (GameState.inst.bond.maya >= 5) {
           this.spawnCh3MayaHelpPois();
         } else {
-          this.showToast('画展支线：需要与玛雅有更深的羁绊');
+          this.showToast(L('画展支线：需要与玛雅有更深的羁绊', "Exhibit sidequest: needs a deeper bond with Maya"));
         }
       } else {
         this.spawnCh3MayaHelpPois();
@@ -207,8 +208,8 @@ export class OldDistrictScene extends BaseScene {
     }
 
     // 两扇门：通往修理厂 / 屋顶
-    this.addDoor(12, 14, '进修理厂', 'GarageScene');
-    this.addDoor(21, 5, '上屋顶', 'RooftopScene');
+    this.addDoor(12, 14, L('进修理厂', 'Enter the Garage'), 'GarageScene');
+    this.addDoor(21, 5, L('上屋顶', 'Go to the Rooftop'), 'RooftopScene');
   }
 
   protected applyChapterContent(ch: ChapterId): void {
@@ -219,13 +220,13 @@ export class OldDistrictScene extends BaseScene {
     // 序章开场旁白（对话系统形式，带对话框UI+打字机效果）
     if (ch === 'ch0') {
       this.time.delayedCall(500, () => {
-        this.playNarration('老街区的午后，阳光正好。最近大家都在聊同一件事——去北方。');
+        this.playNarration(L('老街区的午后，阳光正好。最近大家都在聊同一件事——去北方。', "An afternoon in the Old District, the sunlight just right. Lately everyone's been talking about the same thing — going to the North."));
       });
     }
     // 第二章世界状态：布鲁克斯市场"最后一周营业"告示
     if (ch === 'ch2') {
       this.time.delayedCall(500, () => {
-        this.playNarration('布鲁克斯市场挂出告示：「最后一周营业」。不少住宅门外堆起了搬家纸箱。');
+        this.playNarration(L('布鲁克斯市场挂出告示：「最后一周营业」。不少住宅门外堆起了搬家纸箱。', "Brooks Market has put up a notice: \"Final week of business.\" Moving boxes pile up outside many doorways."));
       });
     }
     // 第四章：确保 Noah/Leo 不重复第一章的 intro 对话
@@ -244,39 +245,39 @@ export class OldDistrictScene extends BaseScene {
       GameState.inst.hasFlag(`npc_${id}_talked_ch0`)
     );
     if (allTalked) {
-      this.showSpeech('大家都聊过了。该上屋顶汇合了——Elias 说要在那等大家。');
+      this.showSpeech(L('大家都聊过了。该上屋顶汇合了——Elias 说要在那等大家。', "Everyone's been talked to. Time to meet up on the Rooftop — Elias said he'd wait for everyone there."));
       this.burstSparkle(this.player.x, this.player.y - 8, 0xf5c97a);
-      this.completeTaskWithToast('ch0_talk', '北方的召唤');
+      this.completeTaskWithToast('ch0_talk', L('北方的召唤', 'The Call of the North'));
     } else {
       const remaining = 4 - ['elias', 'maya', 'noah', 'leo'].filter(id =>
         GameState.inst.hasFlag(`npc_${id}_talked_ch0`)
       ).length;
-      this.showToast(`还差 ${remaining} 位伙伴没聊`);
+      this.showToast(L(`还差 ${remaining} 位伙伴没聊`, `${remaining} friends left to talk to`));
     }
   }
 
   // —— 任务1：打工送餐小游戏 ——
   private startWorkMinigame(): void {
     if (TaskSystem.inst.isDone('ch1_work')) {
-      this.showSpeech('今天的班已经上完了。');
+      this.showSpeech(L('今天的班已经上完了。', "Today's shift is already done."));
       return;
     }
     if (this.carrying || this.deliverCount > 0) {
-      this.showSpeech('先把这单送出去。');
+      this.showSpeech(L('先把这单送出去。', 'Finish delivering this order first.'));
       return;
     }
-    this.showSpeech('利奥：「再干五班，我就彻底告别打工生涯。」杰米：「你才来这里干三周而已。」');
+    this.showSpeech(L('利奥：「再干五班，我就彻底告别打工生涯。」杰米：「你才来这里干三周而已。」', 'Leo: "Five more shifts and I\'m done with this gig for good." Jamie: "You\'ve only been here three weeks."'));
     this.spawnDeliverPickup();
   }
 
   private spawnDeliverPickup(): void {
-    this.deliverPickup = this.addPoi(3, 6, '取餐', {
+    this.deliverPickup = this.addPoi(3, 6, L('取餐', 'Pick Up Order'), {
       onInteract: () => {
         if (!this.deliverPickup) return;
         this.removePoi(this.deliverPickup);
         this.deliverPickup = undefined;
         this.carrying = true;
-        this.showSpeech('取到餐品，送到客人桌上。');
+        this.showSpeech(L('取到餐品，送到客人桌上。', 'Got the order. Deliver it to a table.'));
         this.spawnDeliverDropoff();
       }
     });
@@ -285,7 +286,7 @@ export class OldDistrictScene extends BaseScene {
   private spawnDeliverDropoff(): void {
     const tables = [{ x: 5, y: 3 }, { x: 8, y: 5 }, { x: 6, y: 8 }, { x: 10, y: 4 }];
     const t = tables[Math.floor(Math.random() * tables.length)];
-    this.deliverDropoff = this.addPoi(t.x, t.y, '送达桌位', {
+    this.deliverDropoff = this.addPoi(t.x, t.y, L('送达桌位', 'Deliver to Table'), {
       onInteract: () => {
         if (!this.deliverDropoff) return;
         this.removePoi(this.deliverDropoff);
@@ -295,7 +296,7 @@ export class OldDistrictScene extends BaseScene {
         if (this.deliverCount >= this.DELIVER_TOTAL) {
           this.completeWork();
         } else {
-          this.showSpeech(`送到了。（${this.deliverCount}/${this.DELIVER_TOTAL}）`);
+          this.showSpeech(L(`送到了。（${this.deliverCount}/${this.DELIVER_TOTAL}）`, `Delivered. (${this.deliverCount}/${this.DELIVER_TOTAL})`));
           this.spawnDeliverPickup();
         }
       }
@@ -303,9 +304,9 @@ export class OldDistrictScene extends BaseScene {
   }
 
   private completeWork(): void {
-    this.showSpeech('打工所得，存入众人共用的旅行基金。');
+    this.showSpeech(L('打工所得，存入众人共用的旅行基金。', "Shift earnings added to the group's shared travel fund."));
     this.burstSparkle(this.player.x, this.player.y - 8, 0xf2cc8f);
-    this.completeTaskWithToast('ch1_work', '上岗开工');
+    this.completeTaskWithToast('ch1_work', L('上岗开工', 'Shift Started'));
     this.deliverCount = 0;
     if (this.workPoi) { this.removePoi(this.workPoi); this.workPoi = undefined; }
   }
@@ -339,10 +340,10 @@ export class OldDistrictScene extends BaseScene {
           // 检查是否全部收集完成
           const collected = OldDistrictScene.CH1_PART_FLAGS.filter(f => GameState.inst.hasFlag(f)).length;
           if (collected >= PARTS_TARGETS.length) {
-            this.showSpeech('三件零部件齐了。该上屋顶和大家汇合了。');
-            this.completeTaskWithToast('ch1_parts', '未来的零部件');
+            this.showSpeech(L('三件零部件齐了。该上屋顶和大家汇合了。', "All three parts are gathered. Time to head up to the Rooftop and meet everyone."));
+            this.completeTaskWithToast('ch1_parts', L('未来的零部件', 'Parts for the Future'));
           } else {
-            this.showToast(`收集 ${collected}/${PARTS_TARGETS.length} · ${t.label}`);
+            this.showToast(L(`收集 ${collected}/${PARTS_TARGETS.length} · ${t.label}`, `Collected ${collected}/${PARTS_TARGETS.length} · ${t.label}`));
           }
         }
       });
@@ -357,14 +358,14 @@ export class OldDistrictScene extends BaseScene {
   private spawnCh2SuppliesPois(): void {
     // 杂货铺：触发对话1（Maya+Noah），对话结束后算收集1件
     if (!GameState.inst.hasFlag('ch2_supply_grocery')) {
-      const groceryPoi = this.addPoi(19, 9, '杂货铺', {
+      const groceryPoi = this.addPoi(19, 9, L('杂货铺', 'Grocery Store'), {
         type: 'item',
         onInteract: () => {
           this.removePoi(groceryPoi);
           this.dialogueSystem.start(CH2_SUPPLIES_DIALOGUE, () => {
             GameState.inst.applyEffects({ flag: 'ch2_supply_grocery' });
             this.burstSparkle(19 * TILE_SIZE + TILE_SIZE / 2, 9 * TILE_SIZE + TILE_SIZE / 2, 0xe07a5f);
-            this.showSpeech('收集到一份远行物资（杂货铺）。');
+            this.showSpeech(L('收集到一份远行物资（杂货铺）。', 'Collected travel supplies (Grocery Store).'));
             this.checkCh2SuppliesComplete();
           });
         }
@@ -373,10 +374,10 @@ export class OldDistrictScene extends BaseScene {
 
     // 市场食物：纯收集
     if (!GameState.inst.hasFlag('ch2_supply_market')) {
-      const marketPoi = this.addPoi(20, 5, '市场', {
+      const marketPoi = this.addPoi(20, 5, L('市场', 'Market'), {
         type: 'item',
         onInteract: () => {
-          this.showSpeech('收集到一份远行物资（市场食物）。');
+          this.showSpeech(L('收集到一份远行物资（市场食物）。', 'Collected travel supplies (Market food).'));
           this.burstSparkle(20 * TILE_SIZE + TILE_SIZE / 2, 5 * TILE_SIZE + TILE_SIZE / 2, 0xe07a5f);
           this.removePoi(marketPoi);
           GameState.inst.applyEffects({ flag: 'ch2_supply_market' });
@@ -392,8 +393,8 @@ export class OldDistrictScene extends BaseScene {
   private checkCh2SuppliesComplete(): void {
     const collected = OldDistrictScene.CH2_SUPPLY_FLAGS.filter(f => GameState.inst.hasFlag(f)).length;
     if (collected >= OldDistrictScene.CH2_SUPPLY_FLAGS.length && !TaskSystem.inst.isDone('ch2_supplies')) {
-      this.showSpeech('远行物资齐了。该上屋顶看看大家了。');
-      this.completeTaskWithToast('ch2_supplies', '收集远行物资');
+      this.showSpeech(L('远行物资齐了。该上屋顶看看大家了。', "Travel supplies are all gathered. Time to head up to the Rooftop and check on everyone."));
+      this.completeTaskWithToast('ch2_supplies', L('收集远行物资', 'Gather Travel Supplies'));
     }
   }
 
@@ -412,21 +413,21 @@ export class OldDistrictScene extends BaseScene {
 
     let eliasText: string, mayaText: string;
     if (bothA) {
-      eliasText = '之前听 Leo、Maya 说，从攒路费到收集物资，你一直都以我们共同的北上约定为先。办通行材料我帮你加急。';
-      mayaText = '我知道你的重心一直在远行，我的画展你大概率没时间来看，我不勉强你。';
+      eliasText = L('之前听 Leo、Maya 说，从攒路费到收集物资，你一直都以我们共同的北上约定为先。办通行材料我帮你加急。', "I heard from Leo and Maya that from saving up to gathering supplies, you've always put our shared promise to head north first. I'll expedite your travel papers.");
+      mayaText = L('我知道你的重心一直在远行，我的画展你大概率没时间来看，我不勉强你。', "I know your focus has been on the journey all along. You probably won't have time to come see my exhibit — I won't push you.");
     } else if (bothC) {
-      eliasText = '我听说你一直认同 Leo，还支持 Maya 留下来画画，看来你早就不把我们年少的约定放在心上了。';
-      mayaText = '我很早就想和你聊聊，难得有人能理解我不想盲目离开的想法。首展我特别希望你到场。';
+      eliasText = L('我听说你一直认同 Leo，还支持 Maya 留下来画画，看来你早就不把我们年少的约定放在心上了。', "I heard you've been siding with Leo, and even backed Maya staying to paint. Looks like you stopped caring about our childhood promise a long time ago.");
+      mayaText = L('我很早就想和你聊聊，难得有人能理解我不想盲目离开的想法。首展我特别希望你到场。', "I've wanted to talk to you for a while. It's rare to find someone who understands why I don't want to leave blindly. I really hope you can make it to the opening.");
     } else {
-      eliasText = '我知道你两边都顾及，不会完全偏袒谁，但通行手续不能拖。';
-      mayaText = '如果你愿意抽空过来，我可以把开展时间延后一点。';
+      eliasText = L('我知道你两边都顾及，不会完全偏袒谁，但通行手续不能拖。', "I know you've been balancing both sides, not fully favoring anyone, but the paperwork can't be delayed.");
+      mayaText = L('如果你愿意抽空过来，我可以把开展时间延后一点。', 'If you can spare the time to come, I can push the opening back a little.');
     }
     return {
       id: 'ch3_opening',
       start: 'elias',
       nodes: {
-        elias: { speaker: '伊莱亚斯', text: eliasText, next: 'maya' },
-        maya:  { speaker: '玛雅', text: mayaText }
+        elias: { speaker: L('伊莱亚斯', 'Elias'), text: eliasText, next: 'maya' },
+        maya:  { speaker: L('玛雅', 'Maya'), text: mayaText }
       }
     };
   }
@@ -443,21 +444,21 @@ export class OldDistrictScene extends BaseScene {
 
     let noahText: string, leoText: string;
     if (fullA) {
-      noahText = 'Maya 和我说，办通行材料的时候你毫不犹豫选择优先北上手续，放弃了她的画展。你从头到尾都只想离开这座城市。';
-      leoText = '当初我和你聊老街回忆的时候，你完全不在意，现在看来我们本来就不是一路人。';
+      noahText = L('Maya 和我说，办通行材料的时候你毫不犹豫选择优先北上手续，放弃了她的画展。你从头到尾都只想离开这座城市。', "Maya told me that when arranging the travel papers, you chose to prioritize the northbound process without hesitation and gave up her exhibit. From start to finish, all you wanted was to leave this city.");
+      leoText = L('当初我和你聊老街回忆的时候，你完全不在意，现在看来我们本来就不是一路人。', "Back when we talked about Old Street memories, you didn't care at all. Looks like we were never on the same path to begin with.");
     } else if (fullC) {
-      noahText = 'Maya 告诉我，为了陪她看画展，你推迟了出城手续。我现在也不想为了逃避家人盲目北上。';
-      leoText = '第一章我们在屋顶聊家乡的时候，我就知道你和我一样，舍不得这里的一切。';
+      noahText = L('Maya 告诉我，为了陪她看画展，你推迟了出城手续。我现在也不想为了逃避家人盲目北上。', "Maya told me you delayed the travel paperwork to go see her exhibit with her. I don't want to blindly head north just to escape my family either.");
+      leoText = L('第一章我们在屋顶聊家乡的时候，我就知道你和我一样，舍不得这里的一切。', "Back in Chapter 1 when we talked about hometown on the rooftop, I knew you were like me — reluctant to let go of everything here.");
     } else {
-      noahText = '我听 Maya、Elias 说，一路上你谁都没有刻意辜负，一直在平衡远行和留在本地两种生活。';
-      leoText = '不管是走是留，至少你从来没有强迫任何人遵从某一种选择。';
+      noahText = L('我听 Maya、Elias 说，一路上你谁都没有刻意辜负，一直在平衡远行和留在本地两种生活。', "Maya and Elias told me that along the way you never deliberately let anyone down, always balancing the journey and staying behind.");
+      leoText = L('不管是走是留，至少你从来没有强迫任何人遵从某一种选择。', 'Whether to leave or stay, at least you never forced anyone to follow a single choice.');
     }
     return {
       id: 'ch4_opening',
       start: 'noah',
       nodes: {
-        noah: { speaker: '诺亚', text: noahText, next: 'leo' },
-        leo:  { speaker: '利奥', text: leoText }
+        noah: { speaker: L('诺亚', 'Noah'), text: noahText, next: 'leo' },
+        leo:  { speaker: L('利奥', 'Leo'), text: leoText }
       }
     };
   }
@@ -467,8 +468,8 @@ export class OldDistrictScene extends BaseScene {
   private static readonly CH3_HELP_FLAGS = ['ch3_help_easel', 'ch3_help_catalog'];
   private spawnCh3MayaHelpPois(): void {
     const targets = [
-      { tx: 15, ty: 3, flag: 'ch3_help_easel',   label: '搬画架', line: '你帮 Maya 把画架搬到画展场地。她轻声说：「没想到你真的愿意抽空帮忙。」' },
-      { tx: 7,  ty: 3, flag: 'ch3_help_catalog', label: '找画册', line: '你在杂货铺后找到 Maya 丢失的画册。她翻开后停在一页——画里是五个好友一同驱车向北。' }
+      { tx: 15, ty: 3, flag: 'ch3_help_easel',   label: L('搬画架', 'Move Easel'),   line: L('你帮 Maya 把画架搬到画展场地。她轻声说：「没想到你真的愿意抽空帮忙。」', 'You help Maya carry the easel to the exhibit venue. She says softly, "I didn\'t expect you\'d really spare the time to help."') },
+      { tx: 7,  ty: 3, flag: 'ch3_help_catalog', label: L('找画册', 'Find Catalog'), line: L('你在杂货铺后找到 Maya 丢失的画册。她翻开后停在一页——画里是五个好友一同驱车向北。', "You find Maya's lost catalog behind the grocery store. She opens it and stops on a page — the painting shows five friends driving north together.") }
     ];
     for (const t of targets) {
       if (GameState.inst.hasFlag(t.flag)) continue;
@@ -489,10 +490,10 @@ export class OldDistrictScene extends BaseScene {
     const collected = OldDistrictScene.CH3_HELP_FLAGS.filter(f => GameState.inst.hasFlag(f)).length;
     if (collected >= OldDistrictScene.CH3_HELP_FLAGS.length && !TaskSystem.inst.isDone('ch3_maya_help')) {
       GameState.inst.applyEffects({ bond: { maya: 2 } });
-      this.showSpeech('Maya：「谢谢你。不管你最终怎么选，这幅画我都想留给你。」');
-      this.completeTaskWithToast('ch3_maya_help', '帮 Maya 整理画展');
+      this.showSpeech(L('Maya：「谢谢你。不管你最终怎么选，这幅画我都想留给你。」', 'Maya: "Thank you. No matter what you choose in the end, I want to leave this painting to you."'));
+      this.completeTaskWithToast('ch3_maya_help', L('帮 Maya 整理画展', 'Help Maya Set Up Exhibit'));
     } else {
-      this.showToast(`画展准备 ${collected}/${OldDistrictScene.CH3_HELP_FLAGS.length}`);
+      this.showToast(L(`画展准备 ${collected}/${OldDistrictScene.CH3_HELP_FLAGS.length}`, `Exhibit prep ${collected}/${OldDistrictScene.CH3_HELP_FLAGS.length}`));
     }
   }
 
@@ -506,29 +507,29 @@ export class OldDistrictScene extends BaseScene {
 
     const photoLine =
       (m3 === 'C3' || m2 === 'C2')
-        ? '墙上褪色的合照。五个人站在老街路口——但 Maya 在照片边缘画了一朵小花，那是你们最初分歧的见证。'
+        ? L('墙上褪色的合照。五个人站在老街路口——但 Maya 在照片边缘画了一朵小花，那是你们最初分歧的见证。', 'A faded group photo on the wall. Five people stand at the Old Street corner — but Maya drew a small flower at the edge of the photo, a witness to your first divergence.')
         : (m3 === 'A3' || m2 === 'A2')
-            ? '墙上褪色的合照。五个人紧紧相拥，脸上是对北上的坚定——这是你们最初的约定。'
-            : '墙上褪色的合照。五个人站在老街路口，笑容灿烂——那是北上计划最初的样子。';
+            ? L('墙上褪色的合照。五个人紧紧相拥，脸上是对北上的坚定——这是你们最初的约定。', 'A faded group photo on the wall. Five people embrace tightly, faces set on going north — this was your original promise.')
+            : L('墙上褪色的合照。五个人站在老街路口，笑容灿烂——那是北上计划最初的样子。', 'A faded group photo on the wall. Five people stand at the Old Street corner, beaming — that was the original shape of the northbound plan.');
 
     const recorderLine =
       (m3 === 'C3' || m2 === 'C2')
-        ? 'Noah 录的一段雨声。他说这是老街告别前的声音，温柔而不舍——走了就再也录不到同样的频率。'
+        ? L('Noah 录的一段雨声。他说这是老街告别前的声音，温柔而不舍——走了就再也录不到同样的频率。', "A recording of rain Noah made. He says this is the sound of the Old Street before farewell, gentle and reluctant — once gone, you'd never record the same frequency again.")
         : (m3 === 'A3' || m2 === 'A2')
-            ? 'Noah 录的一段风声。他说这是北方的前奏，从老街的屋檐掠过——走了会想念这里的风。'
-            : 'Noah 录的一段风声。他说这是老街深夜的声音，走了就再也录不到同样的频率。';
+            ? L('Noah 录的一段风声。他说这是北方的前奏，从老街的屋檐掠过——走了会想念这里的风。', "A recording of wind Noah made. He says this is the prelude of the North, sweeping past the Old Street eaves — once gone, you'd miss this wind.")
+            : L('Noah 录的一段风声。他说这是老街深夜的声音，走了就再也录不到同样的频率。', "A recording of wind Noah made. He says this is the sound of the Old Street late at night — once gone, you'd never record the same frequency again.");
 
     const streetLine =
       (m3 === 'C3' || m2 === 'C2')
-        ? 'Leo 常站着的那个街角。他说每次想走，走到这里就会停下——这座城比想象中沉，你也选择了沉下来。'
+        ? L('Leo 常站着的那个街角。他说每次想走，走到这里就会停下——这座城比想象中沉，你也选择了沉下来。', "The street corner Leo always stands at. He says every time he wants to leave, he stops here — this city weighs more than imagined, and you chose to settle down too.")
         : (m3 === 'A3' || m2 === 'A2')
-            ? 'Leo 常站着的那个街角。他说每次想走，走到这里就会停下——但你最终还是选择了出发。'
-            : 'Leo 常站着的那个街角。他说每次想离开，走到这里就会停下——这座城比想象中沉。';
+            ? L('Leo 常站着的那个街角。他说每次想走，走到这里就会停下——但你最终还是选择了出发。', "The street corner Leo always stands at. He says every time he wants to leave, he stops here — but in the end, you chose to set out.")
+            : L('Leo 常站着的那个街角。他说每次想离开，走到这里就会停下——这座城比想象中沉。', "The street corner Leo always stands at. He says every time he wants to leave, he stops here — this city weighs more than imagined.");
 
     const targets = [
-      { tx: 5,  ty: 9, flag: 'ch4_mem_photo',    label: '合照墙', line: photoLine },
-      { tx: 19, ty: 9, flag: 'ch4_mem_recorder', label: 'Noah 的录音机', line: recorderLine },
-      { tx: 12, ty: 2, flag: 'ch4_mem_street',   label: 'Leo 的老街角', line: streetLine }
+      { tx: 5,  ty: 9, flag: 'ch4_mem_photo',    label: L('合照墙', 'Photo Wall'),          line: photoLine },
+      { tx: 19, ty: 9, flag: 'ch4_mem_recorder', label: L('Noah 的录音机', "Noah's Recorder"), line: recorderLine },
+      { tx: 12, ty: 2, flag: 'ch4_mem_street',   label: L('Leo 的老街角', "Leo's Old Corner"), line: streetLine }
     ];
     for (const t of targets) {
       if (GameState.inst.hasFlag(t.flag)) continue;
@@ -553,30 +554,30 @@ export class OldDistrictScene extends BaseScene {
     const collected = OldDistrictScene.CH4_MEM_FLAGS.filter(f => GameState.inst.hasFlag(f)).length;
     if (collected >= OldDistrictScene.CH4_MEM_FLAGS.length && !TaskSystem.inst.isDone('ch4_memory_walk')) {
       GameState.inst.applyEffects({ rootedness: 2 });
-      this.showSpeech('三个回忆都走过了。不管去留，这些都会一直陪着你。');
-      this.completeTaskWithToast('ch4_memory_walk', '重走老街的承诺');
+      this.showSpeech(L('三个回忆都走过了。不管去留，这些都会一直陪着你。', "All three memories revisited. Whether you leave or stay, these will stay with you always."));
+      this.completeTaskWithToast('ch4_memory_walk', L('重走老街的承诺', 'Promise of the Old Street Walk'));
     } else {
-      this.showToast(`回忆探访 ${collected}/${OldDistrictScene.CH4_MEM_FLAGS.length}`);
+      this.showToast(L(`回忆探访 ${collected}/${OldDistrictScene.CH4_MEM_FLAGS.length}`, `Memories visited ${collected}/${OldDistrictScene.CH4_MEM_FLAGS.length}`));
     }
   }
 
   // —— 第三章任务对子A（演示）——
   private spawnChapter3Choice(): void {
-    const a = this.addPoi(10, 13, '更换交流发电机', {
+    const a = this.addPoi(10, 13, L('更换交流发电机', 'Replace the Alternator'), {
       onInteract: () => {
         if (this.choiceSystem.resolve(CH3_CHOICE_ID, 'elias_alternator')) {
-          this.showSpeech('「他说离开家的第一晚，才第一次真正喘过气。」伊莱亚斯低声说。');
+          this.showSpeech(L('「他说离开家的第一晚，才第一次真正喘过气。」伊莱亚斯低声说。', '"He said the first night away from home was the first time he could truly breathe," Elias said softly.'));
         } else {
-          this.showSpeech('这件事已经过去了。');
+          this.showSpeech(L('这件事已经过去了。', 'This matter has already passed.'));
         }
       }
     });
-    const b = this.addPoi(19, 4, '拂晓微光 · 玛雅画展', {
+    const b = this.addPoi(19, 4, L('拂晓微光 · 玛雅画展', "Dawn's Gleam · Maya's Exhibit"), {
       onInteract: () => {
         if (this.choiceSystem.resolve(CH3_CHOICE_ID, 'maya_exhibit')) {
-          this.showSpeech('玛雅的画里，全是格雷布里奇一处处歇业消亡的景象，而非北方。');
+          this.showSpeech(L('玛雅的画里，全是格雷布里奇一处处歇业消亡的景象，而非北方。', "In Maya's paintings, every scene is of Greybridge shutting down and fading away — not the North."));
         } else {
-          this.showSpeech('这件事已经过去了。');
+          this.showSpeech(L('这件事已经过去了。', 'This matter has already passed.'));
         }
       }
     });
@@ -667,12 +668,12 @@ export class OldDistrictScene extends BaseScene {
       }
     } else {
       // 未写过：添加互动 POI
-      const wishPoi = this.addPoi(2, 11, '写下你的愿望', {
+      const wishPoi = this.addPoi(2, 11, L('写下你的愿望', 'Write Your Wish'), {
         type: 'info',
         onInteract: () => {
           // 弹出 5 选 1 愿望选项（不再先放大查看，直接选）
           const opts = CH0_WISH_OPTIONS.map(o => o.label);
-          this.showSimpleChoices('你的北方愿望是什么？', opts, (idx) => {
+          this.showSimpleChoices(L('你的北方愿望是什么？', 'What is your wish for the North?'), opts, (idx) => {
             if (idx < 0) return; // ESC 取消
             const choice = CH0_WISH_OPTIONS[idx];
             // 记录 flag + 微数值变化
@@ -692,7 +693,7 @@ export class OldDistrictScene extends BaseScene {
             this.burstSparkle(wallX, wallY, 0xf5c97a);
             this.showToast(choice.toast);
             this.time.delayedCall(400, () => {
-              this.showSpeech('便签被钉在了愿望板的中央。五个人的愿望终于凑齐了。');
+              this.showSpeech(L('便签被钉在了愿望板的中央。五个人的愿望终于凑齐了。', 'The note is pinned to the center of the wish board. The wishes of all five are finally complete.'));
             });
           });
         }
@@ -701,7 +702,7 @@ export class OldDistrictScene extends BaseScene {
 
     // —— 北方宣传看板（街区中央大型海报，可放大查看）——
     this.sceneArt.placeNorthBoard(12 * T + T / 2, 8 * T + T / 2);
-    this.addZoomablePoi(12, 8, '北方·公告板', 'deco_northboard', 2.5,
+    this.addZoomablePoi(12, 8, L('北方·公告板', 'North · Bulletin Board'), 'deco_northboard', 2.5,
       CH0_BOARD_DESC.title, CH0_BOARD_DESC.text);
 
     // —— 4 张明信片（可放大查看 + 收集品）——
@@ -741,7 +742,7 @@ export class OldDistrictScene extends BaseScene {
       const desc = CH0_POSTCARD_DESC[card.type];
 
       // 添加可放大 + 收集的 POI
-      const poi = this.addPoi(card.tx, card.ty, '明信片', {
+      const poi = this.addPoi(card.tx, card.ty, L('明信片', 'Postcard'), {
         type: 'item',
         onInteract: () => {
           // 先展示放大查看，看完后收集
@@ -760,10 +761,10 @@ export class OldDistrictScene extends BaseScene {
               f => GameState.inst.hasFlag(f)
             ).length;
             if (totalCollected >= 4) {
-              this.completeTaskWithToast('ch0_posters', '北方的讯息');
-              this.showSpeech('4 张来自北方的明信片都看完了。该去找伙伴们聊聊了——每个人都在期待北方！');
+              this.completeTaskWithToast('ch0_posters', L('北方的讯息', 'Messages from the North'));
+              this.showSpeech(L('4 张来自北方的明信片都看完了。该去找伙伴们聊聊了——每个人都在期待北方！', "All 4 postcards from the North have been read. Time to go talk to everyone — they're all looking forward to the North!"));
             } else {
-              this.showToast(`明信片 ${totalCollected}/4`);
+              this.showToast(L(`明信片 ${totalCollected}/4`, `Postcards ${totalCollected}/4`));
             }
           });
         }

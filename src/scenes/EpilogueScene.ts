@@ -18,10 +18,11 @@ import Phaser from 'phaser';
 import { BaseScene, Poi, PoiType } from './BaseScene';
 import { GameState, EndingType, ENDING_LABEL, CARRY_ITEM_LABEL } from '../state/GameState';
 import { ChapterId } from '../state/Chapter';
+import { L, t } from '../systems/I18n';
 
 // 羁绊角色名映射
 const BOND_NAMES: Record<'maya' | 'noah' | 'leo', string> = {
-  maya: '玛雅', noah: '诺亚', leo: '利奥'
+  maya: t('npc_maya'), noah: t('npc_noah'), leo: t('npc_leo')
 };
 
 // 所有结局均使用静态背景+正常tile走动+按E交互
@@ -145,7 +146,7 @@ export class EpilogueScene extends BaseScene {
     this.showEndingTitle(ending);
 
     if (!ending) {
-      this.addPoi(12, 5, '回到标题', {
+      this.addPoi(12, 5, L('回到标题', 'Return to Title'), {
         onInteract: () => { GameState.inst.reset(); this.scene.start('TitleScene'); }
       });
       return;
@@ -160,7 +161,7 @@ export class EpilogueScene extends BaseScene {
     }
 
     // 重新开始（tile坐标，右下角）
-    this.addPoi(22, 8, '重新开始', {
+    this.addPoi(22, 8, L('重新开始', 'Restart'), {
       onInteract: () => { GameState.inst.reset(); this.scene.start('TitleScene'); }
     });
   }
@@ -427,7 +428,7 @@ export class EpilogueScene extends BaseScene {
     });
 
     // 说明文字
-    this.add.text(cx, dashTop - 100, '北方很远，但你们一直在走。', {
+    this.add.text(cx, dashTop - 100, L('北方很远，但你们一直在走。', "The North is far, but you keep walking."), {
       fontFamily: 'serif', fontSize: '14px', color: '#c8c0b0', letterSpacing: 3
     }).setOrigin(0.5).setDepth(60).setScrollFactor(0).setAlpha(0.7);
   }
@@ -547,18 +548,18 @@ export class EpilogueScene extends BaseScene {
   // —— 结局标题 ——
   private showEndingTitle(ending: EndingType | null): void {
     const W = this.scale.width;
-    const label = ending ? ENDING_LABEL[ending] : '未完的旅程';
+    const label = ending ? ENDING_LABEL[ending] : L('未完的旅程', 'Unfinished Journey');
     const subtitle: Record<EndingType, string> = {
-      go_north:      '北方很远，但你们一直在走。',
-      return_home:   '这里的灯火，就是你要去的地方。',
-      unknown_path:  '方向是你自己的。',
-      pause_journey: '有些路，需要先停下来才能看清。',
+      go_north:      L('北方很远，但你们一直在走。', "The North is far, but you keep walking."),
+      return_home:   L('这里的灯火，就是你要去的地方。', 'These lights are where you belong.'),
+      unknown_path:  L('方向是你自己的。', 'The direction is your own.'),
+      pause_journey: L('有些路，需要先停下来才能看清。', 'Some roads can only be seen clearly when you stop first.'),
       with_maya: '', with_noah: '', with_leo: ''
     };
     const sub = ending ? subtitle[ending] : '';
     const precond = ending ? GameState.inst.getEndingPrecondition(ending) : '';
 
-    const title = this.add.text(W / 2, 48, `【结局】${label}`, {
+    const title = this.add.text(W / 2, 48, `${L('【结局】', '[Ending] ')}${label}`, {
       fontFamily: '"PingFang SC","Microsoft YaHei",serif',
       fontSize: '30px', color: '#e8e4d8', fontStyle: 'bold'
     }).setOrigin(0.5).setAlpha(0).setDepth(60).setScrollFactor(0);
@@ -587,17 +588,17 @@ export class EpilogueScene extends BaseScene {
     const m3 = gs.getStoryMark('ch3') ?? '—';
     const m4 = gs.getStoryMark('ch4') ?? '—';
     const top = gs.topBond();
-    const topText = top ? `最高羁绊：${BOND_NAMES[top]}` : '无';
-    const commitment = gs.isHighCommitment() ? '信守' : '动摇';
-    const rootedness = gs.isHighRootedness() ? '留恋' : '疏离';
+    const topText = top ? `${L('最高羁绊', 'Top Bond')}: ${BOND_NAMES[top]}` : t('none_label');
+    const commitment = gs.isHighCommitment() ? L('信守', 'Steadfast') : L('动摇', 'Wavering');
+    const rootedness = gs.isHighRootedness() ? L('留恋', 'Attached') : L('疏离', 'Detached');
     const suggested = gs.suggestEnding();
     const suggestLabel = suggested ? ENDING_LABEL[suggested] : '—';
     const precond = gs.getEndingPrecondition(suggested);
 
     const W = this.scale.width;
     const summary = this.add.text(W / 2, 472,
-      `印记：${m1}→${m2}→${m3}→${m4}  |  ${commitment}·${rootedness}  |  ${topText}\n` +
-      `你倾向的结局：${suggestLabel}\n${precond}`,
+      `${L('印记', 'Marks')}: ${m1}→${m2}→${m3}→${m4}  |  ${commitment}·${rootedness}  |  ${topText}\n` +
+      `${L('你倾向的结局', 'Your leaning ending')}: ${suggestLabel}\n${precond}`,
       {
         fontFamily: '"PingFang SC","Microsoft YaHei",sans-serif',
         fontSize: '11px', color: '#6b5d42',
@@ -618,13 +619,13 @@ export class EpilogueScene extends BaseScene {
     this.showChoiceSummary();
 
     // 第一排（y=3）：核心物品，间距5格
-    this.addPoi(4, 3, '记账本', {
+    this.addPoi(4, 3, L('记账本', 'Ledger'), {
       onInteract: () => this.showSpeech(this.getAccountBookDesc('north'))
     });
-    this.addPoi(9, 3, '通行材料', {
+    this.addPoi(9, 3, L('通行材料', 'Travel Papers'), {
       onInteract: () => this.showSpeech(this.getPassMaterialDesc('north'))
     });
-    this.addPoi(14, 3, '旅行轿车', {
+    this.addPoi(14, 3, L('旅行轿车', 'Station Wagon'), {
       onInteract: () => this.showSpeech(this.getCarDesc('north'))
     });
     this.addPoi(19, 3, this.getCopilotLabel(), {
@@ -637,7 +638,7 @@ export class EpilogueScene extends BaseScene {
     this.addPoi(12, 5, this.getTrunkItemLabel(), {
       onInteract: () => this.showSpeech(this.getTrunkItemDesc())
     });
-    this.addPoi(18, 5, '启程', {
+    this.addPoi(18, 5, L('启程', 'Departure'), {
       onInteract: () => this.showSpeech(this.getNorthDepartDesc())
     });
   }
@@ -649,20 +650,20 @@ export class EpilogueScene extends BaseScene {
     this.showChoiceSummary();
 
     // 第一排（y=3）：核心物品，间距5格
-    this.addPoi(4, 3, 'Maya 的画', {
+    this.addPoi(4, 3, L('Maya 的画', "Maya's Painting"), {
       onInteract: () => this.showSpeech(this.getMayaPaintingDesc())
     });
-    this.addPoi(9, 3, 'Noah 的手工', {
+    this.addPoi(9, 3, L('Noah 的手工', "Noah's Craft"), {
       onInteract: () => this.showSpeech(this.getNoahCraftDesc())
     });
-    this.addPoi(14, 3, '老街旧物', {
+    this.addPoi(14, 3, L('老街旧物', 'Old Street Keepsake'), {
       onInteract: () => this.showSpeech(this.getLeoOldItemDesc())
     });
-    this.addPoi(19, 3, '封存的材料', {
+    this.addPoi(19, 3, L('封存的材料', 'Sealed Papers'), {
       onInteract: () => this.showSpeech(this.getSealedMaterialDesc())
     });
     // 第二排（y=5）：窗外
-    this.addPoi(12, 5, '窗外', {
+    this.addPoi(12, 5, L('窗外', 'Window'), {
       onInteract: () => this.showSpeech(this.getHomeStayDesc())
     });
   }
@@ -674,17 +675,17 @@ export class EpilogueScene extends BaseScene {
     this.showChoiceSummary();
 
     // 第一排（y=3）：核心物品
-    this.addPoi(6, 3, '远行物资', {
+    this.addPoi(6, 3, L('远行物资', 'Travel Supplies'), {
       onInteract: () => this.showSpeech(this.getTravelSuppliesDesc())
     });
-    this.addPoi(12, 3, '小幅画作', {
+    this.addPoi(12, 3, L('小幅画作', 'Small Painting'), {
       onInteract: () => this.showSpeech(this.getSmallPaintingDesc())
     });
-    this.addPoi(18, 3, '背包', {
+    this.addPoi(18, 3, L('背包', 'Backpack'), {
       onInteract: () => this.showSpeech(this.getBackpackDesc())
     });
     // 第二排（y=5）：前方
-    this.addPoi(12, 5, '前方', {
+    this.addPoi(12, 5, L('前方', 'The Road Ahead'), {
       onInteract: () => this.showSpeech(this.getUnknownPathDesc())
     });
   }
@@ -696,20 +697,20 @@ export class EpilogueScene extends BaseScene {
     this.showChoiceSummary();
 
     // 第一排（y=3）：核心物品，间距5格
-    this.addPoi(4, 3, '半打包行李', {
+    this.addPoi(4, 3, L('半打包行李', 'Half-Packed Bag'), {
       onInteract: () => this.showSpeech(this.getHalfPackedDesc())
     });
-    this.addPoi(9, 3, '记账本', {
+    this.addPoi(9, 3, L('记账本', 'Ledger'), {
       onInteract: () => this.showSpeech(this.getAccountBookDesc('pause'))
     });
-    this.addPoi(14, 3, '散落的画稿', {
+    this.addPoi(14, 3, L('散落的画稿', 'Scattered Sketches'), {
       onInteract: () => this.showSpeech(this.getScatteredDrawingsDesc())
     });
-    this.addPoi(19, 3, '手工摆件', {
+    this.addPoi(19, 3, L('手工摆件', 'Fallen Craft'), {
       onInteract: () => this.showSpeech(this.getFallenCraftDesc())
     });
     // 第二排（y=5）：窗边
-    this.addPoi(12, 5, '窗边', {
+    this.addPoi(12, 5, L('窗边', 'Windowside'), {
       onInteract: () => this.showSpeech(this.getPauseWindowDesc())
     });
   }
@@ -735,22 +736,22 @@ export class EpilogueScene extends BaseScene {
   private getAccountBookDesc(context: 'north' | 'pause'): string {
     const m1 = this.getM1();
     if (context === 'north') {
-      if (m1 === 'A1') return '从第一天起你就认真记账。每一笔打工攒下的钱，都是向北方的路费。';
-      if (m1 === 'C1') return '记账本里夹着一张老街速写。你说这是给未来的纪念——但最终还是选择了北方。';
-      return '记账本记得整整齐齐。偶尔夹着老街的速写，但目的地始终是北方。';
+      if (m1 === 'A1') return L('从第一天起你就认真记账。每一笔打工攒下的钱，都是向北方的路费。', 'From the first day you kept careful accounts. Every bit of money saved from odd jobs was travel fare for the North.');
+      if (m1 === 'C1') return L('记账本里夹着一张老街速写。你说这是给未来的纪念——但最终还是选择了北方。', 'A sketch of the Old Street is tucked in the ledger. You said it was a keepsake for the future — but in the end you still chose the North.');
+      return L('记账本记得整整齐齐。偶尔夹着老街的速写，但目的地始终是北方。', 'The ledger is kept neat and tidy. Occasionally a sketch of the Old Street is tucked inside, but the destination was always the North.');
     }
     // pause
-    if (m1 === 'A1') return '记账本摊开在地，停在最后一笔。你本想攒够路费北上，如今却犹豫了。';
-    if (m1 === 'C1') return '记账本摊开在地，里面夹着老街速写。你曾想留下，又曾想出发——两样都没做到。';
-    return '记账本摊开在地。数字记了一半，方向也没想清。';
+    if (m1 === 'A1') return L('记账本摊开在地，停在最后一笔。你本想攒够路费北上，如今却犹豫了。', 'The ledger lies open on the floor, stopped at the last entry. You had meant to save enough fare for the North, but now you hesitate.');
+    if (m1 === 'C1') return L('记账本摊开在地，里面夹着老街速写。你曾想留下，又曾想出发——两样都没做到。', 'The ledger lies open on the floor, a sketch of the Old Street tucked inside. You once wanted to stay, and once wanted to leave — you did neither.');
+    return L('记账本摊开在地。数字记了一半，方向也没想清。', 'The ledger lies open on the floor. Half the numbers are recorded, and the direction is still unclear.');
   }
 
   // 通行材料描述（ch3 印记联动）
   private getPassMaterialDesc(context: 'north'): string {
     const m3 = this.getM3();
-    if (m3 === 'A3') return 'Elias 帮你加急办好的全套通行材料，手续齐全，没有遗漏。\n他看到你最终选择北上，嘴角终于有了笑意。';
-    if (m3 === 'C3') return '通行材料最终还是办齐了——虽然你曾一度想为了画展放弃。\nElias 没有说什么，只是把它们整整齐齐交给你。';
-    return '通行材料办得不多不少，刚好够用。你两边都兼顾了，手续也完成了。';
+    if (m3 === 'A3') return L('Elias 帮你加急办好的全套通行材料，手续齐全，没有遗漏。\n他看到你最终选择北上，嘴角终于有了笑意。', 'Elias helped expedite the full set of travel papers — everything in order, nothing missing.\nSeeing you finally choose to head north, a faint smile finally crossed his lips.');
+    if (m3 === 'C3') return L('通行材料最终还是办齐了——虽然你曾一度想为了画展放弃。\nElias 没有说什么，只是把它们整整齐齐交给你。', 'The travel papers were eventually completed — though you once thought of giving them up for the art show.\nElias said nothing, only handed them to you neat and tidy.');
+    return L('通行材料办得不多不少，刚好够用。你两边都兼顾了，手续也完成了。', 'The travel papers were neither too many nor too few — just enough. You managed both sides, and the paperwork is done.');
   }
 
   // 旅行轿车描述（ch4 印记 + isHighCommitment 联动）
@@ -759,87 +760,87 @@ export class EpilogueScene extends BaseScene {
     const highC = this.isHighC();
     if (context === 'north') {
       if (m4 === 'A4') {
-        return '褪色的蓝色旅行轿车。车门内侧，五个名字的首字母依然清晰——那是很多年前刻下的。\nNoah 和 Leo 最终也同意了北上。车厢里备满了干粮和地图——你一直是对的。';
+        return L('褪色的蓝色旅行轿车。车门内侧，五个名字的首字母依然清晰——那是很多年前刻下的。\nNoah 和 Leo 最终也同意了北上。车厢里备满了干粮和地图——你一直是对的。', 'The faded blue station wagon. Inside the door, the initials of five names are still clear — carved many years ago.\nNoah and Leo finally agreed to head north. The cabin is stocked with rations and maps — you were right all along.');
       }
       if (m4 === 'C4') {
-        return '褪色的蓝色旅行轿车。你最终还是选择了远方，尽管内心还在挣扎。\nNoah 和 Leo 没有来送行——他们选择了自己的路。';
+        return L('褪色的蓝色旅行轿车。你最终还是选择了远方，尽管内心还在挣扎。\nNoah 和 Leo 没有来送行——他们选择了自己的路。', 'The faded blue station wagon. You ultimately chose the distance, though your heart still struggles.\nNoah and Leo did not come to see you off — they chose their own paths.');
       }
       // B4 或未设置
       return highC
-        ? '褪色的蓝色旅行轿车。你做了折中选择——两边都没有完全说服，但终究还是踏上了路。\n车厢里有准备好的物资，也有 Maya 塞给你的小幅画作。'
-        : '褪色的蓝色旅行轿车。你决定北上，但准备并不充分——车票是凑的，地图是旧的。\n也许，这就是你想要的冒险。';
+        ? L('褪色的蓝色旅行轿车。你做了折中选择——两边都没有完全说服，但终究还是踏上了路。\n车厢里有准备好的物资，也有 Maya 塞给你的小幅画作。', 'The faded blue station wagon. You made a compromise — neither side fully persuaded, but you set out on the road at last.\nIn the cabin are prepared supplies, and the small painting Maya slipped you.')
+        : L('褪色的蓝色旅行轿车。你决定北上，但准备并不充分——车票是凑的，地图是旧的。\n也许，这就是你想要的冒险。', 'The faded blue station wagon. You decided to head north, but you were not well-prepared — the ticket was patched together, the map was old.\nPerhaps this is the adventure you wanted.');
     }
     // unknown_path
-    return '那辆褪色的蓝色旅行轿车停在路边。你没有开它——你想走一条完全不同的路。';
+    return L('那辆褪色的蓝色旅行轿车停在路边。你没有开它——你想走一条完全不同的路。', 'That faded blue station wagon sits by the road. You did not drive it — you wanted to walk a completely different path.');
   }
 
   // 副驾驶/空位描述（ch4 + topBond 联动）
   private getCopilotLabel(): string {
     const top = this.getTop();
-    if (top) return `${BOND_NAMES[top]}的位置`;
-    return '空位';
+    if (top) return `${BOND_NAMES[top]}${L('的位置', "'s Seat")}`;
+    return L('空位', 'Empty Seat');
   }
 
   private getCopilotDesc(): string {
     const m4 = this.getM4();
     const top = this.getTop();
     if (m4 === 'A4') {
-      return '副驾驶坐满了。Elias 在前排，Noah 和 Leo 在后排——这是你们当年约定的模样。';
+      return L('副驾驶坐满了。Elias 在前排，Noah 和 Leo 在后排——这是你们当年约定的模样。', 'The passenger seat is full. Elias is up front, Noah and Leo in the back — this is the shape of what you all agreed on years ago.');
     }
     if (top === 'maya') {
-      return '副驾驶放着 Maya 的画框。她没来，但她的画陪你上路。\n你和她的羁绊最深——即便选择了北上，她依然在你心里。';
+      return L('副驾驶放着 Maya 的画框。她没来，但她的画陪你上路。\n你和她的羁绊最深——即便选择了北上，她依然在你心里。', "Maya's picture frame rests in the passenger seat. She did not come, but her painting rides with you.\nYour bond with her is the deepest — even having chosen the North, she is still in your heart.");
     }
     if (top === 'noah') {
-      return '副驾驶放着 Noah 手工做的小摆件。他没来送行，但偷偷把它塞进了你的包里。';
+      return L('副驾驶放着 Noah 手工做的小摆件。他没来送行，但偷偷把它塞进了你的包里。', "A small craft Noah made by hand sits in the passenger seat. He did not come to see you off, but secretly slipped it into your bag.");
     }
     if (top === 'leo') {
-      return '副驾驶放着 Leo 常带的那本旧旅行日志。他说过他想走，现在你替他走了。';
+      return L('副驾驶放着 Leo 常带的那本旧旅行日志。他说过他想走，现在你替他走了。', "The old travel journal Leo always carried sits in the passenger seat. He said he wanted to go — now you go in his place.");
     }
-    return '副驾驶空着。没有人来送行，也没有人选择同行——这是你自己的路。';
+    return L('副驾驶空着。没有人来送行，也没有人选择同行——这是你自己的路。', 'The passenger seat is empty. No one came to see you off, no one chose to come along — this is your own road.');
   }
 
   // 携带物品描述（carriedItem 联动）
   private getCarryItemLabel(): string {
     const ci = GameState.inst.carriedItem;
-    return ci ? CARRY_ITEM_LABEL[ci] : '随身物品';
+    return ci ? CARRY_ITEM_LABEL[ci] : L('随身物品', 'Personal Item');
   }
 
   private getCarryItemDesc(): string {
     const ci = GameState.inst.carriedItem;
-    if (!ci) return '你没有特意挑选什么带走——空着手，也可以走很远。';
+    if (!ci) return L('你没有特意挑选什么带走——空着手，也可以走很远。', 'You did not pick anything in particular to take — empty-handed, you can still walk a long way.');
     const labels: Record<string, string> = {
-      group_photo: '一张褪色的团体合照。五个人站在老街路口，笑容灿烂——那是北上计划最初的样子。\n你选择带上它，提醒自己这段旅程从何开始。',
-      blank_notebook: '一本空白的笔记本。你决定不写旧计划，要在路上重新书写自己的故事。',
-      house_key: '一把老街家门的钥匙。你没有封存它——也许有一天，你会回来。',
-      old_map: '一张泛黄的旧地图，标注着北方的方向。这是你出发时唯一需要的东西。'
+      group_photo: L('一张褪色的团体合照。五个人站在老街路口，笑容灿烂——那是北上计划最初的样子。\n你选择带上它，提醒自己这段旅程从何开始。', 'A faded group photo. Five people stand at the corner of the Old Street, smiles bright — that was the original shape of the northbound plan.\nYou chose to bring it, to remind yourself where this journey began.'),
+      blank_notebook: L('一本空白的笔记本。你决定不写旧计划，要在路上重新书写自己的故事。', 'A blank notebook. You decided not to write down the old plan — you will rewrite your own story on the road.'),
+      house_key: L('一把老街家门的钥匙。你没有封存它——也许有一天，你会回来。', 'A key to the door of home on the Old Street. You did not seal it away — perhaps one day you will come back.'),
+      old_map: L('一张泛黄的旧地图，标注着北方的方向。这是你出发时唯一需要的东西。', 'A yellowed old map, marking the way to the North. This is the only thing you need when setting out.')
     };
-    return labels[ci] ?? '一件随身物品，陪伴你踏上北方之路。';
+    return labels[ci] ?? L('一件随身物品，陪伴你踏上北方之路。', 'A personal item, accompanying you on the road north.');
   }
 
   // 后备箱物品（trunkItem 联动）
   private getTrunkItemLabel(): string {
     const ti = GameState.inst.trunkItem;
     const labels: Record<string, string> = {
-      tools: '维修工具',
-      memory_box: '童年纪念盒',
-      maya_painting: '玛雅的画作',
-      noah_recorder: '诺亚的录音机',
-      leo_bag: '利奥的旅行包'
+      tools: t('trunk_tools'),
+      memory_box: t('trunk_memory_box'),
+      maya_painting: t('trunk_maya_painting'),
+      noah_recorder: t('trunk_noah_recorder'),
+      leo_bag: t('trunk_leo_bag')
     };
-    return ti ? (labels[ti] ?? '后备箱物品') : '后备箱';
+    return ti ? (labels[ti] ?? L('后备箱物品', 'Trunk Item')) : L('后备箱', 'Trunk');
   }
 
   private getTrunkItemDesc(): string {
     const ti = GameState.inst.trunkItem;
-    if (!ti) return '后备箱里放着几件旅途必需品——你没有特意装什么纪念物。';
+    if (!ti) return L('后备箱里放着几件旅途必需品——你没有特意装什么纪念物。', 'A few travel essentials lie in the trunk — you did not pack any keepsakes in particular.');
     const labels: Record<string, string> = {
-      tools: '维修工具整齐码在后备箱。这是你当初选择优先办理通行材料时决定带上的——实用，而没有多余的东西。',
-      memory_box: '童年纪念盒安静地躺在后备箱。你选择了折中——既没有完全抛弃过去，也没有被它束缚。',
-      maya_painting: '玛雅的画作靠在后备箱壁上。你当初为了支持她的画展而推迟手续——如今这幅画陪你一同北上。',
-      noah_recorder: '诺亚的录音机放在后备箱。你曾在第二章选择支持他的自我方向——如今他的声音录在这盒磁带里。',
-      leo_bag: '利奥的旅行包塞在后备箱角落。你曾在第一章选择理解他的不舍——如今他的东西陪你上路。'
+      tools: L('维修工具整齐码在后备箱。这是你当初选择优先办理通行材料时决定带上的——实用，而没有多余的东西。', 'Repair tools are neatly stacked in the trunk. You decided to bring them when you chose to prioritize the travel papers — practical, with nothing extra.'),
+      memory_box: L('童年纪念盒安静地躺在后备箱。你选择了折中——既没有完全抛弃过去，也没有被它束缚。', 'The childhood memory box lies quietly in the trunk. You chose a compromise — neither fully discarding the past, nor bound by it.'),
+      maya_painting: L('玛雅的画作靠在后备箱壁上。你当初为了支持她的画展而推迟手续——如今这幅画陪你一同北上。', "Maya's painting leans against the wall of the trunk. You once delayed the paperwork to support her show — now this painting rides north with you."),
+      noah_recorder: L('诺亚的录音机放在后备箱。你曾在第二章选择支持他的自我方向——如今他的声音录在这盒磁带里。', "Noah's recorder sits in the trunk. You once chose to support his own direction in Chapter 2 — now his voice is recorded on this tape."),
+      leo_bag: L('利奥的旅行包塞在后备箱角落。你曾在第一章选择理解他的不舍——如今他的东西陪你上路。', "Leo's travel bag is stuffed in the corner of the trunk. You once chose to understand his reluctance in Chapter 1 — now his things ride along with you.")
     };
-    return labels[ti] ?? '后备箱里的一件物品，陪伴你踏上旅途。';
+    return labels[ti] ?? L('后备箱里的一件物品，陪伴你踏上旅途。', 'An item in the trunk, accompanying you on the journey.');
   }
 
   // 启程描述（ch4 印记 + isHighCommitment 联动）
@@ -852,17 +853,17 @@ export class EpilogueScene extends BaseScene {
     const fullA = m1 === 'A1' && m2 === 'A2' && m3 === 'A3' && m4 === 'A4';
 
     if (fullA && highC) {
-      return '引擎发动。北方的灯火越来越近。\n车厢里只有记账本和全套通行材料——没有 Maya 画展相关的任何物品。\n这就是你们说好的路——从第一天起，你就从未动摇。';
+      return L('引擎发动。北方的灯火越来越近。\n车厢里只有记账本和全套通行材料——没有 Maya 画展相关的任何物品。\n这就是你们说好的路——从第一天起，你就从未动摇。', 'The engine starts. The lights of the North draw ever closer.\nIn the cabin are only the ledger and the full set of travel papers — nothing related to Maya\'s art show.\nThis is the road you all agreed on — from the first day, you never wavered.');
     }
     if (m4 === 'A4' && highC) {
-      return '引擎发动。北方的灯火越来越近。\n这就是你们说好的路——从第一天起，你就从未动摇。';
+      return L('引擎发动。北方的灯火越来越近。\n这就是你们说好的路——从第一天起，你就从未动摇。', 'The engine starts. The lights of the North draw ever closer.\nThis is the road you all agreed on — from the first day, you never wavered.');
     }
     if (m4 === 'C4') {
-      return '引擎发动。北方的灯火越来越近。\n你曾想为 Maya 放弃这一切——但最终，你还是选择了远方。\n这个选择，你会花很长时间去消化。';
+      return L('引擎发动。北方的灯火越来越近。\n你曾想为 Maya 放弃这一切——但最终，你还是选择了远方。\n这个选择，你会花很长时间去消化。', 'The engine starts. The lights of the North draw ever closer.\nYou once wanted to give up all this for Maya — but in the end, you still chose the distance.\nIt will take you a long time to digest this choice.');
     }
     return highC
-      ? '引擎发动。北方的灯火越来越近。\n你做了折中选择——两边都顾及了，但方向始终是北方。'
-      : '引擎发动。北方的灯火越来越近。\n你选择了一个不算完美的出发——但也许，这就是最好的出发方式。';
+      ? L('引擎发动。北方的灯火越来越近。\n你做了折中选择——两边都顾及了，但方向始终是北方。', 'The engine starts. The lights of the North draw ever closer.\nYou made a compromise — you took care of both sides, but the direction was always north.')
+      : L('引擎发动。北方的灯火越来越近。\n你选择了一个不算完美的出发——但也许，这就是最好的出发方式。', 'The engine starts. The lights of the North draw ever closer.\nYou chose a less-than-perfect departure — but perhaps this is the best way to set out.');
   }
 
   // Maya 的画描述（bond.maya + ch3 + ch4 印记联动）
@@ -871,13 +872,13 @@ export class EpilogueScene extends BaseScene {
     const m4 = this.getM4();
     const bond = GameState.inst.bond.maya;
     if (m3 === 'C3' && m4 === 'C4') {
-      return '墙上挂着 Maya 赠送的手绘北方地图。\n为了陪她看画展，你曾推迟了出城手续——如今你们都留下了。\n「你看，留下来也挺好的。」她轻声说。';
+      return L('墙上挂着 Maya 赠送的手绘北方地图。\n为了陪她看画展，你曾推迟了出城手续——如今你们都留下了。\n「你看，留下来也挺好的。」她轻声说。', 'On the wall hangs a hand-drawn map of the North that Maya gave you.\nTo go to her show with her, you once delayed the departure paperwork — now you have both stayed.\n"See, staying is quite nice too," she says softly.');
     }
     if (m4 === 'A4') {
-      return '墙上挂着 Maya 的手绘。你曾想北上，她曾挽留——但最终你们都留在了这里。\n「至少你回来了。」她说。';
+      return L('墙上挂着 Maya 的手绘。你曾想北上，她曾挽留——但最终你们都留在了这里。\n「至少你回来了。」她说。', "On the wall hangs Maya's hand-drawn work. You once wanted to head north, she once asked you to stay — but in the end you both remained here.\n\"At least you came back,\" she says.");
     }
-    if (bond >= 10) return 'Maya 的手绘画挂在墙上最显眼的位置。她笑说你终于来看展了，而且再也不会走。';
-    return '墙上挂着 Maya 的手绘。她的首展你最终还是来了——以留下者的身份。';
+    if (bond >= 10) return L('Maya 的手绘画挂在墙上最显眼的位置。她笑说你终于来看展了，而且再也不会走。', "Maya's hand-drawn painting hangs in the most prominent spot on the wall. She jokes that you finally came to her show, and will never leave again.");
+    return L('墙上挂着 Maya 的手绘。她的首展你最终还是来了——以留下者的身份。', "On the wall hangs Maya's hand-drawn work. You finally came to her first show — as one who stays.");
   }
 
   // Noah 的手工描述（bond.noah + ch4 印记联动）
@@ -885,10 +886,10 @@ export class EpilogueScene extends BaseScene {
     const m4 = this.getM4();
     const bond = GameState.inst.bond.noah;
     if (m4 === 'C4') {
-      return 'Noah 的手工信物摆在窗台。他找到了真正想做的事——和你当初鼓励他的一样。\n「谢谢你让我想清楚。」他说。';
+      return L('Noah 的手工信物摆在窗台。他找到了真正想做的事——和你当初鼓励他的一样。\n「谢谢你让我想清楚。」他说。', "Noah's handmade token sits on the windowsill. He found what he truly wants to do — just as you once encouraged him.\n\"Thank you for helping me think it through,\" he says.");
     }
-    if (bond >= 10) return 'Noah 的手工信物摆在窗台。他说找到了真正想做的事，谢谢你当初的理解。';
-    return 'Noah 的手工信物摆在窗台。他找到了自己的方向，和你的选择一样——留下。';
+    if (bond >= 10) return L('Noah 的手工信物摆在窗台。他说找到了真正想做的事，谢谢你当初的理解。', "Noah's handmade token sits on the windowsill. He says he has found what he truly wants to do, and thanks you for your understanding back then.");
+    return L('Noah 的手工信物摆在窗台。他找到了自己的方向，和你的选择一样——留下。', "Noah's handmade token sits on the windowsill. He has found his own direction, the same as your choice — to stay.");
   }
 
   // Leo 的老街旧物描述（ch1 + bond.leo + ch4 印记联动）
@@ -897,15 +898,15 @@ export class EpilogueScene extends BaseScene {
     const m4 = this.getM4();
     const bond = GameState.inst.bond.leo;
     if (m1 === 'C1' && bond >= 10 && m4 === 'C4') {
-      return '你和 Leo 在屋顶聊过的老街旧物，安静地放在角落。\n从第一章起，他就知道你和他一样舍不得这里。\n现在，你们谁也没走。';
+      return L('你和 Leo 在屋顶聊过的老街旧物，安静地放在角落。\n从第一章起，他就知道你和他一样舍不得这里。\n现在，你们谁也没走。', 'The Old Street keepsake you and Leo talked about on the rooftop lies quietly in the corner.\nFrom the first chapter, he knew you were as reluctant to leave as he was.\nNow, neither of you has left.');
     }
     if (m1 === 'A1' && m4 === 'A4') {
-      return '你和 Leo 在老街聊过的旧物件，安静地放在角落。\n他曾以为你会走，你也曾以为自己会走——没想到最终，你们都留下了。';
+      return L('你和 Leo 在老街聊过的旧物件，安静地放在角落。\n他曾以为你会走，你也曾以为自己会走——没想到最终，你们都留下了。', 'The old keepsake you and Leo talked about on the Old Street lies quietly in the corner.\nHe once thought you would leave, and you once thought so too — unexpectedly, in the end you both stayed.');
     }
     if (m1 === 'C1') {
-      return '你和 Leo 在老街聊过的旧物件，安静地放在角落。\n他一直舍不得这里——现在你也是。';
+      return L('你和 Leo 在老街聊过的旧物件，安静地放在角落。\n他一直舍不得这里——现在你也是。', 'The old keepsake you and Leo talked about on the Old Street lies quietly in the corner.\nHe has always been reluctant to leave here — and now so are you.');
     }
-    return '你和 Leo 在老街聊过的旧物件。他一直舍不得这里，现在你也是。';
+    return L('你和 Leo 在老街聊过的旧物件。他一直舍不得这里，现在你也是。', 'The old keepsake you and Leo talked about on the Old Street. He has always been reluctant to leave here — and now so are you.');
   }
 
   // 封存材料描述（ch4 印记 + trunkItem 联动）
@@ -913,26 +914,29 @@ export class EpilogueScene extends BaseScene {
     const m4 = this.getM4();
     const ti = GameState.inst.trunkItem;
     const trunkLabel = ti ? {
-      tools: '维修工具',
-      memory_box: '童年纪念盒',
-      maya_painting: '玛雅的画作',
-      noah_recorder: '诺亚的录音机',
-      leo_bag: '利奥的旅行包'
-    }[ti] ?? '某件物品' : null;
+      tools: t('trunk_tools'),
+      memory_box: t('trunk_memory_box'),
+      maya_painting: t('trunk_maya_painting'),
+      noah_recorder: t('trunk_noah_recorder'),
+      leo_bag: t('trunk_leo_bag')
+    }[ti] ?? L('某件物品', 'an item') : null;
 
     let base = '';
     if (m4 === 'C4') {
-      base = '出城通行材料被收进柜子封存——那是你为北上准备的，如今再也用不上了。';
+      base = L('出城通行材料被收进柜子封存——那是你为北上准备的，如今再也用不上了。', 'The departure travel papers have been sealed away in a cabinet — what you prepared for heading north, now never to be used.');
     } else if (m4 === 'A4') {
-      base = '出城通行材料被收进柜子封存。你曾那么坚定地要走——现在这一切都成了过去。';
+      base = L('出城通行材料被收进柜子封存。你曾那么坚定地要走——现在这一切都成了过去。', 'The departure travel papers have been sealed away in a cabinet. You were once so determined to leave — now all of this has become the past.');
     } else {
-      base = '出城通行材料被收进柜子封存。不再需要了。';
+      base = L('出城通行材料被收进柜子封存。不再需要了。', 'The departure travel papers have been sealed away in a cabinet. No longer needed.');
     }
 
     if (trunkLabel) {
-      base += `\n当初装在后备箱的${trunkLabel}，也一并放在了柜子里——不再需要带走了。`;
+      base += L(
+        `\n当初装在后备箱的${trunkLabel}，也一并放在了柜子里——不再需要带走了。`,
+        `\nThe ${trunkLabel} once packed in the trunk has also been placed in the cabinet — no longer needed to take along.`
+      );
     }
-    base += '\n柜门关上的那一刻，你反而觉得轻松。';
+    base += L('\n柜门关上的那一刻，你反而觉得轻松。', '\nAs the cabinet door closes, you actually feel relieved.');
     return base;
   }
 
@@ -941,14 +945,14 @@ export class EpilogueScene extends BaseScene {
     const m4 = this.getM4();
     const highR = this.isHighR();
     if (m4 === 'C4' && highR) {
-      return '窗外是老街的灯火。每一盏灯、每一条巷子，都是你长大的痕迹。\n你曾想离开，最终留下——而这里，就是你的根。\n「欢迎回家。」你对自己说。';
+      return L('窗外是老街的灯火。每一盏灯、每一条巷子，都是你长大的痕迹。\n你曾想离开，最终留下——而这里，就是你的根。\n「欢迎回家。」你对自己说。', 'Outside the window are the lights of the Old Street. Every lamp, every alley, is the trace of your growing up.\nYou once wanted to leave, but in the end stayed — and this place is your root.\n"Welcome home," you say to yourself.');
     }
     if (m4 === 'A4') {
-      return '窗外是老街的灯火。你曾那么坚定地要走——现在却在这里。\n也许，这就是命运的安排。';
+      return L('窗外是老街的灯火。你曾那么坚定地要走——现在却在这里。\n也许，这就是命运的安排。', 'Outside the window are the lights of the Old Street. You were once so determined to leave — yet here you are now.\nPerhaps this is the arrangement of fate.');
     }
     return highR
-      ? '窗外是老街的灯火。每一盏灯、每一条巷子，都是你长大的痕迹。\n这里就是你的根。'
-      : '窗外是老街的灯火。你留了下来，但心里还在想着远方。\n也许有一天，你会想清楚。';
+      ? L('窗外是老街的灯火。每一盏灯、每一条巷子，都是你长大的痕迹。\n这里就是你的根。', 'Outside the window are the lights of the Old Street. Every lamp, every alley, is the trace of your growing up.\nThis place is your root.')
+      : L('窗外是老街的灯火。你留了下来，但心里还在想着远方。\n也许有一天，你会想清楚。', 'Outside the window are the lights of the Old Street. You stayed, but your heart is still on the distance.\nPerhaps one day, you will figure it out.');
   }
 
   // 远行物资描述（ch4 印记 + isHighCommitment 联动）
@@ -956,14 +960,14 @@ export class EpilogueScene extends BaseScene {
     const m4 = this.getM4();
     const highC = this.isHighC();
     if (m4 === 'B4') {
-      return '少量远行物资，不多，刚好够一个人走一段。\n你既没有全部带上，也没有全部放下——就像你一直以来的选择。';
+      return L('少量远行物资，不多，刚好够一个人走一段。\n你既没有全部带上，也没有全部放下——就像你一直以来的选择。', 'A small amount of travel supplies, not much, just enough for one person to walk a stretch.\nYou neither took everything nor set everything down — just as you have always chosen.');
     }
     if (m4 === 'C4') {
-      return '少量远行物资，加上 Maya 塞给你的一幅小幅画作。\n你选择了自己的路——不依附任何人。';
+      return L('少量远行物资，加上 Maya 塞给你的一幅小幅画作。\n你选择了自己的路——不依附任何人。', 'A small amount of travel supplies, plus a small painting Maya slipped you.\nYou chose your own road — dependent on no one.');
     }
     return highC
-      ? '远行物资准备充分。你本想北上，却最终选了一条不同的路。\n但你知道自己要什么。'
-      : '远行物资不多，只有随身的几件。你没有为任何选择做好充分准备——但这就是你。';
+      ? L('远行物资准备充分。你本想北上，却最终选了一条不同的路。\n但你知道自己要什么。', 'Travel supplies are well-prepared. You had meant to head north, but in the end chose a different road.\nBut you know what you want.')
+      : L('远行物资不多，只有随身的几件。你没有为任何选择做好充分准备——但这就是你。', 'Travel supplies are sparse, only a few items on hand. You did not fully prepare for any choice — but this is you.');
   }
 
   // 小幅画作描述（Maya 临别赠送，ch3 + ch4 印记联动）
@@ -971,12 +975,12 @@ export class EpilogueScene extends BaseScene {
     const m3 = this.getM3();
     const m4 = this.getM4();
     if (m3 === 'C3' && m4 === 'C4') {
-      return '一幅小幅画作，Maya 临别前塞给你的。\n你曾为了陪她看画展推迟了出城手续——如今这幅画陪你走上新路。\n「不管去哪里，带上它就好。」她说。';
+      return L('一幅小幅画作，Maya 临别前塞给你的。\n你曾为了陪她看画展推迟了出城手续——如今这幅画陪你走上新路。\n「不管去哪里，带上它就好。」她说。', 'A small painting, slipped to you by Maya before parting.\nYou once delayed the departure paperwork to go to her show with her — now this painting accompanies you on the new road.\n"No matter where you go, just bring it along," she says.');
     }
     if (m3 === 'A3') {
-      return '一幅小幅画作，Maya 临别前塞给你的。\n你曾放弃了她的画展优先北上——但她还是把这幅画留给了你。';
+      return L('一幅小幅画作，Maya 临别前塞给你的。\n你曾放弃了她的画展优先北上——但她还是把这幅画留给了你。', 'A small painting, slipped to you by Maya before parting.\nYou once gave up her show to prioritize heading north — but she still left this painting with you.');
     }
-    return '一幅小幅画作，Maya 临别前塞给你的。\n她说不管你去哪里，带上它就好。';
+    return L('一幅小幅画作，Maya 临别前塞给你的。\n她说不管你去哪里，带上它就好。', 'A small painting, slipped to you by Maya before parting.\nShe says no matter where you go, just bring it along.');
   }
 
   // 背包描述（topBond + ch4 印记联动）
@@ -984,18 +988,18 @@ export class EpilogueScene extends BaseScene {
     const m4 = this.getM4();
     const top = this.getTop();
     if (top === 'maya') {
-      return '背包不重。里面装着记账本的一页、老街的一颗石子，和 Maya 送你的那幅画。\n她是你最在意的人——但你选择了独自前行。';
+      return L('背包不重。里面装着记账本的一页、老街的一颗石子，和 Maya 送你的那幅画。\n她是你最在意的人——但你选择了独自前行。', "The backpack is not heavy. Inside are a page from the ledger, a pebble from the Old Street, and the painting Maya gave you.\nShe is the one you care about most — but you chose to walk on alone.");
     }
     if (top === 'noah') {
-      return '背包不重。里面装着记账本的一页、老街的一颗石子，和 Noah 手工做的小摆件。\n他是你最在意的人——但你选择了独自前行。';
+      return L('背包不重。里面装着记账本的一页、老街的一颗石子，和 Noah 手工做的小摆件。\n他是你最在意的人——但你选择了独自前行。', "The backpack is not heavy. Inside are a page from the ledger, a pebble from the Old Street, and the small craft Noah made by hand.\nHe is the one you care about most — but you chose to walk on alone.");
     }
     if (top === 'leo') {
-      return '背包不重。里面装着记账本的一页、Leo 送你的旧旅行日志，和一张没有写完的清单。\n他是你最在意的人——但你选择了独自前行。';
+      return L('背包不重。里面装着记账本的一页、Leo 送你的旧旅行日志，和一张没有写完的清单。\n他是你最在意的人——但你选择了独自前行。', "The backpack is not heavy. Inside are a page from the ledger, the old travel journal Leo gave you, and an unfinished list.\nHe is the one you care about most — but you chose to walk on alone.");
     }
     if (m4 === 'B4') {
-      return '背包不重。里面装着记账本的一页、老街的一颗石子，和一张没有写完的清单。\n就像你一直以来的选择——平衡，但不彻底。';
+      return L('背包不重。里面装着记账本的一页、老街的一颗石子，和一张没有写完的清单。\n就像你一直以来的选择——平衡，但不彻底。', "The backpack is not heavy. Inside are a page from the ledger, a pebble from the Old Street, and an unfinished list.\nJust like your choices all along — balanced, but not thorough.");
     }
-    return '背包不重。里面装着记账本的一页、老街的一颗石子，和一张没有写完的清单。';
+    return L('背包不重。里面装着记账本的一页、老街的一颗石子，和一张没有写完的清单。', 'The backpack is not heavy. Inside are a page from the ledger, a pebble from the Old Street, and an unfinished list.');
   }
 
   // 独行新路描述（ch4 + isHighCommitment/isHighRootedness 联动）
@@ -1004,15 +1008,15 @@ export class EpilogueScene extends BaseScene {
     const highC = this.isHighC();
     const highR = this.isHighR();
     if (m4 === 'B4') {
-      return '你走向一条没有名字的路。\n既非北上，也非留守——方向是你自己的。\n这是你最诚实的选择：不被任何计划束缚。';
+      return L('你走向一条没有名字的路。\n既非北上，也非留守——方向是你自己的。\n这是你最诚实的选择：不被任何计划束缚。', 'You walk toward a road without a name.\nNeither heading north nor staying behind — the direction is your own.\nThis is your most honest choice: bound by no plan.');
     }
     if (highC && !highR) {
-      return '你走向一条没有名字的路。\n你有足够的勇气去探索未知——但心里还留着对北方的承诺。';
+      return L('你走向一条没有名字的路。\n你有足够的勇气去探索未知——但心里还留着对北方的承诺。', 'You walk toward a road without a name.\nYou have enough courage to explore the unknown — but your heart still holds a promise to the North.');
     }
     if (!highC && highR) {
-      return '你走向一条没有名字的路。\n你舍不得老街，但也不想留下——所以你选择了第三条路。';
+      return L('你走向一条没有名字的路。\n你舍不得老街，但也不想留下——所以你选择了第三条路。', 'You walk toward a road without a name.\nYou cannot bear to leave the Old Street, but you do not want to stay either — so you chose a third road.');
     }
-    return '你走向一条没有名字的路。\n既非北上，也非留守——方向是你自己的。';
+    return L('你走向一条没有名字的路。\n既非北上，也非留守——方向是你自己的。', 'You walk toward a road without a name.\nNeither heading north nor staying behind — the direction is your own.');
   }
 
   // 半打包行李描述（ch4 印记 + isHighCommitment 联动）
@@ -1020,12 +1024,12 @@ export class EpilogueScene extends BaseScene {
     const m4 = this.getM4();
     const highC = this.isHighC();
     if (m4 === 'A4' && highC) {
-      return '行李半打包，拉链没拉上。\n你曾那么坚定地要走——现在却坐在窗边，不知道该带什么、该放下什么。';
+      return L('行李半打包，拉链没拉上。\n你曾那么坚定地要走——现在却坐在窗边，不知道该带什么、该放下什么。', 'The luggage is half-packed, the zipper left open.\nYou were once so determined to leave — yet now you sit by the window, unsure what to take, what to set down.');
     }
     if (m4 === 'C4') {
-      return '行李半打包，拉链没拉上。\n你曾想为 Maya 放弃一切——现在两边都没做好。';
+      return L('行李半打包，拉链没拉上。\n你曾想为 Maya 放弃一切——现在两边都没做好。', 'The luggage is half-packed, the zipper left open.\nYou once wanted to give up everything for Maya — now neither side is done.');
     }
-    return '行李半打包，拉链没拉上。\n你装了又拆，拆了又装——已经反复好几次了。';
+    return L('行李半打包，拉链没拉上。\n你装了又拆，拆了又装——已经反复好几次了。', 'The luggage is half-packed, the zipper left open.\nYou packed and unpacked, unpacked and packed — already several times over.');
   }
 
   // 散落画稿描述（Maya 相关 + topBond 联动）
@@ -1033,9 +1037,9 @@ export class EpilogueScene extends BaseScene {
     const top = this.getTop();
     const bond = GameState.inst.bond.maya;
     if (top === 'maya' || bond >= 10) {
-      return 'Maya 的画稿散落一旁，角上沾了灰。\n你最在意的人是她——但你既没走成，也没留住她。\n「对不起。」你低声说。';
+      return L('Maya 的画稿散落一旁，角上沾了灰。\n你最在意的人是她——但你既没走成，也没留住她。\n「对不起。」你低声说。', "Maya's sketches lie scattered nearby, dust on the corners.\nShe is the one you care about most — but you neither left nor kept her.\n\"I'm sorry,\" you say softly.");
     }
-    return 'Maya 的画稿散落一旁，角上沾了灰。\n你曾答应去看她的首展，又曾答应办好通行手续——两件事都没有做完。';
+    return L('Maya 的画稿散落一旁，角上沾了灰。\n你曾答应去看她的首展，又曾答应办好通行手续——两件事都没有做完。', "Maya's sketches lie scattered nearby, dust on the corners.\nYou once promised to go to her first show, and once promised to finish the travel paperwork — neither got done.");
   }
 
   // 手工摆件描述（Noah 相关 + topBond 联动）
@@ -1043,9 +1047,9 @@ export class EpilogueScene extends BaseScene {
     const top = this.getTop();
     const bond = GameState.inst.bond.noah;
     if (top === 'noah' || bond >= 10) {
-      return 'Noah 的手工摆件倒在箱边。\n你最在意的人是他——但你既没走成，也没留住他。\n你拿起又放下，始终没决定它该放进远行的背包还是留下的柜子。';
+      return L('Noah 的手工摆件倒在箱边。\n你最在意的人是他——但你既没走成，也没留住他。\n你拿起又放下，始终没决定它该放进远行的背包还是留下的柜子。', "Noah's handmade craft has fallen over by the box.\nHe is the one you care about most — but you neither left nor kept him.\nYou pick it up and set it down, never deciding whether to put it in the travel backpack or the cabinet to stay.");
     }
-    return 'Noah 的手工摆件倒在箱边。\n你拿起又放下，始终没决定它该放进远行的背包还是留下的柜子。';
+    return L('Noah 的手工摆件倒在箱边。\n你拿起又放下，始终没决定它该放进远行的背包还是留下的柜子。', "Noah's handmade craft has fallen over by the box.\nYou pick it up and set it down, never deciding whether to put it in the travel backpack or the cabinet to stay.");
   }
 
   // 暂缓窗边描述（ch4 + isHighCommitment/isHighRootedness 联动）
@@ -1054,18 +1058,18 @@ export class EpilogueScene extends BaseScene {
     const highC = this.isHighC();
     const highR = this.isHighR();
     if (m4 === 'B4') {
-      return '你坐在窗边，没有出发，也没有留下。\n你的选择从来都是折中——两边都不想放弃，两边都没抓住。\n风从半开的窗子吹进来。也许明天，你会想清楚。';
+      return L('你坐在窗边，没有出发，也没有留下。\n你的选择从来都是折中——两边都不想放弃，两边都没抓住。\n风从半开的窗子吹进来。也许明天，你会想清楚。', 'You sit by the window, neither setting out nor staying behind.\nYour choices have always been a compromise — unwilling to give up either side, you held onto neither.\nThe wind blows in through the half-open window. Perhaps tomorrow, you will figure it out.');
     }
     if (highC && highR) {
-      return '你坐在窗边。你既想走，又想留——两边的力量在拉扯你。\n风从半开的窗子吹进来。也许明天，你会想清楚。';
+      return L('你坐在窗边。你既想走，又想留——两边的力量在拉扯你。\n风从半开的窗子吹进来。也许明天，你会想清楚。', 'You sit by the window. You want both to leave and to stay — the forces on both sides pull at you.\nThe wind blows in through the half-open window. Perhaps tomorrow, you will figure it out.');
     }
     if (highC) {
-      return '你坐在窗边。你本想北上，但迟迟没有动身——好像有什么东西把你留在这里。\n风从半开的窗子吹进来。也许明天，你会想清楚。';
+      return L('你坐在窗边。你本想北上，但迟迟没有动身——好像有什么东西把你留在这里。\n风从半开的窗子吹进来。也许明天，你会想清楚。', 'You sit by the window. You had meant to head north, but kept delaying — as if something kept you here.\nThe wind blows in through the half-open window. Perhaps tomorrow, you will figure it out.');
     }
     if (highR) {
-      return '你坐在窗边。你想留下，但心里还在想着远方——好像少了点什么。\n风从半开的窗子吹进来。也许明天，你会想清楚。';
+      return L('你坐在窗边。你想留下，但心里还在想着远方——好像少了点什么。\n风从半开的窗子吹进来。也许明天，你会想清楚。', 'You sit by the window. You want to stay, but your heart still drifts to the distance — as if something is missing.\nThe wind blows in through the half-open window. Perhaps tomorrow, you will figure it out.');
     }
-    return '你坐在窗边，没有出发，也没有留下。\n风从半开的窗子吹进来。也许明天，你会想清楚。';
+    return L('你坐在窗边，没有出发，也没有留下。\n风从半开的窗子吹进来。也许明天，你会想清楚。', 'You sit by the window, neither setting out nor staying behind.\nThe wind blows in through the half-open window. Perhaps tomorrow, you will figure it out.');
   }
 
   // —— Inmost 风格结局房间装饰（仅兜底使用）——

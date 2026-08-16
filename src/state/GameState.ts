@@ -6,6 +6,7 @@
 // 持久化到 localStorage，符合 website 形态的存档需求。
 
 import { ChapterId, nextChapter } from './Chapter';
+import { t } from '../systems/I18n';
 
 // ---- 结局类型（文档第九节，由玩家终章走向决定）----
 export type EndingType =
@@ -18,13 +19,13 @@ export type EndingType =
   | 'with_leo';     // 9.4 走向利奥
 
 export const ENDING_LABEL: Record<EndingType, string> = {
-  go_north: '同赴远方',
-  return_home: '故土相守',
-  unknown_path: '独行新路',
-  pause_journey: '暂缓前行',
-  with_maya: '相伴同行 · 玛雅',
-  with_noah: '相伴同行 · 诺亚',
-  with_leo: '相伴同行 · 利奥'
+  go_north: t('ending_go_north'),
+  return_home: t('ending_return_home'),
+  unknown_path: t('ending_unknown_path'),
+  pause_journey: t('ending_pause_journey'),
+  with_maya: t('ending_with_maya'),
+  with_noah: t('ending_with_noah'),
+  with_leo: t('ending_with_leo')
 };
 
 // ---- 三项隐藏倾向（每项 -100..100）----
@@ -45,21 +46,21 @@ export interface Bond {
 export type CarryItem = 'group_photo' | 'blank_notebook' | 'house_key' | 'old_map';
 
 export const CARRY_ITEM_LABEL: Record<CarryItem, string> = {
-  group_photo: '团体合照',
-  blank_notebook: '空白笔记本',
-  house_key: '家门钥匙',
-  old_map: '旧地图'
+  group_photo: t('carry_group_photo'),
+  blank_notebook: t('carry_blank_notebook'),
+  house_key: t('carry_house_key'),
+  old_map: t('carry_old_map')
 };
 
 // ---- 第三章任务对子C：后备箱收纳选中的物品 ----
 export type TrunkItem = 'tools' | 'memory_box' | 'maya_painting' | 'noah_recorder' | 'leo_bag';
 
 export const TRUNK_ITEM_LABEL: Record<TrunkItem, string> = {
-  tools: '维修工具',
-  memory_box: '童年纪念盒',
-  maya_painting: '玛雅的画作',
-  noah_recorder: '诺亚的录音机',
-  leo_bag: '利奥的旅行包'
+  tools: t('trunk_tools'),
+  memory_box: t('trunk_memory_box'),
+  maya_painting: t('trunk_maya_painting'),
+  noah_recorder: t('trunk_noah_recorder'),
+  leo_bag: t('trunk_leo_bag')
 };
 
 // ---- 一次选择/对话带来的影响 ----
@@ -230,6 +231,23 @@ export class GameState {
     return false;
   }
 
+  // —— 终章四选一选项过滤判定（比 strongly 更宽松）——
+  // 偏向北上：A印记≥2 且 A>C → 只显示「北上」+「独行」
+  leansNorthbound(): boolean {
+    const { a, c } = this.markCounts();
+    if (a >= 2 && a > c) return true;
+    if (this.tendency.commitment > 1 && this.tendency.agency < 0) return true;
+    return false;
+  }
+
+  // 偏向留下：C印记≥2 且 C>A → 只显示「留下」+「独行」
+  leansStaying(): boolean {
+    const { a, c } = this.markCounts();
+    if (c >= 2 && c > a) return true;
+    if (this.tendency.agency > 1 && this.tendency.commitment < 0) return true;
+    return false;
+  }
+
   // 是否全程偏向北上（第一章→第三章印记均偏A）：用于第三章屋顶Elias满意台词
   isFavoredElias(): boolean {
     const m1 = this.getStoryMark('ch1') ?? '';
@@ -296,10 +314,10 @@ export class GameState {
   // 结局前置条件描述（供终章显示）
   getEndingPrecondition(ending: EndingType): string {
     switch (ending) {
-      case 'go_north':      return '前置条件：A 系列印记占主导，Elias 全局好感最高';
-      case 'return_home':   return '前置条件：C 系列印记占主导，自我倾向全局最高';
-      case 'unknown_path':  return '前置条件：全程大量中立 B 印记，两边好感差距小';
-      case 'pause_journey': return '前置条件：印记两极反复摇摆，一会偏向计划、一会偏向自我';
+      case 'go_north':      return t('precond_go_north');
+      case 'return_home':   return t('precond_return_home');
+      case 'unknown_path':  return t('precond_unknown_path');
+      case 'pause_journey': return t('precond_pause_journey');
       default:              return '';
     }
   }
