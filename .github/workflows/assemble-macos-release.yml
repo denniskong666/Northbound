@@ -1,0 +1,56 @@
+name: Assemble macOS release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag whose temporary parts should be assembled
+        required: true
+        default: v1.0.0
+
+permissions:
+  contents: write
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download release parts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          mkdir -p parts
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" \
+            --pattern 'Northbound-macOS-v1.0.0.part-*' --dir parts
+
+      - name: Assemble and verify archive
+        env:
+          TAG: ${{ inputs.tag }}
+        run: |
+          find parts -type f -name 'Northbound-macOS-v1.0.0.part-*' -print0 \
+            | sort -z \
+            | xargs -0 cat > Northbound-macOS-v1.0.0.zip
+          test "$(stat -c %s Northbound-macOS-v1.0.0.zip)" = "590826105"
+          echo '3670f61db4248e29a7bbf1371362417a38a3ba86fa88d3beac4ec42d70a696df  Northbound-macOS-v1.0.0.zip' \
+            | sha256sum -c -
+          unzip -tq Northbound-macOS-v1.0.0.zip
+
+      - name: Upload complete archive
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+        run: gh release upload "$TAG" Northbound-macOS-v1.0.0.zip --repo "$GITHUB_REPOSITORY" --clobber
+
+      - name: Remove temporary parts and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          gh api --paginate "repos/$GITHUB_REPOSITORY/releases/tags/$TAG/assets" \
+            --jq '.[] | select(.name | startswith("Northbound-macOS-v1.0.0.part-")) | .id' \
+            | while read -r asset_id; do
+                gh api --method DELETE "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id"
+              done
+          release_id=$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" --jq .id)
+          gh api --method PATCH "repos/$GITHUB_REPOSITORY/releases/$release_id" -f draft=false
