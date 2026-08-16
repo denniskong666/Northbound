@@ -8,9 +8,12 @@ Northbound APP 是使用 Unity 6 制作的完整桌面叙事探索游戏。玩�
 
 ### 直接下载游玩
 
-普通玩家不需要安装 Unity。请前往 [GitHub Releases](https://github.com/denniskong666/Northbound/releases/latest) 下载 `Northbound-macOS-v1.0.0.zip`，解压后双击 `Northbound.app`。
+普通玩家不需要安装 Unity。请前往 [GitHub Releases](https://github.com/denniskong666/Northbound/releases/latest)，根据电脑系统下载：
 
-当前成品支持 Apple Silicon 与 Intel Mac。如果 macOS 第一次阻止打开，请右键 `Northbound.app` 并选择“打开”。Unity 仅用于查看、修改和重新构建下方源码工程。
+- **Windows 10/11 64 位：**下载 `Northbound-Windows-v1.0.0.zip`，完整解压文件夹后双击 `Northbound.exe`。
+- **macOS：**下载 `Northbound-macOS-v1.0.0.zip`，解压后双击 `Northbound.app`。支持 Apple Silicon 与 Intel Mac；如果 macOS 第一次阻止打开，请右键应用并选择“打开”。
+
+Unity 仅用于查看、修改和重新构建下方源码工程。
 
 ### 主要内容
 
@@ -20,7 +23,7 @@ Northbound APP 是使用 Unity 6 制作的完整桌面叙事探索游戏。玩�
 - Opening、Maya、Noah、Leo、Rooftop、Finale 六段剧情视频
 - 可跳过的小游戏、明确的拾取目标、金色任务标记与方向指引
 - 四条终章路线，以及不同的场景色彩、携带物和选择回响
-- macOS 桌面构建与自动化 EditMode / PlayMode 测试
+- Windows 64 位与 macOS Universal 桌面构建，以及自动化 EditMode / PlayMode 测试
 
 ### 获取工程
 
@@ -38,6 +41,7 @@ git lfs pull
 - Unity `6000.3.22f1`
 - Universal Render Pipeline `17.3.0`
 - Input System `1.14.0`
+- Windows 64 位构建目标（Mono）
 - macOS 构建目标（发布构建为 arm64 / x86_64 Universal）
 
 使用 Unity Hub 添加并打开 `APP/` 目录。首次打开时 Unity 会自动恢复 `Library/` 缓存和 Package Manager 依赖。
@@ -57,13 +61,14 @@ git lfs pull
 
 在 Unity Test Runner 中运行 EditMode 和 PlayMode 测试。当前项目的 QA 证据位于 `docs/qa/`。
 
-macOS 发布构建入口：
+发布构建入口：
 
 ```text
 Northbound.Editor.NorthboundReleaseBuilder.BuildMacOS
+Northbound.Editor.NorthboundReleaseBuilder.BuildWindows
 ```
 
-构建结果生成于 `Builds/macOS/Northbound.app`。`Builds/`、`Library/`、`Temp/`、日志和崩溃转储属于生成文件，不上传到 GitHub。
+构建结果分别生成于 `Builds/macOS/Northbound.app` 和 `Builds/Windows/Northbound.exe`。`Builds/`、`Library/`、`Temp/`、日志和崩溃转储属于生成文件，不上传到源码目录；玩家成品通过 GitHub Releases 发布。
 
 ### 目录结构
 
@@ -95,9 +100,12 @@ Northbound APP is the complete Unity 6 desktop edition of the narrative explorat
 
 ### Download and Play
 
-Players do not need Unity. Open [GitHub Releases](https://github.com/denniskong666/Northbound/releases/latest), download `Northbound-macOS-v1.0.0.zip`, unzip it, and double-click `Northbound.app`.
+Players do not need Unity. Open [GitHub Releases](https://github.com/denniskong666/Northbound/releases/latest) and choose the build for your operating system:
 
-The current build supports both Apple Silicon and Intel Macs. If macOS blocks the first launch, right-click `Northbound.app` and choose **Open**. Unity is only required to inspect, modify, or rebuild the source project below.
+- **64-bit Windows 10/11:** Download `Northbound-Windows-v1.0.0.zip`, extract the complete folder, and double-click `Northbound.exe`.
+- **macOS:** Download `Northbound-macOS-v1.0.0.zip`, unzip it, and double-click `Northbound.app`. It supports Apple Silicon and Intel Macs. If macOS blocks the first launch, right-click the app and choose **Open**.
+
+Unity is only required to inspect, modify, or rebuild the source project below.
 
 ### Features
 
@@ -107,7 +115,7 @@ The current build supports both Apple Silicon and Intel Macs. If macOS blocks th
 - Six cinematics: Opening, Maya, Noah, Leo, Rooftop, and Finale
 - Skippable minigames, explicit pickup objectives, gold markers, and directional guidance
 - Four finale routes with distinct palettes, carried items, and callbacks to earlier choices
-- macOS desktop builds plus automated EditMode and PlayMode coverage
+- 64-bit Windows and Universal macOS desktop builds plus automated EditMode and PlayMode coverage
 
 ### Clone the Project
 
@@ -125,6 +133,7 @@ git lfs pull
 - Unity `6000.3.22f1`
 - Universal Render Pipeline `17.3.0`
 - Input System `1.14.0`
+- 64-bit Windows build target (Mono)
 - macOS build target (the release build is Universal arm64 / x86_64)
 
 Add and open the `APP/` directory in Unity Hub. Unity restores the generated `Library/` cache and Package Manager dependencies on the first launch.
@@ -144,13 +153,14 @@ Add and open the `APP/` directory in Unity Hub. Unity restores the generated `Li
 
 Run the EditMode and PlayMode suites through Unity Test Runner. Current QA evidence is stored in `docs/qa/`.
 
-The macOS release entry point is:
+The release build entry points are:
 
 ```text
 Northbound.Editor.NorthboundReleaseBuilder.BuildMacOS
+Northbound.Editor.NorthboundReleaseBuilder.BuildWindows
 ```
 
-The build is generated at `Builds/macOS/Northbound.app`. `Builds/`, `Library/`, `Temp/`, logs, and crash dumps are generated artifacts and are intentionally excluded from GitHub.
+Builds are generated at `Builds/macOS/Northbound.app` and `Builds/Windows/Northbound.exe`. `Builds/`, `Library/`, `Temp/`, logs, and crash dumps are excluded from the source tree; player-ready archives are published through GitHub Releases.
 
 ### Project Structure
 

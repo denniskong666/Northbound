@@ -1,4 +1,4 @@
-name: Assemble macOS release
+name: Assemble release asset
 
 on:
   workflow_dispatch:
@@ -7,6 +7,15 @@ on:
         description: Release tag whose temporary parts should be assembled
         required: true
         default: v1.0.0
+      asset_name:
+        description: Final release asset filename
+        required: true
+      expected_size:
+        description: Expected assembled size in bytes
+        required: true
+      sha256:
+        description: Expected SHA-256 checksum
+        required: true
 
 permissions:
   contents: write
@@ -19,38 +28,46 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ inputs.tag }}
+          ASSET_NAME: ${{ inputs.asset_name }}
         run: |
           mkdir -p parts
           gh release download "$TAG" --repo "$GITHUB_REPOSITORY" \
-            --pattern 'Northbound-macOS-v1.0.0.part-*' --dir parts
+            --pattern "$ASSET_NAME.part-*" --dir parts
 
       - name: Assemble and verify archive
         env:
-          TAG: ${{ inputs.tag }}
+          ASSET_NAME: ${{ inputs.asset_name }}
+          EXPECTED_SIZE: ${{ inputs.expected_size }}
+          SHA256: ${{ inputs.sha256 }}
         run: |
-          find parts -type f -name 'Northbound-macOS-v1.0.0.part-*' -print0 \
+          find parts -type f -name "$ASSET_NAME.part-*" -print0 \
             | sort -z \
-            | xargs -0 cat > Northbound-macOS-v1.0.0.zip
-          test "$(stat -c %s Northbound-macOS-v1.0.0.zip)" = "590826105"
-          echo '3670f61db4248e29a7bbf1371362417a38a3ba86fa88d3beac4ec42d70a696df  Northbound-macOS-v1.0.0.zip' \
-            | sha256sum -c -
-          unzip -tq Northbound-macOS-v1.0.0.zip
+            | xargs -0 cat > "$ASSET_NAME"
+          test "$(stat -c %s "$ASSET_NAME")" = "$EXPECTED_SIZE"
+          printf '%s  %s\n' "$SHA256" "$ASSET_NAME" | sha256sum -c -
+          unzip -tq "$ASSET_NAME"
 
       - name: Upload complete archive
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ inputs.tag }}
-        run: gh release upload "$TAG" Northbound-macOS-v1.0.0.zip --repo "$GITHUB_REPOSITORY" --clobber
+          ASSET_NAME: ${{ inputs.asset_name }}
+        run: gh release upload "$TAG" "$ASSET_NAME" --repo "$GITHUB_REPOSITORY" --clobber
 
       - name: Remove temporary parts and publish
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ inputs.tag }}
+          ASSET_NAME: ${{ inputs.asset_name }}
         run: |
           release_id=$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" --jq .id)
           gh api --paginate "repos/$GITHUB_REPOSITORY/releases/$release_id/assets" \
-            --jq '.[] | select(.name | startswith("Northbound-macOS-v1.0.0.part-")) | .id' \
-            | while read -r asset_id; do
-                gh api --method DELETE "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id"
+            --jq '.[] | [.id, .name] | @tsv' \
+            | while IFS=$'\t' read -r asset_id asset_name; do
+                case "$asset_name" in
+                  "$ASSET_NAME".part-*)
+                    gh api --method DELETE "repos/$GITHUB_REPOSITORY/releases/assets/$asset_id"
+                    ;;
+                esac
               done
           gh api --method PATCH "repos/$GITHUB_REPOSITORY/releases/$release_id" -f draft=false

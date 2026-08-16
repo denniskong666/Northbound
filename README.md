@@ -33,13 +33,15 @@ pnpm dev
 
 ### APP / Unity 桌面版
 
-Players can download the ready-to-run macOS build from [GitHub Releases](https://github.com/denniskong666/Northbound/releases/latest). Unity is not required to play it.
+Players can download ready-to-run Windows and macOS builds from [GitHub Releases](https://github.com/denniskong666/Northbound/releases/latest). Unity is not required to play either version.
 
-普通玩家可从 [GitHub Releases](https://github.com/denniskong666/Northbound/releases/latest) 下载可直接运行的 macOS 版本，游玩不需要安装 Unity。
+普通玩家可从 [GitHub Releases](https://github.com/denniskong666/Northbound/releases/latest) 下载可直接运行的 Windows 或 macOS 版本，两个版本游玩都不需要安装 Unity。
 
-Download `Northbound-macOS-v1.0.0.zip`, unzip it, and open `Northbound.app`. If macOS blocks the first launch, right-click the app and choose **Open**.
+- **Windows:** Download `Northbound-Windows-v1.0.0.zip`, extract the complete folder, and open `Northbound.exe`.
+- **macOS:** Download `Northbound-macOS-v1.0.0.zip`, unzip it, and open `Northbound.app`. If macOS blocks the first launch, right-click the app and choose **Open**.
 
-下载 `Northbound-macOS-v1.0.0.zip`，解压后打开 `Northbound.app`。如果 macOS 第一次阻止运行，请右键应用并选择“打开”。
+- **Windows：**下载 `Northbound-Windows-v1.0.0.zip`，完整解压文件夹后双击 `Northbound.exe`。
+- **macOS：**下载 `Northbound-macOS-v1.0.0.zip`，解压后打开 `Northbound.app`。如果 macOS 第一次阻止运行，请右键应用并选择“打开”。
 
 Developers who want to inspect or modify the source project should install Git LFS before cloning, then open `APP/` with Unity `6000.3.22f1`.
 
@@ -50,9 +52,9 @@ git lfs install
 git clone https://github.com/denniskong666/Northbound.git
 ```
 
-Large cinematic files are stored with Git LFS. Generated Unity folders and compiled `.app` builds are intentionally excluded; the complete rebuildable source and media assets are included.
+Large cinematic files are stored with Git LFS. Generated Unity folders and compiled desktop builds are intentionally excluded; the complete rebuildable source and media assets are included.
 
-大型剧情视频由 Git LFS 管理。Unity 缓存目录和编译后的 `.app` 不纳入仓库；仓库包含可完整重建的源码与媒体资源。
+大型剧情视频由 Git LFS 管理。Unity 缓存目录和编译后的桌面应用不纳入源码目录；仓库包含可完整重建的源码与媒体资源，成品在 Releases 下载。
 
 ## License / 许可
 
