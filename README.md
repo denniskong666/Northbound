@@ -65,7 +65,7 @@ npm run preview
 - Phaser 3.80
 - TypeScript 5
 - Vite 5
-- GitHub Actions / GitHub Pages
+- Cloudflare Tunnel
 - Service Worker + Web App Manifest
 
 ## 项目结构
