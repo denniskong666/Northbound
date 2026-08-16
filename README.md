@@ -4,6 +4,12 @@ Northbound is a bilingual narrative game about five friends in Greybridge decidi
 
 Northbound 是一款中英双语叙事游戏。五位 Greybridge 的旧友必须重新理解“向北”的约定：一起离开、选择留下、独自出发，或暂缓启程。
 
+## Play Online / 在线游玩
+
+**[https://denniskong666.github.io/Northbound/](https://denniskong666.github.io/Northbound/)**
+
+The browser edition runs directly online with no installation. / 网页版无需安装，打开链接即可游玩。
+
 ## Projects / 项目目录
 
 | Folder / 目录 | Description / 说明 |

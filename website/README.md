@@ -6,7 +6,7 @@
 
 无需下载安装，直接访问：
 
-**[dried-hollow-decent-gospel.trycloudflare.com](https://dried-hollow-decent-gospel.trycloudflare.com/)**
+**[denniskong666.github.io/Northbound](https://denniskong666.github.io/Northbound/)**
 
 ## 最新版本
 
@@ -65,7 +65,7 @@ npm run preview
 - Phaser 3.80
 - TypeScript 5
 - Vite 5
-- Cloudflare Tunnel
+- GitHub Pages
 - Service Worker + Web App Manifest
 
 ## 项目结构
@@ -93,7 +93,7 @@ A top-down narrative exploration game built with Phaser 3. You play as Jamie and
 
 No installation is required:
 
-**[dried-hollow-decent-gospel.trycloudflare.com](https://dried-hollow-decent-gospel.trycloudflare.com/)**
+**[denniskong666.github.io/Northbound](https://denniskong666.github.io/Northbound/)**
 
 ## Current Features
 
@@ -141,7 +141,7 @@ pnpm preview
 - Phaser 3.80
 - TypeScript 5
 - Vite 5
-- Cloudflare Tunnel
+- GitHub Pages
 - Service Worker and Web App Manifest
 
 ## Structure
