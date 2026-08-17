@@ -11,7 +11,7 @@ Northbound APP 是使用 Unity 6 制作的完整桌面叙事探索游戏。玩�
 普通玩家不需要安装 Unity。请前往 [GitHub Releases](https://github.com/denniskong666/Northbound/releases/latest)，根据电脑系统下载：
 
 - **Windows 10/11 64 位：**下载 `Northbound-Windows-v1.0.0.zip`，完整解压文件夹后双击 `Northbound.exe`。
-- **macOS：**下载 `Northbound-macOS-v1.0.0.zip`，解压后双击 `Northbound.app`。支持 Apple Silicon 与 Intel Mac；如果 macOS 第一次阻止打开，请右键应用并选择“打开”。
+- **macOS：**下载 `Northbound-macOS-v1.0.0.zip`，解压后双击 `Northbound.app`。支持 Apple Silicon 与 Intel Mac；如果 macOS 第一次阻止打开，请右键应用并选择“打开”。如果弹窗仍没有“打开”按钮，请点“完成”，再前往“系统设置 > 隐私与安全性”并选择“仍要打开”。
 
 Unity 仅用于查看、修改和重新构建下方源码工程。
 
@@ -103,7 +103,7 @@ Northbound APP is the complete Unity 6 desktop edition of the narrative explorat
 Players do not need Unity. Open [GitHub Releases](https://github.com/denniskong666/Northbound/releases/latest) and choose the build for your operating system:
 
 - **64-bit Windows 10/11:** Download `Northbound-Windows-v1.0.0.zip`, extract the complete folder, and double-click `Northbound.exe`.
-- **macOS:** Download `Northbound-macOS-v1.0.0.zip`, unzip it, and double-click `Northbound.app`. It supports Apple Silicon and Intel Macs. If macOS blocks the first launch, right-click the app and choose **Open**.
+- **macOS:** Download `Northbound-macOS-v1.0.0.zip`, unzip it, and double-click `Northbound.app`. It supports Apple Silicon and Intel Macs. If macOS blocks the first launch, right-click the app and choose **Open**. If the dialog still has no Open button, click **Done**, then use **System Settings > Privacy & Security > Open Anyway**.
 
 Unity is only required to inspect, modify, or rebuild the source project below.
 

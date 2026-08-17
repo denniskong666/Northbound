@@ -38,10 +38,10 @@ Players can download ready-to-run Windows and macOS builds from [GitHub Releases
 普通玩家可从 [GitHub Releases](https://github.com/denniskong666/Northbound/releases/latest) 下载可直接运行的 Windows 或 macOS 版本，两个版本游玩都不需要安装 Unity。
 
 - **Windows:** Download `Northbound-Windows-v1.0.0.zip`, extract the complete folder, and open `Northbound.exe`.
-- **macOS:** Download `Northbound-macOS-v1.0.0.zip`, unzip it, and open `Northbound.app`. If macOS blocks the first launch, right-click the app and choose **Open**.
+- **macOS:** Download `Northbound-macOS-v1.0.0.zip`, unzip it, and open `Northbound.app`. If macOS blocks the first launch, right-click the app and choose **Open**. If the dialog still has no Open button, click **Done**, then use **System Settings > Privacy & Security > Open Anyway**.
 
 - **Windows**：下载 `Northbound-Windows-v1.0.0.zip`，完整解压文件夹后双击 `Northbound.exe`。
-- **macOS**：下载 `Northbound-macOS-v1.0.0.zip`，解压后打开 `Northbound.app`。如果 macOS 第一次阻止运行，请右键应用并选择“打开”。
+- **macOS**：下载 `Northbound-macOS-v1.0.0.zip`，解压后打开 `Northbound.app`。如果 macOS 第一次阻止运行，请右键应用并选择“打开”。如果弹窗仍没有“打开”按钮，请点“完成”，再前往“系统设置 > 隐私与安全性”并选择“仍要打开”。
 
 Developers who want to inspect or modify the source project should install Git LFS before cloning, then open `APP/` with Unity `6000.3.22f1`.
 
