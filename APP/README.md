@@ -13,6 +13,17 @@ Northbound APP 是使用 Unity 6 制作的完整桌面叙事探索游戏。玩�
 - **Windows 10/11 64 位：**下载 `Northbound-Windows-v1.0.0.zip`，完整解压文件夹后双击 `Northbound.exe`。
 - **macOS：**下载 `Northbound-macOS-v1.0.0.zip`，解压后双击 `Northbound.app`。支持 Apple Silicon 与 Intel Mac；如果 macOS 第一次阻止打开，请右键应用并选择“打开”。如果弹窗仍没有“打开”按钮，请点“完成”，再前往“系统设置 > 隐私与安全性”并选择“仍要打开”。
 
+如果你不熟悉这些 macOS 操作，可以请 Codex 或其他可信的电脑 Agent 协助。请从官方 GitHub Release 下载并解压后，把下面这段提示词发给 Agent：
+
+```text
+我从官方发布页 https://github.com/denniskong666/Northbound/releases/latest
+下载并解压了 Northbound-macOS-v1.0.0.zip。请找到这一个准确的 Northbound.app，
+先和我核对它的路径与下载来源，再帮我在 macOS 上打开。请采用影响最小的方式：
+先尝试“右键 > 打开”，需要时再使用“系统设置 > 隐私与安全性 > 仍要打开”。
+只有前两种方式失败时，才移除这一个应用的 com.apple.quarantine 属性并打开它。
+不要全局关闭 Gatekeeper，不要修改其他应用的安全设置，也不要删除任何文件。
+```
+
 Unity 仅用于查看、修改和重新构建下方源码工程。
 
 ### 主要内容
@@ -104,6 +115,18 @@ Players do not need Unity. Open [GitHub Releases](https://github.com/denniskong6
 
 - **64-bit Windows 10/11:** Download `Northbound-Windows-v1.0.0.zip`, extract the complete folder, and double-click `Northbound.exe`.
 - **macOS:** Download `Northbound-macOS-v1.0.0.zip`, unzip it, and double-click `Northbound.app`. It supports Apple Silicon and Intel Macs. If macOS blocks the first launch, right-click the app and choose **Open**. If the dialog still has no Open button, click **Done**, then use **System Settings > Privacy & Security > Open Anyway**.
+
+If you are unfamiliar with these macOS steps, you can ask Codex or another trusted computer agent to help. Give the agent this prompt after downloading and unzipping the official GitHub Release:
+
+```text
+I downloaded Northbound-macOS-v1.0.0.zip from the official release at
+https://github.com/denniskong666/Northbound/releases/latest and unzipped it.
+Please locate that exact Northbound.app, verify its path and source with me, and help me
+open it on macOS. Use the least invasive method: try right-click > Open first, then
+System Settings > Privacy & Security > Open Anyway if needed. Only if those methods fail,
+remove the com.apple.quarantine attribute from that exact app and open it. Do not disable
+Gatekeeper globally, do not change security settings for other apps, and do not delete files.
+```
 
 Unity is only required to inspect, modify, or rebuild the source project below.
 
