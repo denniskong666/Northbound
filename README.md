@@ -46,24 +46,15 @@ Players can download ready-to-run Windows and macOS builds from [GitHub Releases
 If you are unfamiliar with these macOS steps, you can ask Codex or another trusted computer agent to help. Give the agent this prompt after downloading and unzipping the official GitHub Release:
 
 ```text
-I downloaded Northbound-macOS-v1.0.0.zip from the official release at
-https://github.com/denniskong666/Northbound/releases/latest and unzipped it.
-Please locate that exact Northbound.app, verify its path and source with me, and help me
-open it on macOS. Use the least invasive method: try right-click > Open first, then
-System Settings > Privacy & Security > Open Anyway if needed. Only if those methods fail,
-remove the com.apple.quarantine attribute from that exact app and open it. Do not disable
-Gatekeeper globally, do not change security settings for other apps, and do not delete files.
+Find the Northbound.app I just unzipped, run `xattr -dr com.apple.quarantine <app path>`
+on that app, then open it. Only modify this app; do not disable Gatekeeper globally.
 ```
 
 如果你不熟悉这些 macOS 操作，可以请 Codex 或其他可信的电脑 Agent 协助。请从官方 GitHub Release 下载并解压后，把下面这段提示词发给 Agent：
 
 ```text
-我从官方发布页 https://github.com/denniskong666/Northbound/releases/latest
-下载并解压了 Northbound-macOS-v1.0.0.zip。请找到这一个准确的 Northbound.app，
-先和我核对它的路径与下载来源，再帮我在 macOS 上打开。请采用影响最小的方式：
-先尝试“右键 > 打开”，需要时再使用“系统设置 > 隐私与安全性 > 仍要打开”。
-只有前两种方式失败时，才移除这一个应用的 com.apple.quarantine 属性并打开它。
-不要全局关闭 Gatekeeper，不要修改其他应用的安全设置，也不要删除任何文件。
+找到我刚解压的 Northbound.app，对它运行 `xattr -dr com.apple.quarantine <应用路径>`
+移除隔离属性，然后打开。只操作这个应用，不要全局关闭 Gatekeeper。
 ```
 
 Developers who want to inspect or modify the source project should install Git LFS before cloning, then open `APP/` with Unity `6000.3.22f1`.
